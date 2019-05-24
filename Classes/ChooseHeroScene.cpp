@@ -18,6 +18,8 @@ bool ChooseHeroScene::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	//生成后裔的图标
 	auto HouyiItem = MenuItemImage::create(
 		"reimu.png",
 		"reimu.png",
@@ -34,6 +36,27 @@ bool ChooseHeroScene::init()
 		float y = origin.y + visibleSize.height / 2;
 		HouyiItem->setPosition(Vec2(x, y));
 	}
+
+	//生成进入1v1地图的图标
+	auto OneMapItem = MenuItemImage::create(
+		"EnterOneMap.png",
+		"EnterOneMap.png",
+		CC_CALLBACK_1(ChooseHeroScene::menuOneMapChoosedCallBack, this));
+	if (OneMapItem == nullptr ||
+		OneMapItem->getContentSize().width <= 0 ||
+		OneMapItem->getContentSize().height <= 0)
+	{
+		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
+	}
+	else
+	{
+
+		float x = origin.x + visibleSize.width / 4;
+		float y = origin.y + visibleSize.height / 2;
+		OneMapItem->setPosition(Vec2(x, y));
+	}
+
+	//生成返回键
 	auto backItem = MenuItemImage::create(
 		"BackNormal.jpg",
 		"BackSelected.jpg",
@@ -51,7 +74,9 @@ bool ChooseHeroScene::init()
 		float y = origin.y + visibleSize.height-45;
 		backItem->setPosition(Vec2(x, y));
 	}
-	auto menu = Menu::create(backItem,HouyiItem, NULL);
+	//
+
+	auto menu = Menu::create(backItem,HouyiItem, OneMapItem,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 	auto sprite = Sprite::create("SettingBackGround.png");
@@ -83,6 +108,17 @@ void ChooseHeroScene::menuXiangYuChoosedCallBack(cocos2d::Ref* pSender)
 void ChooseHeroScene::menuBackCallback(Ref* pSender)//按返回键返回主菜单
 {
 	auto scene = StartScene::createScene();
+	auto reScene = TransitionFadeDown::create(0.8f, scene);
+	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
+}
+
+void ChooseHeroScene::menuOneMapChoosedCallBack(cocos2d::Ref* pSender)
+{
+	auto scene = OneMapScene::CreateScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))

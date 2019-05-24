@@ -1,9 +1,6 @@
 #pragma once
 #include"cocos2d.h"
-#include "StartScene.h"
-#include"Music.h"
-#include"OneMapScene.h"
-class ChooseHeroScene : public cocos2d::Scene 
+class ChooseHero : public cocos2d::Scene 
 {
 public:
 	static cocos2d::Scene* createScene();
@@ -11,7 +8,6 @@ public:
 	void menuHouyiChoosedCallBack(cocos2d::Ref* pSender);
 	void menuDaJiChoosedCallBack(cocos2d::Ref* pSender);
 	void menuXiangYuChoosedCallBack(cocos2d::Ref* pSender);
-	void menuBackCallback(Ref* pSender);
-	void menuOneMapChoosedCallBack(cocos2d::Ref* pSender);
-	CREATE_FUNC(ChooseHeroScene);
+
+	CREATE_FUNC(ChooseHero);
 };
