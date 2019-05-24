@@ -82,11 +82,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
 	//³õÊ¼»¯ÒôÀÖ
-
 	SimpleAudioEngine::getInstance()->preloadEffect("Botton.wav");
 	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("MyBGM.mp3");
-	SimpleAudioEngine::getInstance()->playBackgroundMusic("MyBGM.mp3", true);
-    if(!glview) {
+	if (UserDefault::getInstance()->getBoolForKey("musuic_key",true))
+	{
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("MyBGM.mp3", true);
+	}
+	if (!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
         glview = GLViewImpl::createWithRect("test", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else

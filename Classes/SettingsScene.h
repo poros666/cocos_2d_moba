@@ -14,5 +14,6 @@ public:
 	virtual bool init();
 	void menuBackCallback(cocos2d::Ref* pSender);
 	void BGMsetBottomCallback(cocos2d::Ref* pSender);
+	void SoundsetBottomCallback(cocos2d::Ref* pSender);
 	CREATE_FUNC(SettingsScene);
 };

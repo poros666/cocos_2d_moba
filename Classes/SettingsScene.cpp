@@ -66,8 +66,15 @@ bool SettingsScene::init()
 		float y = origin.y + visibleSize.height / 2 ;
 		bottonItem->setPosition(Vec2(x, y));
 	}
-
-	auto menu = Menu::create(bgmItem, bottonItem, backItem, NULL);
+	auto BGMonItem = MenuItemImage::create("on.png","on.png");
+	auto BGMoffItem = MenuItemImage::create("off.png","off.png");
+	auto BGMToggleMenuItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(SettingsScene::BGMsetBottomCallback,this),BGMonItem,BGMoffItem,NULL);
+	BGMToggleMenuItem->setPosition(Vec2(bgmItem->getPositionX()+180,bgmItem->getPositionY()));
+	auto SoundonItem = MenuItemImage::create("on.png", "on.png");
+	auto SoundoffItem = MenuItemImage::create("off.png", "off.png");
+	auto SoundToggleMenuItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(SettingsScene::SoundsetBottomCallback, this), SoundonItem, SoundoffItem, NULL);
+	SoundToggleMenuItem->setPosition(Vec2(bottonItem->getPositionX()+180, bottonItem->getPositionY()));
+	auto menu = Menu::create(SoundToggleMenuItem,BGMToggleMenuItem,bgmItem, bottonItem, backItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 	//设置背景图片
@@ -84,6 +91,24 @@ bool SettingsScene::init()
 		// add the sprite as a child to this layer
 		this->addChild(sprite, 0);
 	}
+	//获取用户设置
+	UserDefault* defualts = UserDefault::getInstance();
+	if (defualts->getBoolForKey(MUSIC_KEY,true))
+	{
+		BGMToggleMenuItem->setSelectedIndex(0);
+	}
+	else
+	{
+		BGMToggleMenuItem->setSelectedIndex(1);
+	}
+	if (defualts->getBoolForKey(SOUND_KEY,true))
+	{
+		SoundToggleMenuItem->setSelectedIndex(0);
+	}
+	else
+	{
+		SoundToggleMenuItem->setSelectedIndex(1);
+	}
 	return true;
 }
 
@@ -92,9 +117,42 @@ void SettingsScene::menuBackCallback(Ref* pSender)//按返回键返回主菜单
 	auto scene = StartScene::createScene();
 	auto reScene = TransitionFadeUp::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
-	SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
 void SettingsScene::BGMsetBottomCallback(Ref* pSender)
 {
-
+	auto BGMToggleMenuItem = (MenuItemToggle*)pSender;
+	UserDefault* defualts = UserDefault::getInstance();
+	if (defualts->getBoolForKey(SOUND_KEY)) 
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
+	if (BGMToggleMenuItem->getSelectedIndex() == 1)
+	{
+		defualts->setBoolForKey(MUSIC_KEY,false);
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic("MyBGM.mp3'");
+	}
+	else
+	{
+		defualts->setBoolForKey(MUSIC_KEY,true);
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("MyBGM.mp3");
+	}
+}
+void SettingsScene::SoundsetBottomCallback(Ref* pSender)
+{
+	auto SoundToggleItem= (MenuItemToggle*)pSender;
+	UserDefault* defualts = UserDefault::getInstance();
+	
+	if (SoundToggleItem->getSelectedIndex() == 1)
+	{
+		defualts->setBoolForKey(SOUND_KEY,false);
+	}
+	else
+	{
+		defualts->setBoolForKey(SOUND_KEY,true);
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }

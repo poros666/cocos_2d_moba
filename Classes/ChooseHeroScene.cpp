@@ -85,5 +85,8 @@ void ChooseHeroScene::menuBackCallback(Ref* pSender)//按返回键返回主菜单
 	auto scene = StartScene::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
-	SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }

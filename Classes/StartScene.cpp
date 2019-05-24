@@ -116,13 +116,18 @@ void StartScene::startGameCallback(Ref* pSender)
 	auto scene = ChooseHeroScene::createScene();
 	auto reScene = TransitionFadeUp::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
-	SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY,true)) 
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
 void StartScene::settingGameCallback(Ref* pSender) 
 {
 	auto scene = SettingsScene::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
-	SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
-
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
