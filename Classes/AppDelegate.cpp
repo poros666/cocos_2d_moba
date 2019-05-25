@@ -24,7 +24,7 @@
 
 #include "AppDelegate.h"
 #include "StartScene.h"
-
+#include "Music.h"
 // #define USE_AUDIO_ENGINE 1
 #define USE_SIMPLE_AUDIO_ENGINE 1
 
@@ -84,7 +84,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	//³õÊ¼»¯ÒôÀÖ
 	SimpleAudioEngine::getInstance()->preloadEffect("Botton.wav");
 	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("MyBGM.mp3");
-	if (UserDefault::getInstance()->getBoolForKey("musuic_key",true))
+	if (UserDefault::getInstance()->getBoolForKey(MUSIC_KEY))
 	{
 		SimpleAudioEngine::getInstance()->playBackgroundMusic("MyBGM.mp3", true);
 	}

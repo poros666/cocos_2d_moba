@@ -1,6 +1,6 @@
 #pragma once
 #include"cocos2d.h"
-#include "StartScene.h"
+#include "ChooseModeScene.h"
 #include"Music.h"
 #include"OneMapScene.h"
 class ChooseHeroScene : public cocos2d::Scene 

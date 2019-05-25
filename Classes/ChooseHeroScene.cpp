@@ -58,8 +58,8 @@ bool ChooseHeroScene::init()
 
 	//生成返回键
 	auto backItem = MenuItemImage::create(
-		"BackNormal.jpg",
-		"BackSelected.jpg",
+		"Bottom/BackNormal.jpg",
+		"Bottom/BackSelected.jpg",
 		CC_CALLBACK_1(ChooseHeroScene::menuBackCallback, this));
 
 	if (backItem == nullptr ||
@@ -96,7 +96,13 @@ bool ChooseHeroScene::init()
 }
 void ChooseHeroScene::menuHouyiChoosedCallBack(cocos2d::Ref* pSender) 
 {
-	Director::getInstance()->end();
+	auto scene = OneMapScene::CreateScene();
+	auto reScene = TransitionFadeDown::create(0.8f, scene);
+	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
 void ChooseHeroScene::menuDaJiChoosedCallBack(cocos2d::Ref* pSender) 
 {
@@ -107,7 +113,7 @@ void ChooseHeroScene::menuXiangYuChoosedCallBack(cocos2d::Ref* pSender)
 }
 void ChooseHeroScene::menuBackCallback(Ref* pSender)//按返回键返回主菜单
 {
-	auto scene = StartScene::createScene();
+	auto scene = ChooseModeScene::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))

@@ -44,9 +44,9 @@ bool OneMapScene::init()
 	this->addChild(menu, 5);
 
 	//´´½¨ÍßÆ¬µØÍ¼
-	auto map = TMXTiledMap::create("temmap/filemap.tmx");
-	map->setAnchorPoint(Vec2(1,0));
-	map->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
+	auto map = TMXTiledMap::create("mapresource/1v1map.tmx");
+	map->setAnchorPoint(Vec2(0,0));
+	map->setPosition(Point(-2000, 0));
 	map->setTag(1000);
 	this->addChild(map,10);
 
