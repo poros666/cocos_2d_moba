@@ -1,8 +1,8 @@
 //////////////////
 /*
 徐炳昌
-5.25
-ver1
+5.26
+ver3
 */
 #include<Creeps.h>
 using namespace cocos2d;
@@ -22,6 +22,12 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 	case CreepTypeTest:
 		creepFramName = Creep_test;
 		creep->initHealthPointsLimit = 10;
+		creep->healthPoints = 10;
+		creep->armorPoints = 10;
+		creep->magicArmorPoints = 10;
+		creep->atk = 10;
+		creep->atkDistance = 10;
+		creep->atkSpeeds = 10;
 		//...
 		break;
 	/*
@@ -37,12 +43,36 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 
 	if (creep && creep->initWithSpriteFrameName(creepFramName)) {//判断creep对象是否生成成功
 		creep->autorelease();//加入内存释放池中，不会立即释放creep对象
-		///////////////////////////////////////->>
+		/*//////////////////////////////////////->>
 		//对creep对象添加物理引擎支持
 		auto body = PhysicsBody::create();
-		////////////////////////////////////////<<-
+
+		if (creepType == CreepTypeTest) {
+			body->addShape(PhysicsShapeBox::create());
+		}
+		else if (creepType == CreepTypeMelee) {
+			Vec2 verts[] = {
+				Vec2(),
+
+			};
+			body->addShape(PhysicsShapePolygon::create(verts, 6));
+		}
+		body->setCategoryBitmask(0x01);
+		body->setCollisionBitmask(0x02);
+		body->setContactTestBitmask(0x01);
+
+		creep->setPhysicsBody(body);
+
+		creep->setVisible(false);
+		creep->spawnCreep();
+		creep->unscheduleUpdate();
+		creep->scheduleUpdate();
+		///////////////////////////////////////*///<<-
+		return creep;
 	}
-	/////////////////////////////////////////////////////////////////////////以下是物理碰撞部分，暂时不写
+	CC_SAFE_DELETE(creep);
+
+	return nullptr;
 }
 
 //void Creep::update(float dt) {
@@ -51,11 +81,12 @@ void Creep::spawnCreep() {
 	Size screenSize = Director::getInstance()->getVisibleSize();
 	
 	//设置初始位置
-	//float xPos = ;
-	//float yPos = ;
+	float xPos = CCRANDOM_0_1()*(screenSize.width-this->getContentSize().width);
+	float yPos = screenSize.height+this->getContentSize().height/2;
 
-	//this->setPosition(Vec2(xPos, yPos));
-	//this->setAnchorPoint(Vec2());
+	this->setPosition(Vec2(xPos, yPos));
+	this->setAnchorPoint(Vec2(0.5f,0.5f));
+	//0.5f,0.5f--->>判断出屏幕this->getposition().y+this->getcontenSize().height/2<0
 
 	//初始化数据也可以在这个函数里
 
