@@ -19,7 +19,7 @@ bool ChooseHeroScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	//Éú³ÉºóÒáµÄÍ¼±ê
+	//Ã‰ÃºÂ³Ã‰ÂºÃ³Ã’Ã¡ÂµÃ„ÃÂ¼Â±Ãª
 	auto HouyiItem = MenuItemImage::create(
 		"reimu.png",
 		"reimu.png",
@@ -37,7 +37,7 @@ bool ChooseHeroScene::init()
 		HouyiItem->setPosition(Vec2(x, y));
 	}
 
-	//Éú³É½øÈë1v1µØÍ¼µÄÍ¼±ê
+	//Ã‰ÃºÂ³Ã‰Â½Ã¸ÃˆÃ«1v1ÂµÃ˜ÃÂ¼ÂµÃ„ÃÂ¼Â±Ãª
 	auto OneMapItem = MenuItemImage::create(
 		"EnterOneMap.png",
 		"EnterOneMap.png",
@@ -56,10 +56,10 @@ bool ChooseHeroScene::init()
 		OneMapItem->setPosition(Vec2(x, y));
 	}
 
-	//Éú³É·µ»Ø¼ü
+	//Ã‰ÃºÂ³Ã‰Â·ÂµÂ»Ã˜Â¼Ã¼
 	auto backItem = MenuItemImage::create(
-		"BackNormal.jpg",
-		"BackSelected.jpg",
+		"Bottom/BackNormal.jpg",
+		"Bottom/BackSelected.jpg",
 		CC_CALLBACK_1(ChooseHeroScene::menuBackCallback, this));
 
 	if (backItem == nullptr ||
@@ -96,7 +96,13 @@ bool ChooseHeroScene::init()
 }
 void ChooseHeroScene::menuHouyiChoosedCallBack(cocos2d::Ref* pSender) 
 {
-	Director::getInstance()->end();
+	auto scene = OneMapScene::CreateScene();
+	auto reScene = TransitionFadeDown::create(0.8f, scene);
+	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
 void ChooseHeroScene::menuDaJiChoosedCallBack(cocos2d::Ref* pSender) 
 {
@@ -105,9 +111,9 @@ void ChooseHeroScene::menuDaJiChoosedCallBack(cocos2d::Ref* pSender)
 void ChooseHeroScene::menuXiangYuChoosedCallBack(cocos2d::Ref* pSender) 
 {
 }
-void ChooseHeroScene::menuBackCallback(Ref* pSender)//°´·µ»Ø¼ü·µ»ØÖ÷²Ëµ¥
+void ChooseHeroScene::menuBackCallback(Ref* pSender)//Â°Â´Â·ÂµÂ»Ã˜Â¼Ã¼Â·ÂµÂ»Ã˜Ã–Ã·Â²Ã‹ÂµÂ¥
 {
-	auto scene = StartScene::createScene();
+	auto scene = ChooseModeScene::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))

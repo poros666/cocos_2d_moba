@@ -1,5 +1,5 @@
-//1v1��������
-//Ҧ���
+//1v1³¡¾°ÖÆ×÷
+//Ò¦¿­éª
 //v0.1
 #include "StartScene.h"
 #include "OneMapScene.h"
@@ -17,7 +17,7 @@ static void problemLoading(const char* filename)
 }
 bool OneMapScene::init()
 {
-	if (!Scene::init())//�жϳ�ʼ���Ƿ�ɹ�
+	if (!Scene::init())//ÅÐ¶Ï³õÊ¼»¯ÊÇ·ñ³É¹¦
 	{
 		return false;
 	}
@@ -25,7 +25,7 @@ bool OneMapScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	
-	//���ɰ�ť ����������
+	//Éú³É°´Å¥ ·µ»ØÖ÷½çÃæ
 	auto BackItem = MenuItemImage::create(
 		"BackNormal.jpg",
 		"BackSelected.jpg",
@@ -64,7 +64,7 @@ bool OneMapScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 100);
 
-	//������Ƭ��ͼ
+	//´´½¨ÍßÆ¬µØÍ¼
 	_tileMap=TMXTiledMap::create("temmap/filemap.tmx");
 	_tileMap->setAnchorPoint(Vec2(0,0));
 	_tileMap->setPosition(Point(-3500,0));
@@ -76,7 +76,7 @@ bool OneMapScene::init()
 	return true;
 }
 
-void OneMapScene::menuBackCallback(cocos2d::Ref* pSender)//����ť�������˵�
+void OneMapScene::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»ØÖ÷²Ëµ¥
 {
 	Director::getInstance()->popScene();
 }
@@ -113,6 +113,27 @@ cocos2d::Vec2 OneMapScene::tileCoordFromPosition(cocos2d::Vec2 position)
 		_tileMap->getTileSize().height;
 	return cocos2d::Vec2(x,y);
 }
+
+//使得视角在屏幕中央，或当在地图边缘时滚动地图，读入的数据为精灵的位置
+void OneMapScene::setViewPointCenter(Vec2 position)
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	int x = MAX(position.x, visibleSize.width/2);
+	int y = MAX(position.y, visibleSize.height / 2);
+	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width) - visibleSize.width / 2);
+	y = MIN(y, (_tileMap->getMapSize().height * _tileMap->getTileSize().height) - visibleSize.height / 2);
+
+
+	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
+	Vec2 pointB = Vec2(x, y);
+
+	Vec2 offset = pointA - pointB;
+
+	this->setPosition(offset);
+
+}
+
+
 
 bool OneMapScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {

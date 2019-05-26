@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include"Music.h"
 #include"SettingsScene.h"
-#include"ChooseHeroScene.h"
+#include"ChooseModeScene.h"
 class StartScene : public cocos2d::Scene
 {
 public:

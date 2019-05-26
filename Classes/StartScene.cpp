@@ -34,8 +34,8 @@ bool StartScene::init()
     // add a "close" icon to exit the progress. it's an autorelease object
     
 	auto settingItem = MenuItemImage::create(
-		"SettingsNormal.jpg",
-		"SettingsSelected.jpg",
+		"Bottom/SettingsNormal.jpg",
+		"Bottom/SettingsSelected.jpg",
 		CC_CALLBACK_1(StartScene::settingGameCallback, this));
 	if (settingItem == nullptr ||
 		settingItem->getContentSize().width <= 0 ||
@@ -50,8 +50,8 @@ bool StartScene::init()
 		settingItem->setPosition(Vec2(x, y));
 	}
 	auto startItem = MenuItemImage::create(
-		"StartNormal.jpg",
-		"StartSelected.jpg",
+		"Bottom/StartNormal.jpg",
+		"Bottom/StartSelected.jpg",
 		CC_CALLBACK_1(StartScene::startGameCallback, this));
 	if (startItem == nullptr ||
 		startItem->getContentSize().width <= 0 ||
@@ -113,7 +113,7 @@ bool StartScene::init()
 
 void StartScene::startGameCallback(Ref* pSender)
 {
-	auto scene = ChooseHeroScene::createScene();
+	auto scene = ChooseModeScene::createScene();
 	auto reScene = TransitionFadeUp::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY,true)) 

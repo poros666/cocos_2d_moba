@@ -1,5 +1,5 @@
-//���ò˵�����
-//�ζ���
+//ÉèÖÃ²Ëµ¥³¡¾°
+//ÈÎ¶¬³¿
 //version 0.5
 //time 5/21
 #include"SettingsScene.h"
@@ -16,16 +16,16 @@ static void problemLoading(const char* filename)
 }
 bool SettingsScene::init()
 {
-	if (!Scene::init())//�жϳ�ʼ���Ƿ�ɹ�
+	if (!Scene::init())//ÅÐ¶Ï³õÊ¼»¯ÊÇ·ñ³É¹¦
 	{
 		return false;
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	//���ɷ��ذ�ť
+	//Éú³É·µ»Ø°´Å¥
 	auto backItem = MenuItemImage::create(
-		"BackNormal.jpg",
-		"BackSelected.jpg",
+		"Bottom/BackNormal.jpg",
+		"Bottom/BackSelected.jpg",
 		CC_CALLBACK_1(SettingsScene::menuBackCallback, this));
 
 	if (backItem == nullptr ||
@@ -40,7 +40,7 @@ bool SettingsScene::init()
 		float y = origin.y + visibleSize.height / 2 - 240;
 		backItem->setPosition(Vec2(x, y));
 	}
-	auto bgmItem = MenuItemImage::create("BGM.jpg","BGM.jpg");
+	auto bgmItem = MenuItemImage::create("Bottom/BGM.jpg","Bottom/BGM.jpg");
 	if (bgmItem == nullptr ||
 		bgmItem->getContentSize().width <= 0 ||
 		bgmItem->getContentSize().height <= 0)
@@ -53,7 +53,7 @@ bool SettingsScene::init()
 		float y = origin.y + visibleSize.height / 2 +120;
 		bgmItem->setPosition(Vec2(x, y));
 	}
-	auto bottonItem = MenuItemImage::create("Botton.jpg", "Botton.jpg");
+	auto bottonItem = MenuItemImage::create("Bottom/Botton.jpg", "Bottom/Botton.jpg");
 	if (bottonItem == nullptr ||
 		bottonItem->getContentSize().width <= 0 ||
 		bottonItem->getContentSize().height <= 0)
@@ -66,18 +66,18 @@ bool SettingsScene::init()
 		float y = origin.y + visibleSize.height / 2 ;
 		bottonItem->setPosition(Vec2(x, y));
 	}
-	auto BGMonItem = MenuItemImage::create("on.png","on.png");
-	auto BGMoffItem = MenuItemImage::create("off.png","off.png");
+	auto BGMonItem = MenuItemImage::create("Bottom/on.png","Bottom/on.png");
+	auto BGMoffItem = MenuItemImage::create("Bottom/off.png","Bottom/off.png");
 	auto BGMToggleMenuItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(SettingsScene::BGMsetBottomCallback,this),BGMonItem,BGMoffItem,NULL);
 	BGMToggleMenuItem->setPosition(Vec2(bgmItem->getPositionX()+180,bgmItem->getPositionY()));
-	auto SoundonItem = MenuItemImage::create("on.png", "on.png");
-	auto SoundoffItem = MenuItemImage::create("off.png", "off.png");
+	auto SoundonItem = MenuItemImage::create("Bottom/on.png", "Bottom/on.png");
+	auto SoundoffItem = MenuItemImage::create("Bottom/off.png", "Bottom/off.png");
 	auto SoundToggleMenuItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(SettingsScene::SoundsetBottomCallback, this), SoundonItem, SoundoffItem, NULL);
 	SoundToggleMenuItem->setPosition(Vec2(bottonItem->getPositionX()+180, bottonItem->getPositionY()));
 	auto menu = Menu::create(SoundToggleMenuItem,BGMToggleMenuItem,bgmItem, bottonItem, backItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
-	//���ñ���ͼƬ
+	//ÉèÖÃ±³¾°Í¼Æ¬
 	auto sprite = Sprite::create("SettingBackGround.png");
 	if (sprite == nullptr)
 	{
@@ -91,7 +91,7 @@ bool SettingsScene::init()
 		// add the sprite as a child to this layer
 		this->addChild(sprite, 0);
 	}
-	//��ȡ�û�����
+	//»ñÈ¡ÓÃ»§ÉèÖÃ
 	UserDefault* defualts = UserDefault::getInstance();
 	if (defualts->getBoolForKey(MUSIC_KEY,true))
 	{
@@ -112,7 +112,7 @@ bool SettingsScene::init()
 	return true;
 }
 
-void SettingsScene::menuBackCallback(Ref* pSender)//�����ؼ��������˵�
+void SettingsScene::menuBackCallback(Ref* pSender)//°´·µ»Ø¼ü·µ»ØÖ÷²Ëµ¥
 {
 	auto scene = StartScene::createScene();
 	auto reScene = TransitionFadeUp::create(0.8f, scene);
