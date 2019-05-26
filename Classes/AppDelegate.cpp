@@ -81,7 +81,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
-	//³õÊ¼»¯ÒôÀÖ
+	//Â³ÃµÃŠÂ¼Â»Â¯Ã’Ã´Ã€Ã–
 	SimpleAudioEngine::getInstance()->preloadEffect("Botton.wav");
 	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("MyBGM.mp3");
 	if (UserDefault::getInstance()->getBoolForKey(MUSIC_KEY))

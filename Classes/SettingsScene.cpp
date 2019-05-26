@@ -1,5 +1,5 @@
-//���ò˵�����
-//�ζ���
+//ÉèÖÃ²Ëµ¥³¡¾°
+//ÈÎ¶¬³¿
 //version 0.5
 //time 5/21
 #include"SettingsScene.h"
@@ -16,13 +16,13 @@ static void problemLoading(const char* filename)
 }
 bool SettingsScene::init()
 {
-	if (!Scene::init())//�жϳ�ʼ���Ƿ�ɹ�
+	if (!Scene::init())//ÅÐ¶Ï³õÊ¼»¯ÊÇ·ñ³É¹¦
 	{
 		return false;
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	//���ɷ��ذ�ť
+	//Éú³É·µ»Ø°´Å¥
 	auto backItem = MenuItemImage::create(
 		"Bottom/BackNormal.jpg",
 		"Bottom/BackSelected.jpg",
@@ -77,7 +77,7 @@ bool SettingsScene::init()
 	auto menu = Menu::create(SoundToggleMenuItem,BGMToggleMenuItem,bgmItem, bottonItem, backItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
-	//���ñ���ͼƬ
+	//ÉèÖÃ±³¾°Í¼Æ¬
 	auto sprite = Sprite::create("SettingBackGround.png");
 	if (sprite == nullptr)
 	{
@@ -91,7 +91,7 @@ bool SettingsScene::init()
 		// add the sprite as a child to this layer
 		this->addChild(sprite, 0);
 	}
-	//��ȡ�û�����
+	//»ñÈ¡ÓÃ»§ÉèÖÃ
 	UserDefault* defualts = UserDefault::getInstance();
 	if (defualts->getBoolForKey(MUSIC_KEY,true))
 	{
@@ -112,7 +112,7 @@ bool SettingsScene::init()
 	return true;
 }
 
-void SettingsScene::menuBackCallback(Ref* pSender)//�����ؼ��������˵�
+void SettingsScene::menuBackCallback(Ref* pSender)//°´·µ»Ø¼ü·µ»ØÖ÷²Ëµ¥
 {
 	auto scene = StartScene::createScene();
 	auto reScene = TransitionFadeUp::create(0.8f, scene);
