@@ -1,9 +1,7 @@
 #include "StartScene.h"
-#include "SimpleAudioEngine.h"
-#include"SettingsScene.h"
-#include"ChooseHero.h"
-USING_NS_CC;
 
+USING_NS_CC;
+using namespace CocosDenshion;
 Scene* StartScene::createScene()
 {
     return StartScene::create();
@@ -36,8 +34,8 @@ bool StartScene::init()
     // add a "close" icon to exit the progress. it's an autorelease object
     
 	auto settingItem = MenuItemImage::create(
-		"SettingsNormal.jpg",
-		"SettingsSelected.jpg",
+		"Bottom/SettingsNormal.jpg",
+		"Bottom/SettingsSelected.jpg",
 		CC_CALLBACK_1(StartScene::settingGameCallback, this));
 	if (settingItem == nullptr ||
 		settingItem->getContentSize().width <= 0 ||
@@ -52,8 +50,8 @@ bool StartScene::init()
 		settingItem->setPosition(Vec2(x, y));
 	}
 	auto startItem = MenuItemImage::create(
-		"StartNormal.jpg",
-		"StartSelected.jpg",
+		"Bottom/StartNormal.jpg",
+		"Bottom/StartSelected.jpg",
 		CC_CALLBACK_1(StartScene::startGameCallback, this));
 	if (startItem == nullptr ||
 		startItem->getContentSize().width <= 0 ||
@@ -107,31 +105,29 @@ bool StartScene::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+
     return true;
 }
 
 
-void StartScene::menuCloseCallback(Ref* pSender)
-{
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
 
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
-}
 void StartScene::startGameCallback(Ref* pSender)
 {
-	auto scene = ChooseHero::createScene();
-	auto reScene = TransitionFadeUp::create(1.0f, scene);
+	auto scene = ChooseModeScene::createScene();
+	auto reScene = TransitionFadeUp::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY,true)) 
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
 void StartScene::settingGameCallback(Ref* pSender) 
 {
 	auto scene = SettingsScene::createScene();
-	auto reScene = TransitionFadeDown::create(1.0f, scene);
+	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }

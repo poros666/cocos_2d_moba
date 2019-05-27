@@ -1,15 +1,15 @@
 //////////////////
 /*
 徐炳昌
-5.25
-ver2
+5.27
+ver3
 */
 
 #pragma once
 #include<cocos2d.h>
 using namespace cocos2d;
 
-/*定义小兵名称也是小兵精灵帧的名称
+/*定义小兵名称也是小兵图片文件的名称
   暂时还不知道多方向和动态怎么搞
   先用一张图片替代
 */
@@ -55,10 +55,10 @@ class Creep :public cocos2d::Sprite {
 	用于get？暂不明确，但是书上样例有，先用
 	*/
 public:
-	Creep(CreepTypes creepType);//构造函数.
-	void spawnCreep();//生成小兵函数.
-	//virtual void update(float dt);//游戏循环调用的默认函数//设置默认对象的自动运动的位置和角度x
-	static Creep* creatWithCreepTypes(CreepTypes creepType);//静态创造小兵函数.
+	//Creep(CreepTypes creepType);//构造函数
+	//void spawnCreep();//生成小兵函数
+	virtual void update(float dt);//游戏循环调用的默认函数//意义不明
+	static Creep* creatWithCreepTypes(CreepTypes creepType);//静态创造小兵函数
 
 	bool hurt(float atk);//受伤.
 	void die();//死亡.
