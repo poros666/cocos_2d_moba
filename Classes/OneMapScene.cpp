@@ -114,6 +114,27 @@ cocos2d::Vec2 OneMapScene::tileCoordFromPosition(cocos2d::Vec2 position)
 	return cocos2d::Vec2(x,y);
 }
 
+//使得视角在屏幕中央，或当在地图边缘时滚动地图，读入的数据为精灵的位置
+void OneMapScene::setViewPointCenter(Vec2 position)
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	int x = MAX(position.x, visibleSize.width/2);
+	int y = MAX(position.y, visibleSize.height / 2);
+	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width) - visibleSize.width / 2);
+	y = MIN(y, (_tileMap->getMapSize().height * _tileMap->getTileSize().height) - visibleSize.height / 2);
+
+
+	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
+	Vec2 pointB = Vec2(x, y);
+
+	Vec2 offset = pointA - pointB;
+
+	this->setPosition(offset);
+
+}
+
+
+
 bool OneMapScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	log("onTouchBegan");

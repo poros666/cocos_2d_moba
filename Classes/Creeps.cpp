@@ -75,7 +75,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 	return nullptr;
 }
 
-//void Creep::update(float dt) {
+void Creep::update(float dt) {
+}
 
 void Creep::spawnCreep() {
 	Size screenSize = Director::getInstance()->getVisibleSize();
