@@ -1,6 +1,5 @@
 #pragma once
 #include "cocos2d.h"
-
 class OneMapScene : public cocos2d::Scene
 {
 	cocos2d::TMXLayer* _collidable;
