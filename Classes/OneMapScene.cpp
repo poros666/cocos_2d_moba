@@ -71,8 +71,8 @@ bool OneMapScene::init()
 	_tileMap->setTag(1000);
 	this->addChild(_tileMap);
 	_collidable = _tileMap->getLayer("collidable");
-	
-
+	auto layer = StatusLayer::create();
+	this->addChild(layer,20);
 	return true;
 }
 
