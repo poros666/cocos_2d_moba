@@ -46,7 +46,7 @@ bool ChooseHeroScene::init()
 		OneMapItem->getContentSize().width <= 0 ||
 		OneMapItem->getContentSize().height <= 0)
 	{
-		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
+		problemLoading("'EnterOneMap.png' and 'EnterOneMap.png'");
 	}
 	else
 	{

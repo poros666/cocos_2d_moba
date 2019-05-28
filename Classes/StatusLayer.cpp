@@ -28,22 +28,68 @@ bool StatusLayer::init()
 
 	// add a "close" icon to exit the progress. it's an autorelease object
 
-	auto settingItem = MenuItemImage::create(
-		"Bottom/SettingsNormal.jpg",
-		"Bottom/SettingsSelected.jpg"
-		);
-	if (settingItem == nullptr ||
-		settingItem->getContentSize().width <= 0 ||
-		settingItem->getContentSize().height <= 0)
+	auto timeItem = Sprite::create("time.dds");
+	if (timeItem == nullptr ||
+		timeItem->getContentSize().width <= 0 ||
+		timeItem->getContentSize().height <= 0)
 	{
-		problemLoading("'SettingsNormal.png' and 'SettingsSelected.png'");
+		problemLoading("'time.dds'");
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 2;
-		float y = origin.y ;
-		settingItem->setPosition(Vec2(x, y));
+		timeItem->setScale(0.5, 0.5);
+		auto size = timeItem->getContentSize();
+		float x = origin.x + visibleSize.width /2;
+		float y =visibleSize.height-size.height/4;
+		timeItem->setPosition(Vec2(x, y));
 	};
-	this->addChild(settingItem, 1);
+	this->addChild(timeItem, 1);
+	auto skillLable= Sprite::create("skillLable.dds");
+	if (skillLable == nullptr ||
+		skillLable->getContentSize().width <= 0 ||
+		skillLable->getContentSize().height <= 0)
+	{
+		problemLoading("'skillLable.dds'");
+	}
+	else
+	{
+		auto size = skillLable->getContentSize();
+		float x = origin.x + visibleSize.width / 2;
+		float y = size.height / 2+30;
+		skillLable->setPosition(Vec2(x, y));
+	};
+	this->addChild(skillLable, 1);
+	auto emptyHealthbar = Sprite::create("emptybar.dds");
+	if (emptyHealthbar == nullptr ||
+		emptyHealthbar->getContentSize().width <= 0 ||
+		emptyHealthbar->getContentSize().height <= 0)
+	{
+		problemLoading("'emptyHealthbar.dds'");
+	}
+	else
+	{
+		emptyHealthbar->setScaleX(0.5);
+		auto size = emptyHealthbar->getContentSize();
+		float x = origin.x + visibleSize.width / 2;
+		float y = size.height / 4;
+		emptyHealthbar->setPosition(Vec2(x, y));
+	};
+	this->addChild(emptyHealthbar, 1);
+	auto emptyManabar = Sprite::create("emptybar.dds");
+	if (emptyManabar == nullptr ||
+		emptyManabar->getContentSize().width <= 0 ||
+		emptyManabar->getContentSize().height <= 0)
+	{
+		problemLoading("'emptyManabar.dds'");
+	}
+	else
+	{
+		emptyManabar->setScale(0.5,0.5);
+		auto size = emptyManabar->getContentSize();
+		float x = origin.x + visibleSize.width / 2;
+		float y = size.height / 4-10;
+		emptyManabar->setPosition(Vec2(x, y));
+	};
+	this->addChild(emptyManabar, 1);
 	return true;
 }
