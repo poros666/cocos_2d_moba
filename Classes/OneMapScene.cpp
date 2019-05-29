@@ -3,8 +3,10 @@
 //v0.1
 #include "StartScene.h"
 #include "OneMapScene.h"
-#include"Creeps.h"
-
+#include "Creeps.h"
+#include "Tower.h"
+#include "Hero.h"
+#include "ShopLayer.h"
 USING_NS_CC;
 Scene* OneMapScene::CreateScene()
 {
@@ -72,9 +74,28 @@ bool OneMapScene::init()
 	_tileMap->setTag(1000);
 	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
-	setViewPointCenter(Vec2(50000, 0));
+	
+	///success1
+	/*
+	auto creep1 = Creep::create("creep_test.png");
+	creep1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	this->addChild(creep1, 500);
+	*/
+	//success2
+	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
+	creep1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	this->addChild(creep1, 30);
 
-	//auto creeptest = Creep::creatWithCreepTypes(CreepTypeTest);
+	auto tower1 = Tower::creatWithTowerTypes(TowerTypeTest);
+	tower1->setPosition(Vec2(visibleSize.width / 2+100, visibleSize.height / 2+100));
+	this->addChild(tower1, 30);
+
+	auto hero1 = Hero::creatWithHeroTypes(HeroTypeTest);
+	hero1->setPosition(Vec2(visibleSize.width / 2-100, visibleSize.height / 2-100));
+	this->addChild(hero1, 30);
+
+	auto statusLayer = StatusLayer::create();
+	this->addChild(statusLayer, 10);
 
 	return true;
 }
@@ -86,6 +107,9 @@ void OneMapScene::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»Ø�
 
 void OneMapScene::menuShopCallback(cocos2d::Ref* pSender)
 {
+	auto shoplayer =ShopLayer::createLayer();
+	this->addChild(shoplayer, 40);
+	shoplayer->setVisible(true);
 }
 
 void OneMapScene::setPlayerPosition(cocos2d::Vec2 position)
@@ -117,7 +141,22 @@ cocos2d::Vec2 OneMapScene::tileCoordFromPosition(cocos2d::Vec2 position)
 	return cocos2d::Vec2(x,y);
 }
 //将视角与人物锁定，并且不超过地图显示范围
-void OneMapScene::setViewPointCenter(cocos2d::Vec2 position){	Size visibleSize = Director::getInstance()->getVisibleSize();	int x = MAX(position.x, visibleSize.width / 2);	int y = MAX(position.y, visibleSize.height / 2);	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width)		- visibleSize.width / 2);	y = MIN(y, (_tileMap->getMapSize().width * _tileMap->getTileSize().height)		- visibleSize.height / 2);	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);	Vec2 pointB = Vec2(x, y);	Vec2 offSet = pointA - pointB;	this->setPosition(offSet);}
+void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	int x = MAX(position.x, visibleSize.width / 2);
+	int y = MAX(position.y, visibleSize.height / 2);
+
+	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width)
+		- visibleSize.width / 2);
+	y = MIN(y, (_tileMap->getMapSize().height * _tileMap->getTileSize().height)
+		- visibleSize.height / 2);
+	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
+	Vec2 pointB = Vec2(x, y);
+	Vec2 offSet = pointA - pointB;
+	this->setPosition(offSet);
+
+}
 
 
 
