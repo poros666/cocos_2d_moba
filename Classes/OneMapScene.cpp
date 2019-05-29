@@ -3,6 +3,7 @@
 //v0.1
 #include "StartScene.h"
 #include "OneMapScene.h"
+#include"Creeps.h"
 
 USING_NS_CC;
 Scene* OneMapScene::CreateScene()
@@ -67,12 +68,14 @@ bool OneMapScene::init()
 	//´´½¨ÍßÆ¬µØÍ¼
 	_tileMap=TMXTiledMap::create("temmap/filemap.tmx");
 	_tileMap->setAnchorPoint(Vec2(0,0));
-	_tileMap->setPosition(Point(-3500,0));
+	_tileMap -> setPosition(Vec2(0, 0));
 	_tileMap->setTag(1000);
-	this->addChild(_tileMap);
+	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
-	auto layer = StatusLayer::create();
-	this->addChild(layer,20);
+	setViewPointCenter(Vec2(50000, 0));
+
+	//auto creeptest = Creep::creatWithCreepTypes(CreepTypeTest);
+
 	return true;
 }
 
@@ -113,25 +116,26 @@ cocos2d::Vec2 OneMapScene::tileCoordFromPosition(cocos2d::Vec2 position)
 		_tileMap->getTileSize().height;
 	return cocos2d::Vec2(x,y);
 }
-
-//使得视角在屏幕中央，或当在地图边缘时滚动地图，读入的数据为精灵的位置
-void OneMapScene::setViewPointCenter(Vec2 position)
+//将视角与人物锁定，并且不超过地图显示范围
+void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	int x = MAX(position.x, visibleSize.width/2);
+	int x = MAX(position.x, visibleSize.width / 2);
 	int y = MAX(position.y, visibleSize.height / 2);
-	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width) - visibleSize.width / 2);
-	y = MIN(y, (_tileMap->getMapSize().height * _tileMap->getTileSize().height) - visibleSize.height / 2);
 
-
+	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width)
+		- visibleSize.width / 2);
+	y = MIN(y, (_tileMap->getMapSize().width * _tileMap->getTileSize().height)
+		- visibleSize.height / 2);
 	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	Vec2 pointB = Vec2(x, y);
-
-	Vec2 offset = pointA - pointB;
-
-	this->setPosition(offset);
+	Vec2 offSet = pointA - pointB;
+	this->setPosition(offSet);
 
 }
+
+
+
 
 
 

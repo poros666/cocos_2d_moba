@@ -15,12 +15,15 @@ Creep::Creep(CreepTypes creepType) {
 Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 	Creep* creep = new Creep(creepType);
 	const char* creepFramName = Creep_test;
-
+	//auto sp = Sprite::create("ShopItem.png");
+	//TextureCache::getInstance()->addImage("ShopItem.png");
+	//auto texture=TextureCache::getInstance()->getTextureForKey("ShopItem.png");
+	//auto frame = SpriteFrame::createWithTexture(texture, Rect(0, 0, 150, 200));
 	//通过switch根据type来初始化数值
 	switch (creepType)
 	{
 	case CreepTypeTest:
-		creepFramName = Creep_test;
+
 		creep->initHealthPointsLimit = 10;
 		creep->healthPoints = 10;
 		creep->armorPoints = 10;
@@ -40,8 +43,9 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 	default:
 		break;
 	}
+	
 
-	if (creep && creep->initWithSpriteFrameName(creepFramName)) {//判断creep对象是否生成成功
+	if (creep && creep->initWithSpriteFrameName(Creep_test)) {//判断creep对象是否生成成功
 		creep->autorelease();//加入内存释放池中，不会立即释放creep对象
 		/*//////////////////////////////////////->>
 		//对creep对象添加物理引擎支持
@@ -68,6 +72,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 		creep->unscheduleUpdate();
 		creep->scheduleUpdate();
 		///////////////////////////////////////*///<<-
+		creep->setVisible(true);
+		creep->spawnCreep();
 		return creep;
 	}
 	CC_SAFE_DELETE(creep);
@@ -77,7 +83,6 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 
 void Creep::update(float dt) {
 }
-
 void Creep::spawnCreep() {
 	Size screenSize = Director::getInstance()->getVisibleSize();
 	
