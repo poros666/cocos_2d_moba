@@ -1,4 +1,7 @@
+//该文件内的所有setposition的时候都应该加上player的位置，否则会显示错误，
+//介于角色类还未完全实现，暂时搁置此问题
 #include "ShopLayer.h"
+#include "EquipmentLayer.h"
 
 cocos2d::Layer* ShopLayer::createLayer()
 {
@@ -18,7 +21,7 @@ bool ShopLayer::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	
+
 	auto ShopBackground = MenuItemImage::create(
 		"shop/shopbackground.jpg",
 		"shop/shopbackground.jpg"
@@ -33,8 +36,6 @@ bool ShopLayer::init()
 	{
 		ShopBackground->setPosition(Vec2(origin.x + visibleSize.width*3 /4 +50, origin.y+400));
 	}
-
-
 	auto ShopEsc = MenuItemImage::create(
 		"shop/shopesc.jpg",
 		"shop/shopesc.jpg",
@@ -50,7 +51,12 @@ bool ShopLayer::init()
 	{
 		ShopEsc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 -175, origin.y + 775));
 	}
-	auto menu = Menu::create(ShopBackground,ShopEsc,NULL);
+	auto ShopWatch = MenuItemImage::create(
+		"shop/shopwatch.jpg",
+		"shop/shopwatch.jpg",
+		CC_CALLBACK_1(ShopLayer::menuEquipmentCallback,this)
+	);
+	auto menu = Menu::create(ShopBackground,ShopEsc,ShopWatch,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu,1);
 	return true;
@@ -61,4 +67,13 @@ void ShopLayer::menuEscCallback(cocos2d::Ref* pSender)
 {
 	this->removeFromParentAndCleanup(true);
 }
+
+void ShopLayer::menuEquipmentCallback(cocos2d::Ref* pSender)
+{
+	auto equipmentlayer = EquipmentLayer::createLayer();
+	this->addChild(equipmentlayer, 50);
+	equipmentlayer->setVisible(true);
+}
+
+
 

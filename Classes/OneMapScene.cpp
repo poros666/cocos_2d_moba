@@ -112,6 +112,7 @@ void OneMapScene::menuShopCallback(cocos2d::Ref* pSender)
 	shoplayer->setVisible(true);
 }
 
+
 void OneMapScene::setPlayerPosition(cocos2d::Vec2 position)
 {
 	Vec2 tileCoord = this->tileCoordFromPosition(position);
@@ -140,6 +141,8 @@ cocos2d::Vec2 OneMapScene::tileCoordFromPosition(cocos2d::Vec2 position)
 		_tileMap->getTileSize().height;
 	return cocos2d::Vec2(x,y);
 }
+
+
 //将视角与人物锁定，并且不超过地图显示范围
 void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
 {
@@ -157,6 +160,12 @@ void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
 	this->setPosition(offSet);
 
 }
+
+
+
+
+
+
 
 
 
