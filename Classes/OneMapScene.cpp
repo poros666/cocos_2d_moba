@@ -3,7 +3,9 @@
 //v0.1
 #include "StartScene.h"
 #include "OneMapScene.h"
-#include"Creeps.h"
+#include "Creeps.h"
+#include "Tower.h"
+#include "Hero.h"
 
 USING_NS_CC;
 Scene* OneMapScene::CreateScene()
@@ -72,9 +74,26 @@ bool OneMapScene::init()
 	_tileMap->setTag(1000);
 	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
-	setViewPointCenter(Vec2(50000, 0));
+	
+	///success1
+	/*
+	auto creep1 = Creep::create("creep_test.png");
+	creep1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	this->addChild(creep1, 500);
+	*/
+	//success2
+	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
+	creep1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	this->addChild(creep1, 500);
 
-	//auto creeptest = Creep::creatWithCreepTypes(CreepTypeTest);
+	auto tower1 = Tower::creatWithTowerTypes(TowerTypeTest);
+	tower1->setPosition(Vec2(visibleSize.width / 2+100, visibleSize.height / 2+100));
+	this->addChild(tower1, 500);
+
+	auto hero1 = Hero::creatWithHeroTypes(HeroTypeTest);
+	hero1->setPosition(Vec2(visibleSize.width / 2-100, visibleSize.height / 2-100));
+	this->addChild(hero1, 500);
+
 
 	return true;
 }

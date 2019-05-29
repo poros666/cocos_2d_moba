@@ -1,15 +1,15 @@
 //////////////////
 /*
 徐炳昌
-5.25
-ver1
+5.27
+ver2
 */
 #pragma once
 #include<cocos2d.h>
 using namespace cocos2d;
 
 /*
-  定义塔名称也是塔精灵帧的名称
+  定义塔名称也是塔图片文件的名称
 */
 #define Tower_test "tower_test.png"
 #define Tower_1 "tower_1.png"
@@ -54,10 +54,10 @@ class Tower :public cocos2d::Sprite {
 	用于get？暂不明确，但是书上样例有，先用
 	*/
 public:
-	Tower(TowerTypes towerType);//构造函数
-	void spawnTower();//生成tower函数
+	//Tower(TowerTypes towerType);//构造函数
+	//void spawnTower();//生成tower函数
 	//virtual void update(float dt);//游戏循环调用的默认函数//设置默认对象的自动运动的位置和角度x
-	static Tower* creatWithTowerTypes(TowerTypes towerType);//静态创造小兵函数
+	static Tower* creatWithTowerTypes(TowerTypes towerType);//静态创造tower函数
 
 	bool hurt(float atk);//受伤
 	void die();//死亡
