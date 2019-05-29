@@ -94,6 +94,8 @@ bool OneMapScene::init()
 	hero1->setPosition(Vec2(visibleSize.width / 2-100, visibleSize.height / 2-100));
 	this->addChild(hero1, 500);
 
+	auto statusLayer = StatusLayer::create();
+	this->addChild(statusLayer, 10);
 
 	return true;
 }
