@@ -96,7 +96,7 @@ bool ChooseHeroScene::init()
 }
 void ChooseHeroScene::menuHouyiChoosedCallBack(cocos2d::Ref* pSender) 
 {
-	auto scene = OneMapScene::CreateScene();
+	auto scene = Game::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
@@ -124,7 +124,7 @@ void ChooseHeroScene::menuBackCallback(Ref* pSender)//°´·µ»Ø¼ü·µ»ØÖ
 
 void ChooseHeroScene::menuOneMapChoosedCallBack(cocos2d::Ref* pSender)
 {
-	auto scene = OneMapScene::CreateScene();
+	auto scene = Game::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))

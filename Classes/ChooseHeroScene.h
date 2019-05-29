@@ -2,7 +2,8 @@
 #include"cocos2d.h"
 #include "ChooseModeScene.h"
 #include"Music.h"
-#include"OneMapScene.h"
+#include"OneMapLayer.h"
+#include"Game.h"
 class ChooseHeroScene : public cocos2d::Scene 
 {
 public:

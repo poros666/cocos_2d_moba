@@ -1,7 +1,7 @@
 #include"StatusLayer.h"
 USING_NS_CC;
 
-Layer* StatusLayer::creatLayer()
+Layer* StatusLayer::createLayer()
 {
 	auto layer = StatusLayer::create();
 	return layer;
