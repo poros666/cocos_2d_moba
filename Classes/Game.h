@@ -15,14 +15,19 @@ public:
 	virtual bool init();
 	void MapLayerPrint();
 	void HeroPrint();
+	void recreateHero(float delta);
+	void test(float delta);
 	void CreepsPrint(float delta);
 	void StatusLayerPrint();
 	void TowerPrint();
 	virtual void update(float delta);
+	void HeroDie();
 	CREATE_FUNC(Game);
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 	bool isGamming = true;
+	Hero* Myhero;
+
 };

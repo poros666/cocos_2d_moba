@@ -1,4 +1,5 @@
 #include"Game.h"
+int a = 0;
 Scene* Game::createScene()
 {
 	return Game::create();
@@ -13,9 +14,10 @@ bool Game::init()
 	MapLayerPrint();
 	HeroPrint();
 	StatusLayerPrint();
-	TowerPrint();
-	this->schedule(schedule_selector(Game::CreepsPrint),30,-1,10);
-	
+	TowerPrint();	
+	this->scheduleUpdate();
+	this->schedule(schedule_selector(Game::CreepsPrint),1,-1,2);
+	this->schedule(schedule_selector(Game::test), 1);
 	return true;
 }
 void Game::MapLayerPrint()
@@ -39,9 +41,9 @@ void Game::StatusLayerPrint()
 void Game::HeroPrint()
 {
 	//生成英雄的函数
-	auto hero = Hero::creatWithHeroTypes(HeroTypeTest);
-	hero->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 100));
-	this->addChild(hero, 2);
+	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
+	Myhero->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 100));
+	this->addChild(Myhero, 2);
 }
 
 
@@ -57,13 +59,42 @@ void Game::TowerPrint()
 void Game::CreepsPrint(float delta)
 {
 	//生成兵的函数
+
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
-	creep1->setPosition(Vec2(visibleSize.width / 2+delta, visibleSize.height / 2+delta));
+	creep1->setPosition(Vec2(visibleSize.width / 2+a*10, visibleSize.height / 2));
 	this->addChild(creep1, 2);
+	a++;
 }
 
 void Game::update(float delta)
 {
 	//血条蓝条经验条的实时更新
 
+
+
+
+	//英雄死亡监测
+	if (Myhero->getHealthPoints() <= 0)
+	{
+		this->unscheduleUpdate();
+		Game::HeroDie();
+	}
+}
+void Game::HeroDie()
+{
+	Myhero->die();
+	this->scheduleOnce(schedule_selector(Game::recreateHero), 1.0f);
+}
+void Game::recreateHero(float delta)
+{
+	Myhero->setVisible(true);
+	Myhero->setHealthPoints(Myhero->getInitHealthPointsLimit());
+	this->scheduleUpdate();
+}
+void Game::test(float delta)
+{
+	if (Myhero != nullptr)
+	{
+		Myhero->setHealthPoints(Myhero->getHealthPoints() - 3);
+	}
 }

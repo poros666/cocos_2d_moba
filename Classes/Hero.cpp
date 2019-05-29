@@ -19,7 +19,7 @@ using namespace cocos2d;
 	case HeroTypeTest:
 		filename1 = Hero_test;
 		hero->setInitHealthPointsLimit(10);
-		
+		hero->setHealthPoints(10);
 		//...
 		break;
 		/*
@@ -75,7 +75,10 @@ void Hero::addExp(int exp) {
 	}
 }
 
-void Hero::die() {
+void Hero::die() 
+{
 	//不知道涉及什么先不写
+	//rdc:播放死亡动画
+	this->setVisible(false);
 }
 
