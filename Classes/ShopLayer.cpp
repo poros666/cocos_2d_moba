@@ -1,8 +1,7 @@
 //该文件内的所有setposition的时候都应该加上player的位置，否则会显示错误，
 //介于角色类还未完全实现，暂时搁置此问题
 #include "ShopLayer.h"
-#include "EquipmentLayer.h"
-
+#include"EquipmentLayer.h"
 cocos2d::Layer* ShopLayer::createLayer()
 {
 	return ShopLayer::create();
@@ -43,7 +42,7 @@ bool ShopLayer::init()
 	);
 	if (ShopEsc == nullptr ||
 		ShopEsc->getContentSize().width <= 0 ||
-		ShopEsc->getContentSize().height < +0)
+		ShopEsc->getContentSize().height <=0)
 	{
 		problemLoading("'shop/shopbackground.jpg' and 'shop/shopbackground.jpg'");
 	}
@@ -56,6 +55,16 @@ bool ShopLayer::init()
 		"shop/shopwatch.jpg",
 		CC_CALLBACK_1(ShopLayer::menuEquipmentCallback,this)
 	);
+	if (ShopWatch == nullptr ||
+		ShopWatch->getContentSize().width<=0||
+		ShopWatch->getContentSize().height<=0)
+	{
+		problemLoading("'shop/shopwatch.jpg' and 'shop/shopwatch.jpgg'");
+	}
+	else
+	{
+		ShopWatch->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4, origin.y + 775));
+	}
 	auto menu = Menu::create(ShopBackground,ShopEsc,ShopWatch,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu,1);
@@ -70,9 +79,9 @@ void ShopLayer::menuEscCallback(cocos2d::Ref* pSender)
 
 void ShopLayer::menuEquipmentCallback(cocos2d::Ref* pSender)
 {
-	auto equipmentlayer = EquipmentLayer::createLayer();
-	this->addChild(equipmentlayer, 50);
-	equipmentlayer->setVisible(true);
+	auto layer = EquipmentLayer::createLayer();
+	this->addChild(layer, 50);
+	layer->setVisible(true);
 }
 
 

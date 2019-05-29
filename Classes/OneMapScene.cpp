@@ -7,6 +7,7 @@
 #include "Tower.h"
 #include "Hero.h"
 #include "ShopLayer.h"
+#include "StatusLayer.h"
 USING_NS_CC;
 Scene* OneMapScene::CreateScene()
 {
