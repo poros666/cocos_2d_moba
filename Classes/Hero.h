@@ -38,6 +38,10 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//当前血量
 	CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//生命恢复速度
 
+	CC_SYNTHESIZE(int, initManaPointsLimit, InitManaPointsLimit);//初始蓝量上限
+	CC_SYNTHESIZE(int, manaPoints, ManaPoints);//当前蓝量
+	CC_SYNTHESIZE(int, manaRecoverPoints, ManaRecoverPoints);//蓝量恢复速度
+
 	CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//护甲
 	CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//魔抗
 
@@ -64,6 +68,7 @@ class Hero :public cocos2d::Sprite {
 	define CC_SYNTHESIZE(varType, varName, funName)\
 	protected: varType varName;
 	public: virtual varType get##funName(void) const { return varName; }
+
 	public: virtual void set##funName(varType var){ varName = var; }
 	用于get？暂不明确，但是书上样例有，先用
 	*/

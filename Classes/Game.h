@@ -22,6 +22,10 @@ public:
 	void TowerPrint();
 	virtual void update(float delta);
 	void HeroDie();
+	void SetHpBar();
+	void UpdateHpBar(float delta);
+	void SetManaBar();
+	void UpdateManaBar(float delta);
 	CREATE_FUNC(Game);
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -29,5 +33,6 @@ private:
 	Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 	bool isGamming = true;
 	Hero* Myhero;
-
+	ProgressTimer* HpBarProgress;
+	ProgressTimer* ManaBarProgress;
 };
