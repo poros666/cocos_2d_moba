@@ -8,6 +8,9 @@ class EquipmentLayer :public cocos2d::Layer
 public:
 	static cocos2d::Layer* createLayer();
 	virtual bool init();
-	void menuSwordOneCallback(cocos2d::Ref* pSender);
+	void menuWeaponCallback(cocos2d::Ref* pSender);
+	void menuShoeCallback(cocos2d::Ref* pSender);
+	void menuArmorCallback(cocos2d::Ref* pSender);
+	void menuRecoveryCallback(cocos2d::Ref* pSender);
 	CREATE_FUNC(EquipmentLayer);
 };
