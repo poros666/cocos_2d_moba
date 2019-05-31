@@ -6,7 +6,7 @@
 #include "Creeps.h"
 #include "Tower.h"
 #include "Hero.h"
-
+#include "ShopLayer.h"
 USING_NS_CC;
 Layer* OneMapLayer::CreateLayer()
 {
@@ -136,7 +136,7 @@ cocos2d::Vec2 OneMapLayer::tileCoordFromPosition(cocos2d::Vec2 position)
 
 
 //将视角与人物锁定，并且不超过地图显示范围
-void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
+void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);
