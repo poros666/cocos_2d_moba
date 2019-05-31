@@ -81,6 +81,10 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 }
 
 void Creep::update(float dt) {
+	if (this->healthPoints == 0)
+	{
+		this->die();
+	}
 	;
 }
 
@@ -118,5 +122,7 @@ bool Creep::hurt(float atk){
 
 void Creep::die() {
 	//不知道涉及什么先不写
+	//rdc:播放死亡动画
+	this->release();
 }
 
