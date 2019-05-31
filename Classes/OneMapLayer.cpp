@@ -99,7 +99,11 @@ void OneMapLayer::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»Ø�
 
 void OneMapLayer::menuShopCallback(cocos2d::Ref* pSender)
 {
+	auto shoplayer =ShopLayer::createLayer();
+	this->addChild(shoplayer, 40);
+	shoplayer->setVisible(true);
 }
+
 
 void OneMapLayer::setPlayerPosition(cocos2d::Vec2 position)
 {
@@ -129,8 +133,10 @@ cocos2d::Vec2 OneMapLayer::tileCoordFromPosition(cocos2d::Vec2 position)
 		_tileMap->getTileSize().height;
 	return cocos2d::Vec2(x,y);
 }
+
+
 //将视角与人物锁定，并且不超过地图显示范围
-void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
+void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);
@@ -138,7 +144,7 @@ void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 
 	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width)
 		- visibleSize.width / 2);
-	y = MIN(y, (_tileMap->getMapSize().width * _tileMap->getTileSize().height)
+	y = MIN(y, (_tileMap->getMapSize().height * _tileMap->getTileSize().height)
 		- visibleSize.height / 2);
 	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	Vec2 pointB = Vec2(x, y);
@@ -146,6 +152,12 @@ void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 	this->setPosition(offSet);
 
 }
+
+
+
+
+
+
 
 
 

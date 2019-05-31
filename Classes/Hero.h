@@ -1,6 +1,6 @@
 //////////////////
 /*
-徐炳昌
+脨矛卤镁虏媒
 5.27
 ver1
 */
@@ -9,7 +9,7 @@ ver1
 #include<cocos2d.h>
 using namespace cocos2d;
 
-/*定义英雄名称也是英雄图片文件的名称
+/*露篓脪氓脫垄脨脹脙没鲁脝脪虏脢脟脫垄脨脹脥录脝卢脦脛录镁碌脛脙没鲁脝
 */
 #define Hero_test "hero_test.png"
 #define Hero_1 "hero_1.png"
@@ -23,7 +23,7 @@ using namespace cocos2d;
 #define LEVEL_UP_LIMIT_BASE 100
 
 /*
-定义英雄类型
+露篓脪氓脫垄脨脹脌脿脨脥
 */
 typedef enum {
 	HeroTypeTest=0,
@@ -32,60 +32,60 @@ typedef enum {
 
 class Hero :public cocos2d::Sprite {
 
-	CC_SYNTHESIZE(HeroTypes, heroType, HeroType);//类型
+	CC_SYNTHESIZE(HeroTypes, heroType, HeroType);//脌脿脨脥
 
-	CC_SYNTHESIZE(int, initHealthPointsLimit, InitHealthPointsLimit);//初始血量上限
-	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//当前血量
-	CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//生命恢复速度
+	CC_SYNTHESIZE(int, initHealthPointsLimit, InitHealthPointsLimit);//鲁玫脢录脩陋脕驴脡脧脧脼
+	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//碌卤脟掳脩陋脕驴
+	CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//脡煤脙眉禄脰赂麓脣脵露脠
 
-	CC_SYNTHESIZE(int, initManaPointsLimit, InitManaPointsLimit);//初始蓝量上限
-	CC_SYNTHESIZE(int, manaPoints, ManaPoints);//当前蓝量
-	CC_SYNTHESIZE(int, manaRecoverPoints, ManaRecoverPoints);//蓝量恢复速度
+	CC_SYNTHESIZE(int, initManaPointsLimit, InitManaPointsLimit);//鲁玫脢录脌露脕驴脡脧脧脼
+	CC_SYNTHESIZE(int, manaPoints, ManaPoints);//碌卤脟掳脌露脕驴
+	CC_SYNTHESIZE(int, manaRecoverPoints, ManaRecoverPoints);//脌露脕驴禄脰赂麓脣脵露脠
 
-	CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//护甲
-	CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//魔抗
+	CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//禄陇录脳
+	CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//脛搂驴鹿
 
-	CC_SYNTHESIZE(float, atk, Atk);//攻击力
-	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//攻击距离
-	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//攻击速度
+	CC_SYNTHESIZE(float, atk, Atk);//鹿楼禄梅脕娄
+	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//鹿楼禄梅戮脿脌毛
+	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//鹿楼禄梅脣脵露脠
 
-	CC_SYNTHESIZE(int, level, Level);//等级
-	CC_SYNTHESIZE(int, exp, Exp);//当前经验值
-	CC_SYNTHESIZE(int, skillPoints, SkillPoints);//技能点
-	CC_SYNTHESIZE(int, skillLevel_1, SkillLevel_1);//一技能等级
-	CC_SYNTHESIZE(int, skillLevel_2, SkillLevel_2);//二技能等级
-	CC_SYNTHESIZE(int, skillLevel_3, SkillLevel_3);//三技能等级
-	CC_SYNTHESIZE(int, skillLevel_4, SkillLevel_4);//四技能等级
-
-
-	CC_SYNTHESIZE(int, gold, Gold);//金钱 
-	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//物品数量
+	CC_SYNTHESIZE(int, level, Level);//碌脠录露
+	CC_SYNTHESIZE(int, exp, Exp);//碌卤脟掳戮颅脩茅脰碌
+	CC_SYNTHESIZE(int, skillPoints, SkillPoints);//录录脛脺碌茫
+	CC_SYNTHESIZE(int, skillLevel_1, SkillLevel_1);//脪禄录录脛脺碌脠录露
+	CC_SYNTHESIZE(int, skillLevel_2, SkillLevel_2);//露镁录录脛脺碌脠录露
+	CC_SYNTHESIZE(int, skillLevel_3, SkillLevel_3);//脠媒录录脛脺碌脠录露
+	CC_SYNTHESIZE(int, skillLevel_4, SkillLevel_4);//脣脛录录脛脺碌脠录露
 
 
-	CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//移速
+	CC_SYNTHESIZE(int, gold, Gold);//陆冒脟庐 
+	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//脦茂脝路脢媒脕驴
+
+
+	CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//脪脝脣脵
 	/*
-	关于CC_SYNTHESIZE
+	鹿脴脫脷CC_SYNTHESIZE
 	define CC_SYNTHESIZE(varType, varName, funName)\
 	protected: varType varName;
 	public: virtual varType get##funName(void) const { return varName; }
 
 	public: virtual void set##funName(varType var){ varName = var; }
-	用于get？暂不明确，但是书上样例有，先用
+	脫脙脫脷get拢驴脭脻虏禄脙梅脠路拢卢碌芦脢脟脢茅脡脧脩霉脌媒脫脨拢卢脧脠脫脙
 	*/
 public:
 	
-	//virtual void update(float dt);//游戏循环调用的默认函数
-	static Hero* creatWithHeroTypes(HeroTypes heroType);//静态创造英雄函数
+	//virtual void update(float dt);//脫脦脧路脩颅禄路碌梅脫脙碌脛脛卢脠脧潞炉脢媒
+	static Hero* creatWithHeroTypes(HeroTypes heroType);//戮虏脤卢麓麓脭矛脫垄脨脹潞炉脢媒
 
-	bool hurt(float atk);//受伤.
-	void die();//死亡.
-	void hpRecover(int healthRecoverPoint);//回血
-	void mpRecover(int manaRecoverPoint);//回蓝
-	void addExp(int exp);//获得经验
-	void addGold(int gold);//获得金钱
+	bool hurt(float atk);//脢脺脡脣.
+	void die();//脣脌脥枚.
+	void hpRecover(int healthRecoverPoint);//禄脴脩陋
+	void mpRecover(int manaRecoverPoint);//禄脴脌露
+	void addExp(int exp);//禄帽碌脙戮颅脩茅
+	void addGold(int gold);//禄帽碌脙陆冒脟庐
 	
-	//疑问这些只改变数值的函数或许可以不写
-	//记分板在哪里做合理？我这里可以加获得总金钱，杀人数 死亡数，游戏结束后读取数据就可以了
+	//脪脡脦脢脮芒脨漏脰禄赂脛卤盲脢媒脰碌碌脛潞炉脢媒禄貌脨铆驴脡脪脭虏禄脨麓
+	//录脟路脰掳氓脭脷脛脛脌茂脳枚潞脧脌铆拢驴脦脪脮芒脌茂驴脡脪脭录脫禄帽碌脙脳脺陆冒脟庐拢卢脡卤脠脣脢媒 脣脌脥枚脢媒拢卢脫脦脧路陆谩脢酶潞贸露脕脠隆脢媒戮脻戮脥驴脡脪脭脕脣
 
 };
 
