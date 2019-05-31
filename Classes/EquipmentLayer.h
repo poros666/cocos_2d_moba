@@ -2,6 +2,7 @@
 
 #pragma once
 #include"cocos2d.h"
+
 USING_NS_CC;
 class EquipmentLayer :public cocos2d::Layer
 {

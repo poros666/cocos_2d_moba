@@ -1,4 +1,5 @@
 #include "ChooseModeScene.h"
+#include"Game.h"
 USING_NS_CC;
 using namespace CocosDenshion;
 Scene* ChooseModeScene::createScene()

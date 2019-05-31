@@ -1,11 +1,11 @@
 #pragma once
 #include "cocos2d.h"
-#include "OneMapScene.h"
+#include "OneMapLayer.h"
 #include "Hero.h"
 class StatusLayer :public cocos2d::Layer
 {
 public:
-	static cocos2d::Layer* creatLayer();
+	static cocos2d::Layer* createLayer();
 	virtual bool init();
 	virtual void update(float dt);
 	void setHPprogress(int initHealthPointsLimit,int healthPoints);

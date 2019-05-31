@@ -2,15 +2,15 @@
 //Ò¦¿­éª
 //v0.1
 #include "StartScene.h"
-#include "OneMapScene.h"
+#include "OneMapLayer.h"
 #include "Creeps.h"
 #include "Tower.h"
 #include "Hero.h"
-#include "StatusLayer.h"
+#include "ShopLayer.h"
 USING_NS_CC;
-Layer* OneMapScene::CreateLayer()
+Layer* OneMapLayer::CreateLayer()
 {
-	return OneMapScene::create();
+	return OneMapLayer::create();
 }
 
 static void problemLoading(const char* filename)
@@ -18,7 +18,7 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
-bool OneMapScene::init()
+bool OneMapLayer::init()
 {
 	if (!Layer::init())//ÅÐ¶Ï³õÊ¼»¯ÊÇ·ñ³É¹¦
 	{
@@ -32,7 +32,7 @@ bool OneMapScene::init()
 	auto BackItem = MenuItemImage::create(
 		"BackNormal.jpg",
 		"BackSelected.jpg",
-		CC_CALLBACK_1(OneMapScene::menuBackCallback, this)
+		CC_CALLBACK_1(OneMapLayer::menuBackCallback, this)
 	);
 	if (BackItem == nullptr ||
 		BackItem->getContentSize().width <= 0 ||
@@ -66,22 +66,24 @@ bool OneMapScene::init()
 	this->addChild(creep1, 500);
 	*/
 	//success2
+	
 
+	
 
+	
+
+	
 	return true;
 }
 
-void OneMapScene::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»ØÖ÷²Ëµ¥
+void OneMapLayer::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»ØÖ÷²Ëµ¥
 {
 	Director::getInstance()->popScene();
 }
 
 
 
-
-
-
-void OneMapScene::setPlayerPosition(cocos2d::Vec2 position)
+void OneMapLayer::setPlayerPosition(cocos2d::Vec2 position)
 {
 	Vec2 tileCoord = this->tileCoordFromPosition(position);
 	int tileGid = _collidable->getTileGIDAt(tileCoord);
@@ -101,7 +103,7 @@ void OneMapScene::setPlayerPosition(cocos2d::Vec2 position)
 	_player->setPosition(position);
 }
 
-cocos2d::Vec2 OneMapScene::tileCoordFromPosition(cocos2d::Vec2 position)
+cocos2d::Vec2 OneMapLayer::tileCoordFromPosition(cocos2d::Vec2 position)
 {
 	int x = position.x / _tileMap->getTileSize().width;
 	int y =
@@ -112,7 +114,7 @@ cocos2d::Vec2 OneMapScene::tileCoordFromPosition(cocos2d::Vec2 position)
 
 
 //将视角与人物锁定，并且不超过地图显示范围
-void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
+void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);
@@ -140,18 +142,18 @@ void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
 
 
 
-bool OneMapScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+bool OneMapLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	log("onTouchBegan");
 	return false;
 }
 
-void OneMapScene::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
+void OneMapLayer::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	log("onTouchMoved");
 }
 
-void OneMapScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+void OneMapLayer::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	log("onTouchEnded");
 	Vec2 touchLocation = touch->getLocation();

@@ -33,7 +33,7 @@ bool RecoveryLayer::init()
 	}
 	else
 	{
-		BuyOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 600));
+		BuyOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 660));
 	}
 	//weapontwo
 	auto BuyTwo = MenuItemImage::create(
@@ -49,7 +49,7 @@ bool RecoveryLayer::init()
 	}
 	else
 	{
-		BuyTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 467));
+		BuyTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 527));
 	}
 	//three
 	auto BuyThree = MenuItemImage::create(
@@ -65,7 +65,7 @@ bool RecoveryLayer::init()
 	}
 	else
 	{
-		BuyThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 333));
+		BuyThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 393));
 	}
 	//four
 	auto BuyFour = MenuItemImage::create(
@@ -81,7 +81,7 @@ bool RecoveryLayer::init()
 	}
 	else
 	{
-		BuyFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 200));
+		BuyFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 260));
 	}
 	//Esc
 	auto Esc = MenuItemImage::create(
@@ -97,29 +97,29 @@ bool RecoveryLayer::init()
 	}
 	else
 	{
-		Esc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 100, origin.y + 100));
+		Esc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 100, origin.y + 160));
 	}
 	//
 		//·ÅÖÃÎäÆ÷Í¼Æ¬ºÍÃèÊö
-	auto RecoveryOne = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	RecoveryOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 600));
-	auto DescribeOne = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 600));
+	auto RecoveryOne = MenuItemImage::create("equipment/recoveryone.jpg", "equipment/recovery.jpg");
+	RecoveryOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 660));
+	auto DescribeOne = MenuItemImage::create("equipment/Drecoveryone.png", "equipment/Drecoveryone.png");
+	DescribeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 660));
 
-	auto RecoveryTwo = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	RecoveryTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 467));
-	auto DescribeTwo = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 467));
+	auto RecoveryTwo = MenuItemImage::create("equipment/recoverytwo.jpg", "equipment/recoverytwo.jpg");
+	RecoveryTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 527));
+	auto DescribeTwo = MenuItemImage::create("equipment/Drecoverytwo.png", "equipment/Drecoverytwo.png");
+	DescribeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 527));
 
-	auto RecoveryThree = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	RecoveryThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 333));
-	auto DescribeThree = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 333));
+	auto RecoveryThree = MenuItemImage::create("equipment/recoverythree.jpg", "equipment/recoverythree.jpg");
+	RecoveryThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 393));
+	auto DescribeThree = MenuItemImage::create("equipment/Drecoverythree.png", "equipment/Drecoverythree.png");
+	DescribeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 393));
 
-	auto RecoveryFour = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	RecoveryFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 200));
-	auto DescribeFour = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 200));
+	auto RecoveryFour = MenuItemImage::create("equipment/recoveryfour.jpg", "equipment/recoveryfour.jpg");
+	RecoveryFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 260));
+	auto DescribeFour = MenuItemImage::create("equipment/Drecoveryfour.png", "equipment/Drecoveryfour.png");
+	DescribeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 260));
 
 
 

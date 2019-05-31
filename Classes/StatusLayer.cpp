@@ -1,7 +1,7 @@
 #include"StatusLayer.h"
 USING_NS_CC;
 
-Layer* StatusLayer::creatLayer()
+Layer* StatusLayer::createLayer()
 {
 	auto layer = StatusLayer::create();
 	return layer;
@@ -75,23 +75,7 @@ bool StatusLayer::init()
 		emptyHealthbar->setPosition(Vec2(x, y));
 	};
 	this->addChild(emptyHealthbar, 1);
-	auto Healthbar = Sprite::create("healthbar.dds");
-	if (Healthbar == nullptr ||
-		Healthbar->getContentSize().width <= 0 ||
-		Healthbar->getContentSize().height <= 0)
-	{
-		problemLoading("'Healthbar.dds'");
-	}
-	else
-	{
-		Healthbar->setScale(0.5,0.5);
 
-		auto size = Healthbar->getContentSize();
-		float x = origin.x + visibleSize.width / 2;
-		float y = size.height-7;
-		Healthbar->setPosition(Vec2(x, y));
-	};
-	this->addChild(Healthbar, 2);
 	auto emptyManabar = Sprite::create("emptybar.dds");
 	if (emptyManabar == nullptr ||
 		emptyManabar->getContentSize().width <= 0 ||
@@ -108,7 +92,7 @@ bool StatusLayer::init()
 		emptyManabar->setPosition(Vec2(x, y));
 	};
 	this->addChild(emptyManabar, 1);
-	auto Manabar = Sprite::create("Manabar.dds");
+	/*auto Manabar = Sprite::create("Manabar.dds");
 	if (Manabar == nullptr ||
 		Manabar->getContentSize().width <= 0 ||
 		Manabar->getContentSize().height <= 0)
@@ -124,7 +108,7 @@ bool StatusLayer::init()
 		float y =size.height/2-6;
 		Manabar->setPosition(Vec2(x, y));
 	};
-	this->addChild(Manabar, 2);
+	this->addChild(Manabar, 2);*/
 	return true;
 }
 void StatusLayer::update(float dt)

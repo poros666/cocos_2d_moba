@@ -25,8 +25,8 @@ bool EquipmentLayer::init()
 
 	auto Weapon = MenuItemImage::create(
 		"shop/weapon.png",
-		"shop/weapon.png",
-		CC_CALLBACK_1(EquipmentLayer::menuWeaponCallback, this)
+		"shop/weapon.png", 
+		CC_CALLBACK_1(EquipmentLayer::menuWeaponCallback,this)
 	);
 	if (Weapon == nullptr ||
 		Weapon->getContentSize().width <= 0 ||
@@ -36,7 +36,7 @@ bool EquipmentLayer::init()
 	}
 	else
 	{
-		Weapon->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 -200, origin.y + 600));
+		Weapon->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 -200, origin.y + 660));
 	}
 	//添加其他目录
 	auto Shoe = MenuItemImage::create(
@@ -52,7 +52,7 @@ bool EquipmentLayer::init()
 	}
 	else
 	{
-		Shoe->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4-200, origin.y + 467));
+		Shoe->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4-200, origin.y + 527));
 	}
 
 	auto Armor = MenuItemImage::create(
@@ -68,7 +68,7 @@ bool EquipmentLayer::init()
 	}
 	else
 	{
-		Armor->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 -200, origin.y + 333));
+		Armor->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 -200, origin.y + 393));
 	}
 
 	auto Recovery = MenuItemImage::create(
@@ -84,7 +84,7 @@ bool EquipmentLayer::init()
 	}
 	else
 	{
-		Recovery->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4-200 , origin.y + 200));
+		Recovery->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4-200 , origin.y + 260));
 	}
 
 	//
