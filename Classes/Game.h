@@ -8,6 +8,7 @@
 #include"ChooseModeScene.h"
 #include"cocos2d.h"
 #include"ShopLayer.h"
+#include"Skill.h"
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {

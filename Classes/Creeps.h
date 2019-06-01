@@ -63,6 +63,11 @@ public:
 	bool hurt(float atk);// ‹…À.
 	void die();//À¿Õˆ.
 	//void hpRecover(int healthRecoverPoint);//ªÿ—™
-
+	void SetHpBar();
+	void UpdateHpBar(float delta);
+	float x_position = 0;
+	float y_position = 0;
+private:
+	ProgressTimer* HpBarProgress;
 };
 

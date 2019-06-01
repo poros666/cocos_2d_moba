@@ -63,5 +63,10 @@ public:
 	void die();//ËÀÍö
 	void win();//ÅĞ¶ÏÊ¤Àû
 	//void hpRecover(int healthRecoverPoint);//»ØÑª
-
+	void SetHpBar();
+	void UpdateHpBar(float delta);
+	float x_position = 0;
+	float y_position = 0;
+private:
+	ProgressTimer* HpBarProgress;
 };

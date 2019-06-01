@@ -71,7 +71,7 @@ bool OneMapLayer::init()
 	return true;
 }
 
-void OneMapScene::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»ØÖ÷²Ëµ¥
+void OneMapLayer::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»ØÖ÷²Ëµ¥
 {
 	Director::getInstance()->popScene();
 }
