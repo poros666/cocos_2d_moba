@@ -32,7 +32,7 @@ bool WeaponLayer::init()
 		}
 		else
 		{
-			BuyOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 600));
+			BuyOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 660));
 		}
 	//weapontwo
 		auto BuyTwo = MenuItemImage::create(
@@ -48,7 +48,7 @@ bool WeaponLayer::init()
 		}
 		else
 		{
-			BuyTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 467));
+			BuyTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 527));
 		}
 	//three
 		auto BuyThree = MenuItemImage::create(
@@ -64,7 +64,7 @@ bool WeaponLayer::init()
 		}
 		else
 		{
-			BuyThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 333));
+			BuyThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 393));
 		}
 	//four
 		auto BuyFour = MenuItemImage::create(
@@ -80,7 +80,7 @@ bool WeaponLayer::init()
 		}
 		else
 		{
-			BuyFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 200));
+			BuyFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 +275, origin.y + 260));
 		}
 	//Esc
 		auto Esc = MenuItemImage::create(
@@ -96,29 +96,29 @@ bool WeaponLayer::init()
 		}
 		else
 		{
-			Esc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 100, origin.y + 100));
+			Esc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 100, origin.y + 160));
 		}
 	//
 		//·ÅÖÃÎäÆ÷Í¼Æ¬ºÍÃèÊö
-			auto WeaponOne = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			WeaponOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 600));
-			auto DescribeOne = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			DescribeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 600));
+			auto WeaponOne = MenuItemImage::create("equipment/swordone.jpg", "equipment/swordone.jpg");
+			WeaponOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 660));
+			auto DescribeOne = MenuItemImage::create("equipment/Dswordone.png", "equipment/Dswordone.png");
+			DescribeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 660));
 	
-			auto WeaponTwo = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			WeaponTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 467));
-			auto DescribeTwo = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			DescribeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 467));
+			auto WeaponTwo = MenuItemImage::create("equipment/swordtwo.jpg", "equipment/swordtwo.jpg");
+			WeaponTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 527));
+			auto DescribeTwo = MenuItemImage::create("equipment/Dswordtwo.png", "equipment/Dswordtwo.png");
+			DescribeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 527));
 	
-			auto WeaponThree = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			WeaponThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 333));
-			auto DescribeThree = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			DescribeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 333));
+			auto WeaponThree = MenuItemImage::create("equipment/swordthree.jpg", "equipment/swordthree.jpg");
+			WeaponThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 393));
+			auto DescribeThree = MenuItemImage::create("equipment/Dswordthree.png", "equipment/Dswordthree.png");
+			DescribeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 393));
 		
-			auto WeaponFour = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			WeaponFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 200));
-			auto DescribeFour = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-			DescribeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 200));
+			auto WeaponFour = MenuItemImage::create("equipment/swordfour.jpg", "equipment/swordfour.jpg");
+			WeaponFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 260));
+			auto DescribeFour = MenuItemImage::create("equipment/Dswordfour.png", "equipment/Dswordfour.png");
+			DescribeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 260));
 		
 
 

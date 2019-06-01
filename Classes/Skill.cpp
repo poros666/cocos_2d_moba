@@ -25,9 +25,9 @@ bool Skill::init(const std::string& skillName, float Cd, const std::string& skil
 
 	//this->ignoreContentAdaptWithSize(true);
 
-	setSkillName(skillName);//ÉèÖÃ¼¼ÄÜÃû³Æ
-	setCd(Cd);//ÉèÖÃ¼¼ÄÜÀäÈ´Ê±¼ä
-	auto contentSize = this->getContentSize();//»ñÈ¡¼¼ÄÜÍ¼±ê´óÐ¡
+	setSkillName(skillName);//Ã‰Ã¨Ã–ÃƒÂ¼Â¼Ã„ÃœÃƒÃ»Â³Ã†
+	setCd(Cd);//Ã‰Ã¨Ã–ÃƒÂ¼Â¼Ã„ÃœÃ€Ã¤ÃˆÂ´ÃŠÂ±Â¼Ã¤
+	auto contentSize = this->getContentSize();//Â»Ã±ÃˆÂ¡Â¼Â¼Ã„ÃœÃÂ¼Â±ÃªÂ´Ã³ÃÂ¡
 
 	auto cdPicSprite = Sprite::create("skillCdpic.png");
 	progress = ProgressTimer::create(cdPicSprite);
@@ -38,14 +38,14 @@ bool Skill::init(const std::string& skillName, float Cd, const std::string& skil
 	progress->setPosition(Vec2(contentSize.width / 2, contentSize.height / 2));
 	this->addChild(progress);
 
-	setOk(true);//Ä¬ÈÏ¼¼ÄÜÓ¦µ±²»ÄÜÊ¹ÓÃ£¬ÏÖ×ö²âÊÔÉèÎªÄ¬ÈÏ¿ÉÒÔÊ¹ÓÃ
-	setLvl(1);//Ä¬ÈÏ¼¼ÄÜµÈ¼¶Ó¦µ±Îª0£¬²âÊÔÓÃÎª1
+	setOk(true);//Ã„Â¬ÃˆÃÂ¼Â¼Ã„ÃœÃ“Â¦ÂµÂ±Â²Â»Ã„ÃœÃŠÂ¹Ã“ÃƒÂ£Â¬ÃÃ–Ã—Ã¶Â²Ã¢ÃŠÃ”Ã‰Ã¨ÃŽÂªÃ„Â¬ÃˆÃÂ¿Ã‰Ã’Ã”ÃŠÂ¹Ã“Ãƒ
+	setLvl(1);//Ã„Â¬ÃˆÃÂ¼Â¼Ã„ÃœÂµÃˆÂ¼Â¶Ã“Â¦ÂµÂ±ÃŽÂª0Â£Â¬Â²Ã¢ÃŠÃ”Ã“ÃƒÃŽÂª1
 	
 	this->addTouchEventListener([=](Ref * sender, ui::Widget::TouchEventType type) {
 		if (type == ui::Widget::TouchEventType::ENDED)
 			this->Click(owner);
 		});
-	/*¼üÅÌ¼àÌýÔÝÊ±²»ÖªµÀÔõÃ´×ö£¬buttonÃ»ÓÐ¼üÅÌlistenerËÆºõ
+	/*Â¼Ã¼Ã…ÃŒÂ¼Ã ÃŒÃ½Ã”ÃÃŠÂ±Â²Â»Ã–ÂªÂµÃ€Ã”ÃµÃƒÂ´Ã—Ã¶Â£Â¬buttonÃƒÂ»Ã“ÃÂ¼Ã¼Ã…ÃŒlistenerÃ‹Ã†ÂºÃµ
 	auto listenerKeyPad = EventListenerKeyboard::create();
 	listenerKeyPad->onKeyReleased = [=](EventKeyboard::KeyCode keycode, Event * event) {
 
@@ -84,13 +84,17 @@ void Skill::Click(Hero* owner) {
 		//float ss = tempHero->getPositionX();
 		switch (lvl)
 		{
-		case 1:	
+			
+		case 1: 
+		{
 			owner->setHealthPoints(owner->getHealthPoints() + 40);
-
 			ActionInterval * forward = MoveTo::create(4, Vec2(owner->getPositionX() + 100, owner->getPositionY()));
 			owner->runAction(forward);
 			break;
+		}
+
 		case 2:
+		
 			break;
 		case 3:
 			break;

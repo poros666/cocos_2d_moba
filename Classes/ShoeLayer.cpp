@@ -32,7 +32,7 @@ bool ShoeLayer::init()
 	}
 	else
 	{
-		BuyOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 600));
+		BuyOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 660));
 	}
 	//weapontwo
 	auto BuyTwo = MenuItemImage::create(
@@ -48,7 +48,7 @@ bool ShoeLayer::init()
 	}
 	else
 	{
-		BuyTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 467));
+		BuyTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 527));
 	}
 	//three
 	auto BuyThree = MenuItemImage::create(
@@ -64,7 +64,7 @@ bool ShoeLayer::init()
 	}
 	else
 	{
-		BuyThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 333));
+		BuyThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 393));
 	}
 	//four
 	auto BuyFour = MenuItemImage::create(
@@ -80,7 +80,7 @@ bool ShoeLayer::init()
 	}
 	else
 	{
-		BuyFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 200));
+		BuyFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 260));
 	}
 	//Esc
 	auto Esc = MenuItemImage::create(
@@ -96,29 +96,29 @@ bool ShoeLayer::init()
 	}
 	else
 	{
-		Esc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 100, origin.y + 100));
+		Esc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 100, origin.y + 160));
 	}
 	//
 		//·ÅÖÃÎäÆ÷Í¼Æ¬ºÍÃèÊö
-	auto ShoeOne = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	ShoeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 600));
-	auto DescribeOne = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 600));
+	auto ShoeOne = MenuItemImage::create("equipment/shoeone.jpg", "equipment/shoeone.jpg");
+	ShoeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 660));
+	auto DescribeOne = MenuItemImage::create("equipment/Dshoeone.png", "equipment/Dshoeone.png");
+	DescribeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 660));
 
-	auto ShoeTwo = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	ShoeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 467));
-	auto DescribeTwo = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 467));
+	auto ShoeTwo = MenuItemImage::create("equipment/shoetwo.jpg", "equipment/shoetwo.jpg");
+	ShoeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 527));
+	auto DescribeTwo = MenuItemImage::create("equipment/Dshoetwo.png", "equipment/Dshoetwo.png");
+	DescribeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 527));
 
-	auto ShoeThree = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	ShoeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 333));
-	auto DescribeThree = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 333));
+	auto ShoeThree = MenuItemImage::create("equipment/shoethree.jpg", "equipment/shoethree.jpg");
+	ShoeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 393));
+	auto DescribeThree = MenuItemImage::create("equipment/Dshoethree.png", "equipment/Dshoethree.png");
+	DescribeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 393));
 
-	auto ShoeFour = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	ShoeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 200));
-	auto DescribeFour = MenuItemImage::create("equipment/swordone.png", "equipment/swordone.png");
-	DescribeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 50, origin.y + 200));
+	auto ShoeFour = MenuItemImage::create("equipment/shoefour.jpg", "equipment/shoefour.jpg");
+	ShoeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 260));
+	auto DescribeFour = MenuItemImage::create("equipment/Dshoefour.png", "equipment/Dshoefour.png");
+	DescribeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 260));
 
 
 

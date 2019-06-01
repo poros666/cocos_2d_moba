@@ -15,6 +15,7 @@ bool Game::init()
 	HeroPrint();
 	StatusLayerPrint();
 	TowerPrint();
+	ShopLayerPrint();
 	this->scheduleUpdate();
 	this->schedule(schedule_selector(Game::CreepsPrint),1,-1,0);
 	this->schedule(schedule_selector(Game::test), 1);
@@ -32,8 +33,25 @@ void Game::MapLayerPrint()
 	//}
 	this->addChild(Maplayer, 0 ,"MapLayer");
 }
+void Game::ShopLayerPrint()
+{
+	auto ShopItem = MenuItemImage::create("ShopItem.png","ShopItem.png",CC_CALLBACK_1(Game::menuShopCallback, this));
+	 ShopItem->setPosition(Vec2(origin.x + visibleSize.width/2-30, origin.y +visibleSize.height/2-25));
+	auto menu = Menu::create(ShopItem, NULL);
+	this->addChild(menu, 5);
+}
+
+void Game::menuShopCallback(cocos2d::Ref* pSender)
+{
+	auto ShopLayer = ShopLayer::createLayer();
+	this->addChild(ShopLayer, 6);
+}
+
+
 void Game::StatusLayerPrint()
 {
+
+
 	auto Statuslayer = StatusLayer::createLayer();
 	this->addChild(Statuslayer,3,"StatusLayer");
 }
@@ -155,3 +173,11 @@ void Game::test(float delta)
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - 10+Myhero->getHealthRecoverPoints());
 	}
 }
+
+
+
+
+
+
+
+

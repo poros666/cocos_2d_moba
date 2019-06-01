@@ -7,6 +7,7 @@
 #include"ChooseHeroScene.h"
 #include"ChooseModeScene.h"
 #include"cocos2d.h"
+#include"ShopLayer.h"
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -14,6 +15,8 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	void MapLayerPrint();
+	void ShopLayerPrint();
+	void menuShopCallback(cocos2d::Ref* pSender);
 	void HeroPrint();
 	void recreateHero(float delta);
 	void test(float delta);
