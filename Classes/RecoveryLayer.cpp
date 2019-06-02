@@ -84,6 +84,8 @@ bool RecoveryLayer::init()
 		BuyFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 275, origin.y + 260));
 	}
 	//Esc
+	/////
+	/*
 	auto Esc = MenuItemImage::create(
 		"equipment/esc.png",
 		"equipment/esc.png",
@@ -98,7 +100,8 @@ bool RecoveryLayer::init()
 	else
 	{
 		Esc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 100, origin.y + 160));
-	}
+	}*/
+	//////
 	//
 		//∑≈÷√Œ‰∆˜Õº∆¨∫Õ√Ë ˆ
 	auto RecoveryOne = MenuItemImage::create("equipment/recoveryone.jpg", "equipment/recovery.jpg");
@@ -125,7 +128,7 @@ bool RecoveryLayer::init()
 
 
 
-	auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour, Esc,
+	auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour, 
 		RecoveryOne, RecoveryTwo, RecoveryThree, RecoveryFour,
 		DescribeOne, DescribeTwo, DescribeThree, DescribeFour,
 		NULL);

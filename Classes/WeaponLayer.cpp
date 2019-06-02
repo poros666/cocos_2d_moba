@@ -124,7 +124,7 @@ bool WeaponLayer::init()
 
 
 
-		auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour,Esc,
+		auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour,
 			WeaponOne,WeaponTwo,WeaponThree,WeaponFour,
 			DescribeOne,DescribeTwo,DescribeThree,DescribeFour,
 			NULL);
