@@ -7,7 +7,13 @@ static void problemLoading(const char* filename)
 
 cocos2d::Layer* ArmorLayer::createLayer()
 {
-	return ArmorLayer::create();
+	auto layer = new(std::nothrow)ArmorLayer();
+	if (layer && layer->init()) {
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+	return nullptr;
 }
 
 bool ArmorLayer::init()

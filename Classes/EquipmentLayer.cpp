@@ -5,16 +5,22 @@
 #include"ShoeLayer.h"
 #include"ArmorLayer.h"
 #include"RecoveryLayer.h"
-cocos2d::Layer* EquipmentLayer::createLayer()
+cocos2d::Layer* EquipmentLayer::createLayer(Hero* owner)
 {
-	return EquipmentLayer::create();
+	auto layer = new(std::nothrow)EquipmentLayer();
+	if (layer && layer->init(owner)) {
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+	return nullptr;
 }
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
 }
-bool EquipmentLayer::init()
+bool EquipmentLayer::init(Hero* owner)
 {
 	if (!Layer::init()) 
 	{

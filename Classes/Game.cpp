@@ -1,4 +1,5 @@
 #include"Game.h"
+#include"CharacterAni.h"
 int a = 0;
 Scene* Game::createScene()
 {
@@ -11,6 +12,12 @@ bool Game::init()
 	{
 		return false;
 	}
+	CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile("enemies_desert_3-hd.plist", "enemies_desert_3-hd.png");
+
+	auto ani = new CharaAni();
+	ani->init_Executioner();
+
 	MapLayerPrint();
 	HeroPrint();
 	StatusLayerPrint();
@@ -43,24 +50,27 @@ void Game::ShopLayerPrint()
 
 void Game::menuShopCallback(cocos2d::Ref* pSender)
 {
-	auto ShopLayer = ShopLayer::createLayer();
+	auto ShopLayer = ShopLayer::createLayer(Myhero);
 	this->addChild(ShopLayer, 6);
 }
 
 
 void Game::StatusLayerPrint()
 {
-
-
+	auto skill = Skill::createWithNameCdPicOwner("ski_right",5,"Ski_right.png",Myhero);
+	skill->setPosition(Vec2(visibleSize.width /2-200,visibleSize.height/2-200));
 	auto Statuslayer = StatusLayer::createLayer();
 	this->addChild(Statuslayer,3,"StatusLayer");
+	Statuslayer->addChild(skill,1);
 }
 
 void Game::HeroPrint()
 {
 	//生成英雄的函数
 	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
-	Myhero->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 100));
+	Myhero->x_position = visibleSize.width / 2 - 100;
+	Myhero->y_position = visibleSize.height / 2 - 100;
+	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
 	this->addChild(Myhero, 2);
 	SetHpBar();
 	SetManaBar();
@@ -81,7 +91,7 @@ void Game::CreepsPrint(float delta)
 	//生成兵的函数
 
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
-	creep1->setPosition(Vec2(visibleSize.width / 2+a*10, visibleSize.height / 2));
+	creep1->setPosition(Vec2(visibleSize.width / 2+a*5, visibleSize.height / 2));
 	this->addChild(creep1, 2);
 	a++;
 }
@@ -98,7 +108,7 @@ void Game::SetHpBar()
 	HpBarProgress->setType(ProgressTimer::Type::BAR);
 	HpBarProgress->setMidpoint(Vec2(0, 0));
 	HpBarProgress->setBarChangeRate(Vec2(1, 0));
-	HpBarProgress->setPercentage(100);
+	HpBarProgress->setPercentage(100*Myhero->getHealthPoints()/Myhero->getInitHealthPointsLimit());
 	this->addChild(HpBarProgress,4,"HpBarProgress");
 	this->schedule(schedule_selector(Game::UpdateHpBar));
 }
@@ -124,7 +134,7 @@ void Game::SetManaBar()
 	ManaBarProgress->setType(ProgressTimer::Type::BAR);
 	ManaBarProgress->setMidpoint(Vec2(0, 0));
 	ManaBarProgress->setBarChangeRate(Vec2(1, 0));
-	ManaBarProgress->setPercentage(100);
+	ManaBarProgress->setPercentage(100*Myhero->getManaPoints()/Myhero->getInitManaPointsLimit());
 	this->addChild(ManaBarProgress, 4, "ManaBarProgress");
 	this->schedule(schedule_selector(Game::UpdateManaBar));
 }
@@ -164,7 +174,8 @@ void Game::recreateHero(float delta)
 	this->scheduleUpdate();
 	this->schedule(schedule_selector(Game::UpdateHpBar));
 	this->schedule(schedule_selector(Game::UpdateManaBar));
-
+	Myhero->schedule(schedule_selector(Hero::UpdateHpBar));
+	Myhero->schedule(schedule_selector(Hero::UpdateManaBar));
 }
 void Game::test(float delta)
 {

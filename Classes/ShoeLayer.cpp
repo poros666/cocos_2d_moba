@@ -124,7 +124,7 @@ bool ShoeLayer::init()
 
 
 
-	auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour, 
+	auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour,
 		ShoeOne, ShoeTwo, ShoeThree, ShoeFour,
 		DescribeOne, DescribeTwo, DescribeThree, DescribeFour,
 		NULL);

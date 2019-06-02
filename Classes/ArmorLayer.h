@@ -1,5 +1,6 @@
 #pragma once
 #include"cocos2d.h"
+#include"Hero.h"
 USING_NS_CC;
 
 class ArmorLayer :public cocos2d::Layer
@@ -12,5 +13,4 @@ public:
 	void menuWeaponThreeCallback(cocos2d::Ref* pSnender);
 	void menuWeaponFourCallback(cocos2d::Ref* pSender);
 	void menuEscCallback(cocos2d::Ref* pSender);
-	CREATE_FUNC(ArmorLayer);
 };

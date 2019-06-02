@@ -2,9 +2,15 @@
 //介于角色类还未完全实现，暂时搁置此问题
 #include "ShopLayer.h"
 
-cocos2d::Layer* ShopLayer::createLayer()
+cocos2d::Layer* ShopLayer::createLayer(Hero* owner)
 {
-	return ShopLayer::create();
+	auto layer = new(std::nothrow)ShopLayer();
+	if (layer && layer->init(owner)) {
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+	return nullptr;
 }
 static void problemLoading(const char* filename)
 {
@@ -12,7 +18,7 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
 }
 
-bool ShopLayer::init()
+bool ShopLayer::init(Hero* owner)
 {
 	if (!Layer::init())
 	{
@@ -55,7 +61,7 @@ bool ShopLayer::init()
 	{
 		ShopEsc->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 -175, origin.y + 775));
 	}
-	auto layer = EquipmentLayer::createLayer();
+	auto layer = EquipmentLayer::createLayer(owner);
 	this->addChild(layer, 5000);
 	layer->setVisible(true);
 

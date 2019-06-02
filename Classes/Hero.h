@@ -11,7 +11,7 @@ using namespace cocos2d;
 
 /*¶¨ÒåÓ¢ÐÛÃû³ÆÒ²ÊÇÓ¢ÐÛÍ¼Æ¬ÎÄ¼þµÄÃû³Æ
 */
-#define Hero_test "hero_test.png"
+#define Hero_test "desertExecutioner_0001.png"
 #define Hero_1 "hero_1.png"
 #define Hero_2 "hero_2.png"
 #define Hero_3 "hero_3.png"
@@ -83,9 +83,16 @@ public:
 	void mpRecover(int manaRecoverPoint);//»ØÀ¶
 	void addExp(int exp);//»ñµÃ¾­Ñé
 	void addGold(int gold);//»ñµÃ½ðÇ®
-	
+	void SetHpBar();
+	void UpdateHpBar(float delta);
+	void SetManaBar();
+	void UpdateManaBar(float delta);
 	//ÒÉÎÊÕâÐ©Ö»¸Ä±äÊýÖµµÄº¯Êý»òÐí¿ÉÒÔ²»Ð´
 	//¼Ç·Ö°åÔÚÄÄÀï×öºÏÀí£¿ÎÒÕâÀï¿ÉÒÔ¼Ó»ñµÃ×Ü½ðÇ®£¬É±ÈËÊý ËÀÍöÊý£¬ÓÎÏ·½áÊøºó¶ÁÈ¡Êý¾Ý¾Í¿ÉÒÔÁË
-
+	float x_position=0;
+	float y_position=0;
+private:
+	ProgressTimer* HpBarProgress;
+	ProgressTimer* ManaBarProgress;
 };
 

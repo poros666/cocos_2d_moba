@@ -6,7 +6,7 @@
 #include "Creeps.h"
 #include "Tower.h"
 #include "Hero.h"
-#include "ShopLayer.h"
+#include "StatusLayer.h"
 USING_NS_CC;
 Layer* OneMapLayer::CreateLayer()
 {
@@ -66,13 +66,8 @@ bool OneMapLayer::init()
 	this->addChild(creep1, 500);
 	*/
 	//success2
-	
 
-	
 
-	
-
-	
 	return true;
 }
 
@@ -80,6 +75,9 @@ void OneMapLayer::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»Ø�
 {
 	Director::getInstance()->popScene();
 }
+
+
+
 
 
 
