@@ -3,6 +3,7 @@
 
 #include"Skill.h"
 
+
 using namespace cocos2d;
 
 
@@ -87,9 +88,20 @@ void Skill::Click(Hero* owner) {
 			
 		case 1: 
 		{
+
+
+
+			auto Singleton = AnimationCache::getInstance();
+			Animation* right = Singleton->getAnimation("Executioner_attack");
+			Animate* animate_right = Animate::create(right);
+			owner->runAction(CCRepeatForever::create(animate_right));
+
+
+
 			owner->setHealthPoints(owner->getHealthPoints() + 40);
-			ActionInterval * forward = MoveTo::create(4, Vec2(owner->getPositionX() + 100, owner->getPositionY()));
+			ActionInterval * forward = MoveTo::create(4, Vec2(owner->getPositionX() + 40, owner->getPositionY()));
 			owner->runAction(forward);
+			
 			break;
 		}
 

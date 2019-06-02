@@ -1,4 +1,5 @@
 #include"Game.h"
+#include"CharacterAni.h"
 int a = 0;
 Scene* Game::createScene()
 {
@@ -11,6 +12,12 @@ bool Game::init()
 	{
 		return false;
 	}
+	CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile("enemies_desert_3-hd.plist", "enemies_desert_3-hd.png");
+
+	auto ani = new CharaAni();
+	ani->init_Executioner();
+
 	MapLayerPrint();
 	HeroPrint();
 	StatusLayerPrint();

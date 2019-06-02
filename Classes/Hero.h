@@ -11,7 +11,7 @@ using namespace cocos2d;
 
 /*¶¨ÒåÓ¢ÐÛÃû³ÆÒ²ÊÇÓ¢ÐÛÍ¼Æ¬ÎÄ¼þµÄÃû³Æ
 */
-#define Hero_test "hero_test.png"
+#define Hero_test "desertExecutioner_0001.png"
 #define Hero_1 "hero_1.png"
 #define Hero_2 "hero_2.png"
 #define Hero_3 "hero_3.png"
