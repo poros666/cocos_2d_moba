@@ -124,7 +124,7 @@ bool ArmorLayer::init()
 
 
 
-	auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour, Esc,
+	auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour, 
 		ArmorOne, ArmorTwo, ArmorThree, ArmorFour,
 		DescribeOne, DescribeTwo, DescribeThree, DescribeFour,
 		NULL);
