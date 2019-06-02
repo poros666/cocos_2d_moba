@@ -6,7 +6,7 @@
 #include "Creeps.h"
 #include "Tower.h"
 #include "Hero.h"
-
+#include "StatusLayer.h"
 USING_NS_CC;
 Layer* OneMapLayer::CreateLayer()
 {
@@ -46,24 +46,8 @@ bool OneMapLayer::init()
 		float y = origin.y + visibleSize.height / 2 + 360;
 		BackItem->setPosition(Vec2(x, y));
 	}
-	auto ShopItem = MenuItemImage::create(
-		"ShopItem.png",
-		"ShopItem.png",
-		CC_CALLBACK_1(OneMapLayer::menuShopCallback, this)
-	);
-	if (ShopItem == nullptr ||
-		ShopItem->getContentSize().width <= 0 ||
-		ShopItem->getContentSize().height<=0)
-	{
-		problemLoading("'ShopItem.png'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width / 2 + 610;
-		float y = origin.y + visibleSize.height / 2 + 370;
-		ShopItem->setPosition(Vec2(x, y));
-	}
-	auto menu = Menu::create(BackItem,ShopItem, NULL);
+	
+	auto menu = Menu::create(BackItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 100);
 
@@ -82,13 +66,8 @@ bool OneMapLayer::init()
 	this->addChild(creep1, 500);
 	*/
 	//success2
-	
 
-	
 
-	
-
-	
 	return true;
 }
 
@@ -97,12 +76,9 @@ void OneMapLayer::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»Ø�
 	Director::getInstance()->popScene();
 }
 
-void OneMapLayer::menuShopCallback(cocos2d::Ref* pSender)
-{
-	auto shoplayer =ShopLayer::createLayer();
-	this->addChild(shoplayer, 40);
-	shoplayer->setVisible(true);
-}
+
+
+
 
 
 void OneMapLayer::setPlayerPosition(cocos2d::Vec2 position)
@@ -136,7 +112,7 @@ cocos2d::Vec2 OneMapLayer::tileCoordFromPosition(cocos2d::Vec2 position)
 
 
 //将视角与人物锁定，并且不超过地图显示范围
-void OneMapScene::setViewPointCenter(cocos2d::Vec2 position)
+void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);

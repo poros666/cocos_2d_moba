@@ -23,6 +23,8 @@ using namespace cocos2d;
 		hero->setHealthRecoverPoints(1);
 		hero->setInitManaPointsLimit(10);
 		hero->setManaPoints(10);
+		hero->SetHpBar();
+		hero->SetManaBar();
 		//...
 		break;
 		/*
@@ -43,7 +45,7 @@ using namespace cocos2d;
 		return hero;
 	}
 	CC_SAFE_DELETE(hero);
-
+	
 	return nullptr;
 }
 
@@ -81,7 +83,59 @@ void Hero::addExp(int exp) {
 void Hero::die() 
 {
 	//不知道涉及什么先不写
-	//rdc:播放死亡动画
-	
+	//rdc:播放死亡动画,挪回初始位置？
+
 }
 
+void Hero::SetHpBar()
+{
+	auto Healthbar = Sprite::create("healthbar.dds");
+	HpBarProgress = ProgressTimer::create(Healthbar);
+	HpBarProgress->setScale(0.1, 0.5);
+	auto size = HpBarProgress->getContentSize();
+	float x = this->x_position+50;
+	float y = this->y_position+60;
+	HpBarProgress->setPosition(Vec2(x, y));
+	HpBarProgress->setType(ProgressTimer::Type::BAR);
+	HpBarProgress->setMidpoint(Vec2(0, 0));
+	HpBarProgress->setBarChangeRate(Vec2(1, 0));
+	HpBarProgress->setPercentage(100 * this->getHealthPoints() / this->getInitHealthPointsLimit());
+	this->addChild(HpBarProgress, 4, "HpBarProgress");
+	this->schedule(schedule_selector(Hero::UpdateHpBar));
+}
+void Hero::UpdateHpBar(float delta)
+{
+	float percentage = 100 * this->getHealthPoints() / this->getInitHealthPointsLimit();
+	if (percentage <= 0)
+	{
+		percentage = 0;
+		this->unschedule(schedule_selector(Hero::UpdateHpBar));
+	}
+	HpBarProgress->setPercentage(percentage);
+}
+void Hero::SetManaBar()
+{
+	auto ManaBar = Sprite::create("manabar.dds");
+	ManaBarProgress = ProgressTimer::create(ManaBar);
+	ManaBarProgress->setScale(0.1, 0.2);
+	auto size = ManaBarProgress->getContentSize();
+	float x = this->x_position+50;
+	float y = this->y_position+60-size.height/5;
+	ManaBarProgress->setPosition(Vec2(x, y));
+	ManaBarProgress->setType(ProgressTimer::Type::BAR);
+	ManaBarProgress->setMidpoint(Vec2(0, 0));
+	ManaBarProgress->setBarChangeRate(Vec2(1, 0));
+	ManaBarProgress->setPercentage(100*this->getManaPoints()/this->getInitManaPointsLimit());
+	this->addChild(ManaBarProgress, 4, "ManaBarProgress");
+	this->schedule(schedule_selector(Hero::UpdateManaBar));
+}
+void Hero::UpdateManaBar(float delta)
+{
+	float percentage = 100 * this->getManaPoints() / this->getInitManaPointsLimit();
+	if (percentage <= 0)
+	{
+		percentage = 0;
+		this->unschedule(schedule_selector(Hero::UpdateManaBar));
+	}
+	ManaBarProgress->setPercentage(percentage);
+}
