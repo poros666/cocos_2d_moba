@@ -87,6 +87,7 @@ public:
 	void UpdateHpBar(float delta);
 	void SetManaBar();
 	void UpdateManaBar(float delta);
+	void move(Vec2 endPos, Hero* Hero);
 	//ÒÉÎÊÕâÐ©Ö»¸Ä±äÊýÖµµÄº¯Êý»òÐí¿ÉÒÔ²»Ð´
 	//¼Ç·Ö°åÔÚÄÄÀï×öºÏÀí£¿ÎÒÕâÀï¿ÉÒÔ¼Ó»ñµÃ×Ü½ðÇ®£¬É±ÈËÊý ËÀÍöÊý£¬ÓÎÏ·½áÊøºó¶ÁÈ¡Êý¾Ý¾Í¿ÉÒÔÁË
 	float x_position=0;

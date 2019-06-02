@@ -9,6 +9,7 @@
 #include"cocos2d.h"
 #include"ShopLayer.h"
 #include"Skill.h"
+#include"MouseController.h"
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -30,6 +31,7 @@ public:
 	void UpdateHpBar(float delta);
 	void SetManaBar();
 	void UpdateManaBar(float delta);
+	virtual void onEnter();
 	CREATE_FUNC(Game);
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -39,4 +41,5 @@ private:
 	Hero* Myhero;
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;
+	MouseController *listener;
 };

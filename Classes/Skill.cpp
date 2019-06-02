@@ -90,7 +90,7 @@ void Skill::Click(Hero* owner) {
 		{
 
 
-
+			owner->stopAllActions();
 			auto Singleton = AnimationCache::getInstance();
 			Animation* right = Singleton->getAnimation("Executioner_attack");
 			Animate* animate_right = Animate::create(right);

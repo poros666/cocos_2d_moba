@@ -23,10 +23,19 @@ bool Game::init()
 	StatusLayerPrint();
 	TowerPrint();
 	ShopLayerPrint();
-	this->scheduleUpdate();
-	this->schedule(schedule_selector(Game::CreepsPrint),1,-1,0);
-	this->schedule(schedule_selector(Game::test), 1);
+	
 	return true;
+}
+void Game::onEnter()
+{
+	Scene::onEnter();
+	listener = MouseController::create();
+
+	listener->initListener(Myhero);
+
+	this->scheduleUpdate();
+	this->schedule(schedule_selector(Game::CreepsPrint), 1, -1, 0);
+	this->schedule(schedule_selector(Game::test), 1);
 }
 void Game::MapLayerPrint()
 {
@@ -71,7 +80,7 @@ void Game::HeroPrint()
 	Myhero->x_position = visibleSize.width / 2 - 100;
 	Myhero->y_position = visibleSize.height / 2 - 100;
 	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
-	this->addChild(Myhero, 2);
+	this->addChild(Myhero, 2,"Myhero");
 	SetHpBar();
 	SetManaBar();
 }
@@ -95,7 +104,6 @@ void Game::CreepsPrint(float delta)
 	this->addChild(creep1, 2);
 	a++;
 }
-
 void Game::SetHpBar()
 {
 	auto Healthbar = Sprite::create("healthbar.dds");
@@ -184,6 +192,8 @@ void Game::test(float delta)
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - 10+Myhero->getHealthRecoverPoints());
 	}
 }
+
+
 
 
 

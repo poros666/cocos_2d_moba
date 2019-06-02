@@ -94,7 +94,7 @@ void Hero::SetHpBar()
 	HpBarProgress->setScale(0.1, 0.5);
 	auto size = HpBarProgress->getContentSize();
 	float x = this->x_position+50;
-	float y = this->y_position+60;
+	float y = this->y_position+120;
 	HpBarProgress->setPosition(Vec2(x, y));
 	HpBarProgress->setType(ProgressTimer::Type::BAR);
 	HpBarProgress->setMidpoint(Vec2(0, 0));
@@ -120,7 +120,7 @@ void Hero::SetManaBar()
 	ManaBarProgress->setScale(0.1, 0.2);
 	auto size = ManaBarProgress->getContentSize();
 	float x = this->x_position+50;
-	float y = this->y_position+60-size.height/5;
+	float y = this->y_position+120-size.height/5;
 	ManaBarProgress->setPosition(Vec2(x, y));
 	ManaBarProgress->setType(ProgressTimer::Type::BAR);
 	ManaBarProgress->setMidpoint(Vec2(0, 0));
@@ -138,4 +138,13 @@ void Hero::UpdateManaBar(float delta)
 		this->unschedule(schedule_selector(Hero::UpdateManaBar));
 	}
 	ManaBarProgress->setPercentage(percentage);
+}
+void Hero::move(Vec2 endPos,Hero* Hero)
+{
+	Vec2 route = Hero->getPosition() - endPos;
+	float Distance = route.length();
+	double Speed = 200;
+	auto Moving = MoveTo::create(Distance / Speed, endPos);
+	Hero->stopAllActions();
+	Hero->runAction(Moving);
 }
