@@ -145,23 +145,44 @@ bool WeaponLayer::init(Hero* owner)
 
 void WeaponLayer::menuWeaponOneCallback(cocos2d::Ref* pSender,  Hero* owner)
 {
-	owner->setAtk(owner->getAtk() + 20);
+	int money = owner->getGold();
+	;
+	if (money >= 300 &&owner->equipment.size()<6 ) {
+		owner->setGold(money - 300);
+		owner->setAtk(owner->getAtk() + 20);
+		owner->equipment.push_back("WeaponOne");
+	}
+	;
 }
 
 void WeaponLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setAtk(owner->getAtk() + 50);
+	int gold =owner->getGold();
+	if (gold >= 1000 &&owner->equipment.size()<6 ) {
+		owner->setGold(gold - 1000);
+		owner->setAtk(owner->getAtk() + 50);
+		owner->equipment.push_back("WeaponTwo");
+	}
 }
 
 void WeaponLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
-	owner->setAtk(owner->getAtk() + 90);
+	int gold = owner->getGold();
+	if (gold >= 1500 && owner->equipment.size() < 6) {
+		owner->setGold(gold - 1500);
+		owner->setAtk(owner->getAtk() + 90);
+		owner->equipment.push_back("WeaponThree");
+	}
 }
 
 void WeaponLayer::menuWeaponFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setAtk(owner->getAtk() + 150);
-	;
+	int gold = owner->getGold();
+	if (gold >= 2500 && owner->equipment.size() < 6) {
+		owner->setGold(gold - 2500);
+		owner->setAtk(owner->getAtk() + 150);
+		owner->equipment.push_back("WeaponFour");
+	}
 }
 
 void WeaponLayer::menuEscCallback(cocos2d::Ref* pSender)
