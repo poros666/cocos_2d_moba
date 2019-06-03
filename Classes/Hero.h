@@ -92,7 +92,7 @@ public:
 	//¼Ç·Ö°åÔÚÄÄÀï×öºÏÀí£¿ÎÒÕâÀï¿ÉÒÔ¼Ó»ñµÃ×Ü½ðÇ®£¬É±ÈËÊý ËÀÍöÊý£¬ÓÎÏ·½áÊøºó¶ÁÈ¡Êý¾Ý¾Í¿ÉÒÔÁË
 	float x_position=0;
 	float y_position=0;
-	list<string> equipment;
+	list<int> equipment;
 private:
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;

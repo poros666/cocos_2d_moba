@@ -9,6 +9,8 @@
 #include"cocos2d.h"
 #include"ShopLayer.h"
 #include"Skill.h"
+#include "EquipmentShowLayer.h"
+
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -18,6 +20,8 @@ public:
 	void MapLayerPrint();
 	void ShopLayerPrint();
 	void menuShopCallback(cocos2d::Ref* pSender);
+	void ShowPrint();
+	void menuShowCallback(cocos2d::Ref* pSender);
 	void HeroPrint();
 	void recreateHero(float delta);
 	void test(float delta);

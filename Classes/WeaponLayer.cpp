@@ -110,22 +110,29 @@ bool WeaponLayer::init(Hero* owner)
 			WeaponOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 660));
 			auto DescribeOne = MenuItemImage::create("equipment/Dswordone.png", "equipment/Dswordone.png");
 			DescribeOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 660));
-	
+			auto PriceOne = MenuItemImage::create("equipment/100.png", "equipment/100.png");
+			PriceOne->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 210, origin.y + 660));
+
 			auto WeaponTwo = MenuItemImage::create("equipment/swordtwo.jpg", "equipment/swordtwo.jpg");
 			WeaponTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 527));
 			auto DescribeTwo = MenuItemImage::create("equipment/Dswordtwo.png", "equipment/Dswordtwo.png");
 			DescribeTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 527));
+			auto PriceTwo = MenuItemImage::create("equipment/300.png", "equipment/300.png");
+			PriceTwo->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 210, origin.y + 527));
 	
 			auto WeaponThree = MenuItemImage::create("equipment/swordthree.jpg", "equipment/swordthree.jpg");
 			WeaponThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 393));
 			auto DescribeThree = MenuItemImage::create("equipment/Dswordthree.png", "equipment/Dswordthree.png");
 			DescribeThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 393));
-		
+			auto PriceThree = MenuItemImage::create("equipment/500.png", "equipment/500.png");
+			PriceThree->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 210, origin.y + 393));
+
 			auto WeaponFour = MenuItemImage::create("equipment/swordfour.jpg", "equipment/swordfour.jpg");
 			WeaponFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 - 125, origin.y + 260));
 			auto DescribeFour = MenuItemImage::create("equipment/Dswordfour.png", "equipment/Dswordfour.png");
 			DescribeFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 50, origin.y + 260));
-		
+			auto PriceFour = MenuItemImage::create("equipment/999.png", "equipment/999.png");
+			PriceFour->setPosition(Vec2(origin.x + visibleSize.width * 3 / 4 + 210, origin.y + 260));
 
 
 
@@ -133,6 +140,7 @@ bool WeaponLayer::init(Hero* owner)
 		auto menu = Menu::create(BuyOne, BuyTwo, BuyThree, BuyFour,
 			WeaponOne,WeaponTwo,WeaponThree,WeaponFour,
 			DescribeOne,DescribeTwo,DescribeThree,DescribeFour,
+			PriceOne,PriceTwo,PriceThree,PriceFour,
 			NULL);
 		menu->setPosition(Vec2::ZERO);
 		this->addChild(menu, 3);
@@ -147,10 +155,10 @@ void WeaponLayer::menuWeaponOneCallback(cocos2d::Ref* pSender,  Hero* owner)
 {
 	int money = owner->getGold();
 	;
-	if (money >= 300 &&owner->equipment.size()<6 ) {
-		owner->setGold(money - 300);
+	if (money >= 100 &&owner->equipment.size()<6 ) {
+		owner->setGold(money - 100);
 		owner->setAtk(owner->getAtk() + 20);
-		owner->equipment.push_back("WeaponOne");
+		owner->equipment.push_back(11);
 	}
 	;
 }
@@ -158,30 +166,30 @@ void WeaponLayer::menuWeaponOneCallback(cocos2d::Ref* pSender,  Hero* owner)
 void WeaponLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
 	int gold =owner->getGold();
-	if (gold >= 1000 &&owner->equipment.size()<6 ) {
-		owner->setGold(gold - 1000);
+	if (gold >= 300 &&owner->equipment.size()<6 ) {
+		owner->setGold(gold - 300);
 		owner->setAtk(owner->getAtk() + 50);
-		owner->equipment.push_back("WeaponTwo");
+		owner->equipment.push_back(12);
 	}
 }
 
 void WeaponLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
 	int gold = owner->getGold();
-	if (gold >= 1500 && owner->equipment.size() < 6) {
-		owner->setGold(gold - 1500);
+	if (gold >= 500 && owner->equipment.size() < 6) {
+		owner->setGold(gold - 500);
 		owner->setAtk(owner->getAtk() + 90);
-		owner->equipment.push_back("WeaponThree");
+		owner->equipment.push_back(13);
 	}
 }
 
 void WeaponLayer::menuWeaponFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
 	int gold = owner->getGold();
-	if (gold >= 2500 && owner->equipment.size() < 6) {
-		owner->setGold(gold - 2500);
+	if (gold >=999 && owner->equipment.size() < 6) {
+		owner->setGold(gold - 999);
 		owner->setAtk(owner->getAtk() + 150);
-		owner->equipment.push_back("WeaponFour");
+		owner->equipment.push_back(14);
 	}
 }
 
