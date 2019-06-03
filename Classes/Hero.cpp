@@ -23,6 +23,7 @@ using namespace cocos2d;
 		hero->setHealthRecoverPoints(1);
 		hero->setInitManaPointsLimit(10);
 		hero->setManaPoints(10);
+		hero->setMoveSpeed(200);
 		hero->SetHpBar();
 		hero->SetManaBar();
 		//...

@@ -1,8 +1,14 @@
 #include "WeaponLayer.h"
 
-cocos2d::Layer* WeaponLayer::createLayer()
+cocos2d::Layer* WeaponLayer::createLayer(Hero* owner)
 {
-	return WeaponLayer::create();
+	auto layer = new(std::nothrow)WeaponLayer();
+	if (layer && layer->init(owner)) {
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+	return nullptr;
 }
 static void problemLoading(const char* filename)
 {
@@ -10,7 +16,7 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
 }
 
-bool WeaponLayer::init()
+bool WeaponLayer::init(Hero* owner)
 {
 	if (!Layer::init()) 
 	{
@@ -22,7 +28,7 @@ bool WeaponLayer::init()
 		auto BuyOne = MenuItemImage::create(
 			"equipment/buy.png",
 			"equipment/buy.png",
-			CC_CALLBACK_1(WeaponLayer::menuWeaponOneCallback, this)
+			CC_CALLBACK_1(WeaponLayer::menuWeaponOneCallback, this,owner)
 		);
 		if (BuyOne == nullptr ||
 			BuyOne->getContentSize().width <= 0 ||
@@ -38,7 +44,7 @@ bool WeaponLayer::init()
 		auto BuyTwo = MenuItemImage::create(
 			"equipment/buy.png",
 			"equipment/buy.png",
-			CC_CALLBACK_1(WeaponLayer::menuWeaponTwoCallback, this)
+			CC_CALLBACK_1(WeaponLayer::menuWeaponTwoCallback, this,owner)
 		);
 		if (BuyTwo == nullptr ||
 			BuyTwo->getContentSize().width <= 0 ||
@@ -54,7 +60,7 @@ bool WeaponLayer::init()
 		auto BuyThree = MenuItemImage::create(
 			"equipment/buy.png",
 			"equipment/buy.png",
-			CC_CALLBACK_1(WeaponLayer::menuWeaponThreeCallback, this)
+			CC_CALLBACK_1(WeaponLayer::menuWeaponThreeCallback, this,owner)
 		);
 		if (BuyThree == nullptr ||
 			BuyThree->getContentSize().width <= 0 ||
@@ -70,7 +76,7 @@ bool WeaponLayer::init()
 		auto BuyFour = MenuItemImage::create(
 			"equipment/buy.png",
 			"equipment/buy.png",
-			CC_CALLBACK_1(WeaponLayer::menuWeaponFourCallback, this)
+			CC_CALLBACK_1(WeaponLayer::menuWeaponFourCallback, this,owner)
 		);
 		if (BuyFour == nullptr ||
 			BuyFour->getContentSize().width <= 0 ||
@@ -137,21 +143,25 @@ bool WeaponLayer::init()
 	
 }
 
-void WeaponLayer::menuWeaponOneCallback(cocos2d::Ref* pSender)
+void WeaponLayer::menuWeaponOneCallback(cocos2d::Ref* pSender,  Hero* owner)
 {
-
+	owner->setAtk(owner->getAtk() + 20);
 }
 
-void WeaponLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender)
+void WeaponLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setAtk(owner->getAtk() + 50);
 }
 
-void WeaponLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender)
+void WeaponLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
+	owner->setAtk(owner->getAtk() + 90);
 }
 
-void WeaponLayer::menuWeaponFourCallback(cocos2d::Ref* pSender)
+void WeaponLayer::menuWeaponFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setAtk(owner->getAtk() + 150);
+	;
 }
 
 void WeaponLayer::menuEscCallback(cocos2d::Ref* pSender)

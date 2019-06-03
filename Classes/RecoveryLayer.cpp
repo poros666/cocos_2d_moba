@@ -1,8 +1,14 @@
 #include "RecoveryLayer.h"
 
-cocos2d::Layer* RecoveryLayer::createLayer()
+cocos2d::Layer* RecoveryLayer::createLayer(Hero* owner)
 {
-	return RecoveryLayer::create();
+	auto layer = new(std::nothrow)RecoveryLayer();
+	if (layer && layer->init(owner)) {
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+	return nullptr;
 }
 static void problemLoading(const char* filename)
 {
@@ -11,7 +17,7 @@ static void problemLoading(const char* filename)
 }
 
 
-bool RecoveryLayer::init()
+bool RecoveryLayer::init(Hero* owner)
 {
 	if (!Layer::init())
 	{
@@ -23,7 +29,7 @@ bool RecoveryLayer::init()
 	auto BuyOne = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(RecoveryLayer::menuWeaponOneCallback, this)
+		CC_CALLBACK_1(RecoveryLayer::menuWeaponOneCallback, this,owner)
 	);
 	if (BuyOne == nullptr ||
 		BuyOne->getContentSize().width <= 0 ||
@@ -39,7 +45,7 @@ bool RecoveryLayer::init()
 	auto BuyTwo = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(RecoveryLayer::menuWeaponTwoCallback, this)
+		CC_CALLBACK_1(RecoveryLayer::menuWeaponTwoCallback, this,owner)
 	);
 	if (BuyTwo == nullptr ||
 		BuyTwo->getContentSize().width <= 0 ||
@@ -55,7 +61,7 @@ bool RecoveryLayer::init()
 	auto BuyThree = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(RecoveryLayer::menuWeaponThreeCallback, this)
+		CC_CALLBACK_1(RecoveryLayer::menuWeaponThreeCallback, this,owner)
 	);
 	if (BuyThree == nullptr ||
 		BuyThree->getContentSize().width <= 0 ||
@@ -71,7 +77,7 @@ bool RecoveryLayer::init()
 	auto BuyFour = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(RecoveryLayer::menuWeaponFourCallback, this)
+		CC_CALLBACK_1(RecoveryLayer::menuWeaponFourCallback, this,owner)
 	);
 	if (BuyFour == nullptr ||
 		BuyFour->getContentSize().width <= 0 ||
@@ -137,20 +143,28 @@ bool RecoveryLayer::init()
 	return true;
 }
 
-void RecoveryLayer::menuWeaponOneCallback(cocos2d::Ref* pSender)
+void RecoveryLayer::menuWeaponOneCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 200);
+	owner->setManaPoints(owner->getManaPoints() + 200);
 }
 
-void RecoveryLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender)
+void RecoveryLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 500);
+	owner->setManaPoints(owner->getManaPoints() + 500);
 }
 
-void RecoveryLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender)
+void RecoveryLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
+	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 900);
+	owner->setManaPoints(owner->getManaPoints() + 900);
 }
 
-void RecoveryLayer::menuWeaponFourCallback(cocos2d::Ref* pSender)
+void RecoveryLayer::menuWeaponFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 2000);
+	owner->setManaPoints(owner->getManaPoints() + 2000);
 }
 
 void RecoveryLayer::menuEscCallback(cocos2d::Ref* pSender)

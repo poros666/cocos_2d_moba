@@ -5,10 +5,10 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
 }
 
-cocos2d::Layer* ArmorLayer::createLayer()
+cocos2d::Layer* ArmorLayer::createLayer(Hero* owner)
 {
 	auto layer = new(std::nothrow)ArmorLayer();
-	if (layer && layer->init()) {
+	if (layer && layer->init(owner)) {
 		layer->autorelease();
 		return layer;
 	}
@@ -16,7 +16,7 @@ cocos2d::Layer* ArmorLayer::createLayer()
 	return nullptr;
 }
 
-bool ArmorLayer::init()
+bool ArmorLayer::init(Hero* owner)
 {
 	if (!Layer::init())
 	{
@@ -28,7 +28,7 @@ bool ArmorLayer::init()
 	auto BuyOne = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponOneCallback, this)
+		CC_CALLBACK_1(ArmorLayer::menuWeaponOneCallback, this,owner)
 	);
 	if (BuyOne == nullptr ||
 		BuyOne->getContentSize().width <= 0 ||
@@ -44,7 +44,7 @@ bool ArmorLayer::init()
 	auto BuyTwo = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponTwoCallback, this)
+		CC_CALLBACK_1(ArmorLayer::menuWeaponTwoCallback, this,owner)
 	);
 	if (BuyTwo == nullptr ||
 		BuyTwo->getContentSize().width <= 0 ||
@@ -60,7 +60,7 @@ bool ArmorLayer::init()
 	auto BuyThree = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponThreeCallback, this)
+		CC_CALLBACK_1(ArmorLayer::menuWeaponThreeCallback, this,owner)
 	);
 	if (BuyThree == nullptr ||
 		BuyThree->getContentSize().width <= 0 ||
@@ -76,7 +76,7 @@ bool ArmorLayer::init()
 	auto BuyFour = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponFourCallback, this)
+		CC_CALLBACK_1(ArmorLayer::menuWeaponFourCallback, this,owner)
 	);
 	if (BuyFour == nullptr ||
 		BuyFour->getContentSize().width <= 0 ||
@@ -142,20 +142,28 @@ bool ArmorLayer::init()
 	return true;
 }
 
-void ArmorLayer::menuWeaponOneCallback(cocos2d::Ref* pSender)
+void ArmorLayer::menuWeaponOneCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 200);
+	owner->setHealthPoints(owner->getHealthPoints() + 200);
 }
 
-void ArmorLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender)
+void ArmorLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 500);
+	owner->setHealthPoints(owner->getHealthPoints() + 500);
 }
 
-void ArmorLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender)
+void ArmorLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
+	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 900);
+	owner->setHealthPoints(owner->getHealthPoints() + 900);
 }
 
-void ArmorLayer::menuWeaponFourCallback(cocos2d::Ref* pSender)
+void ArmorLayer::menuWeaponFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 2000);
+	owner->setHealthPoints(owner->getHealthPoints() + 2000);
 }
 
 void ArmorLayer::menuEscCallback(cocos2d::Ref* pSender)

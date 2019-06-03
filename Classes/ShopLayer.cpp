@@ -28,14 +28,14 @@ bool ShopLayer::init(Hero* owner)
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	auto ShopBackground = MenuItemImage::create(
-		"shop/shopbackground.jpg",
-		"shop/shopbackground.jpg"
+		"shop/shopbackground1.jpg",
+		"shop/shopbackground1.jpg"
 	);
 	if (ShopBackground == nullptr ||
 		ShopBackground->getContentSize().width <= 0 ||
 		ShopBackground->getContentSize().height < +0)
 	{
-		problemLoading("'shop/shopbackground.jpg' and 'shop/shopbackground.jpg'");
+		problemLoading("'shop/shopbackground1.jpg' and 'shop/shopbackground1.jpg'");
 	}
 	else 
 	{

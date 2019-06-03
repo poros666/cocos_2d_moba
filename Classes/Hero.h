@@ -57,7 +57,7 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, skillLevel_3, SkillLevel_3);//Èý¼¼ÄÜµÈ¼¶
 	CC_SYNTHESIZE(int, skillLevel_4, SkillLevel_4);//ËÄ¼¼ÄÜµÈ¼¶
 
-
+	CC_SYNTHESIZE(int, movespeed, MoveSpeed);
 	CC_SYNTHESIZE(int, gold, Gold);//½ðÇ® 
 	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//ÎïÆ·ÊýÁ¿
 

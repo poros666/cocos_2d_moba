@@ -1,8 +1,14 @@
 #include "ShoeLayer.h"
 
-cocos2d::Layer* ShoeLayer::createLayer()
+cocos2d::Layer* ShoeLayer::createLayer(Hero* owner)
 {
-	return ShoeLayer::create();
+	auto layer = new(std::nothrow)ShoeLayer();
+	if (layer && layer->init(owner)) {
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+	return nullptr;
 }
 static void problemLoading(const char* filename)
 {
@@ -10,7 +16,7 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
 }
 
-bool ShoeLayer::init()
+bool ShoeLayer::init(Hero* owner)
 {
 	if (!Layer::init())
 	{
@@ -22,7 +28,7 @@ bool ShoeLayer::init()
 	auto BuyOne = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ShoeLayer::menuShoeOneCallback, this)
+		CC_CALLBACK_1(ShoeLayer::menuShoeOneCallback, this,owner)
 	);
 	if (BuyOne == nullptr ||
 		BuyOne->getContentSize().width <= 0 ||
@@ -38,7 +44,7 @@ bool ShoeLayer::init()
 	auto BuyTwo = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ShoeLayer::menuShoeTwoCallback, this)
+		CC_CALLBACK_1(ShoeLayer::menuShoeTwoCallback, this,owner)
 	);
 	if (BuyTwo == nullptr ||
 		BuyTwo->getContentSize().width <= 0 ||
@@ -54,7 +60,7 @@ bool ShoeLayer::init()
 	auto BuyThree = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ShoeLayer::menuShoeThreeCallback, this)
+		CC_CALLBACK_1(ShoeLayer::menuShoeThreeCallback, this,owner)
 	);
 	if (BuyThree == nullptr ||
 		BuyThree->getContentSize().width <= 0 ||
@@ -70,7 +76,7 @@ bool ShoeLayer::init()
 	auto BuyFour = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ShoeLayer::menuShoeFourCallback, this)
+		CC_CALLBACK_1(ShoeLayer::menuShoeFourCallback, this,owner)
 	);
 	if (BuyFour == nullptr ||
 		BuyFour->getContentSize().width <= 0 ||
@@ -136,20 +142,24 @@ bool ShoeLayer::init()
 	return true;
 }
 
-void ShoeLayer::menuShoeOneCallback(cocos2d::Ref* pSender)
+void ShoeLayer::menuShoeOneCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setMoveSpeed(owner->getMoveSpeed() + 30);
 }
 
-void ShoeLayer::menuShoeTwoCallback(cocos2d::Ref* pSender)
+void ShoeLayer::menuShoeTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setMoveSpeed(owner->getMoveSpeed() + 45);
 }
 
-void ShoeLayer::menuShoeThreeCallback(cocos2d::Ref* pSnender)
+void ShoeLayer::menuShoeThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
+	owner->setMoveSpeed(owner->getMoveSpeed() + 60);
 }
 
-void ShoeLayer::menuShoeFourCallback(cocos2d::Ref* pSender)
+void ShoeLayer::menuShoeFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
+	owner->setMoveSpeed(owner->getMoveSpeed() + 90);
 }
 
 void ShoeLayer::menuEscCallback(cocos2d::Ref* pSender)
