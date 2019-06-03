@@ -28,7 +28,7 @@ bool ArmorLayer::init(Hero* owner)
 	auto BuyOne = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponOneCallback, this,owner)
+		CC_CALLBACK_1(ArmorLayer::menuArmorOneCallback, this,owner)
 	);
 	if (BuyOne == nullptr ||
 		BuyOne->getContentSize().width <= 0 ||
@@ -44,7 +44,7 @@ bool ArmorLayer::init(Hero* owner)
 	auto BuyTwo = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponTwoCallback, this,owner)
+		CC_CALLBACK_1(ArmorLayer::menuArmorTwoCallback, this,owner)
 	);
 	if (BuyTwo == nullptr ||
 		BuyTwo->getContentSize().width <= 0 ||
@@ -60,7 +60,7 @@ bool ArmorLayer::init(Hero* owner)
 	auto BuyThree = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponThreeCallback, this,owner)
+		CC_CALLBACK_1(ArmorLayer::menuArmorThreeCallback, this,owner)
 	);
 	if (BuyThree == nullptr ||
 		BuyThree->getContentSize().width <= 0 ||
@@ -76,7 +76,7 @@ bool ArmorLayer::init(Hero* owner)
 	auto BuyFour = MenuItemImage::create(
 		"equipment/buy.png",
 		"equipment/buy.png",
-		CC_CALLBACK_1(ArmorLayer::menuWeaponFourCallback, this,owner)
+		CC_CALLBACK_1(ArmorLayer::menuArmorFourCallback, this,owner)
 	);
 	if (BuyFour == nullptr ||
 		BuyFour->getContentSize().width <= 0 ||
@@ -142,28 +142,50 @@ bool ArmorLayer::init(Hero* owner)
 	return true;
 }
 
-void ArmorLayer::menuWeaponOneCallback(cocos2d::Ref* pSender, Hero* owner)
+void ArmorLayer::menuArmorOneCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 200);
-	owner->setHealthPoints(owner->getHealthPoints() + 200);
+	int money = owner->getGold();
+	if (money >= 300 && owner->equipment.size() < 6) {
+		owner->setGold(money - 300);
+		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 200);
+		owner->setHealthPoints(owner->getHealthPoints() + 200);
+		owner->equipment.push_back("ArmorOne");
+	}
 }
 
-void ArmorLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender, Hero* owner)
+void ArmorLayer::menuArmorTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 500);
-	owner->setHealthPoints(owner->getHealthPoints() + 500);
+	int money = owner->getGold();
+	if (money >= 700 && owner->equipment.size() < 6) {
+		owner->setGold(money - 700);
+		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 500);
+		owner->setHealthPoints(owner->getHealthPoints() + 500);
+		owner->equipment.push_back("ArmorTwo");
+	}
+
 }
 
-void ArmorLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
+void ArmorLayer::menuArmorThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
-	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 900);
-	owner->setHealthPoints(owner->getHealthPoints() + 900);
+	int money = owner->getGold();
+	if (money >= 1500 && owner->equipment.size() < 6) {
+		owner->setGold(money - 1500);
+		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 900);
+		owner->setHealthPoints(owner->getHealthPoints() + 900);
+		owner->equipment.push_back("ArmorThree");
+	}
+
 }
 
-void ArmorLayer::menuWeaponFourCallback(cocos2d::Ref* pSender, Hero* owner)
+void ArmorLayer::menuArmorFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 2000);
-	owner->setHealthPoints(owner->getHealthPoints() + 2000);
+	int money = owner->getGold();
+	if (money >= 3000 && owner->equipment.size() < 6) {
+		owner->setGold(money - 3000);
+		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 2000);
+		owner->setHealthPoints(owner->getHealthPoints() + 2000);
+		owner->equipment.push_back("ArmorFour");
+	}
 }
 
 void ArmorLayer::menuEscCallback(cocos2d::Ref* pSender)

@@ -145,26 +145,48 @@ bool RecoveryLayer::init(Hero* owner)
 
 void RecoveryLayer::menuWeaponOneCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 200);
-	owner->setManaPoints(owner->getManaPoints() + 200);
+	int money = owner->getGold();
+	if (money >= 300 && owner->equipment.size() < 6) {
+		owner->setGold(money - 300);
+		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 200);
+		owner->setManaPoints(owner->getManaPoints() + 200);
+		owner->equipment.push_back("RecoveryOne");
+	}
+
 }
 
 void RecoveryLayer::menuWeaponTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 500);
-	owner->setManaPoints(owner->getManaPoints() + 500);
+	int money = owner->getGold();
+	if (money >= 700 && owner->equipment.size() < 6) {
+		owner->setGold(money - 700);
+		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 500);
+		owner->setManaPoints(owner->getManaPoints() + 500);
+		owner->equipment.push_back("RecoveryTwo");
+	}
 }
 
 void RecoveryLayer::menuWeaponThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
-	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 900);
-	owner->setManaPoints(owner->getManaPoints() + 900);
+	int money = owner->getGold();
+	if (money >= 1500 && owner->equipment.size() < 6) {
+		owner->setGold(money - 1500);
+		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 900);
+		owner->setManaPoints(owner->getManaPoints() + 900);
+		owner->equipment.push_back("RecoveryThree");
+	}
 }
 
 void RecoveryLayer::menuWeaponFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 2000);
-	owner->setManaPoints(owner->getManaPoints() + 2000);
+	int money = owner->getGold();
+	if (money >= 3000 && owner->equipment.size() < 6) {
+		owner->setGold(money - 3000);
+		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 2000);
+		owner->setManaPoints(owner->getManaPoints() + 2000);
+		owner->equipment.push_back("RecoveryFour");
+	}
+
 }
 
 void RecoveryLayer::menuEscCallback(cocos2d::Ref* pSender)

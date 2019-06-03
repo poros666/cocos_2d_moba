@@ -144,22 +144,43 @@ bool ShoeLayer::init(Hero* owner)
 
 void ShoeLayer::menuShoeOneCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setMoveSpeed(owner->getMoveSpeed() + 30);
+	int money = owner->getGold();
+	if (money >= 200 && owner->equipment.size() < 6) {
+		owner->setGold(money - 200);
+		owner->setMoveSpeed(owner->getMoveSpeed() + 30);
+		owner->equipment.push_back("ShoeOne");
+	}
+
 }
 
 void ShoeLayer::menuShoeTwoCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setMoveSpeed(owner->getMoveSpeed() + 45);
+	int money = owner->getGold();
+	if (money >= 300 && owner->equipment.size() < 6) {
+		owner->setGold(money - 300);
+		owner->setMoveSpeed(owner->getMoveSpeed() + 45);
+		owner->equipment.push_back("ShoeTwo");
+	}
 }
 
 void ShoeLayer::menuShoeThreeCallback(cocos2d::Ref* pSnender, Hero* owner)
 {
-	owner->setMoveSpeed(owner->getMoveSpeed() + 60);
+	int money = owner->getGold();
+	if (money >= 500 && owner->equipment.size() < 6) {
+		owner->setGold(money - 500);
+		owner->setMoveSpeed(owner->getMoveSpeed() + 60);
+		owner->equipment.push_back("ShoeThree");
+	}
 }
 
 void ShoeLayer::menuShoeFourCallback(cocos2d::Ref* pSender, Hero* owner)
 {
-	owner->setMoveSpeed(owner->getMoveSpeed() + 90);
+	int money = owner->getGold();
+	if (money >= 1000 && owner->equipment.size() < 6) {
+		owner->setGold(money - 1000);
+		owner->setMoveSpeed(owner->getMoveSpeed() + 90);
+		owner->equipment.push_back("ShoeFour");
+	}
 }
 
 void ShoeLayer::menuEscCallback(cocos2d::Ref* pSender)
