@@ -12,5 +12,7 @@ public:
 	void menuSellFourCallback(Ref* pSender, Hero* owner);
 	void menuSellFiveCallback(Ref* pSender, Hero* owner);
 	void menuSellSixCallback(Ref* pSender, Hero* owner);
+	void deleteProperty(int number,Hero* owner);
+	void updateEquipment(Hero* owner);
 	void menuEscCallback(cocos2d::Ref* pSender);
 };
