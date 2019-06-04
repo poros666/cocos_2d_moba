@@ -422,44 +422,74 @@ void EquipmentShowLayer::deleteProperty(int number, Hero* owner)
 	{
 	case 11: {
 		owner->setAtk(owner->getAtk()-20);
+		break;
 	}case 12: {
 		owner->setAtk(owner->getAtk() - 50);
+		break;
 	}case 13: {
 		owner->setAtk(owner->getAtk() - 90);
+		break;
+
 	}case 14: {
 		owner->setAtk(owner->getAtk() - 150);
+		break;
+
 	}case 21: {
 		owner->setMoveSpeed(owner->getMoveSpeed() - 30);
+		break;
+
 	}case 22: {
 		owner->setMoveSpeed(owner->getMoveSpeed() - 45);
+		break;
+
 	}case 23: {
 		owner->setMoveSpeed(owner->getMoveSpeed() - 60);
+		break;
+
 	}case 24: {
 		owner->setMoveSpeed(owner->getMoveSpeed() - 90);
+		break;
+
 	}case 31: {
 		owner->setHealthPoints(owner->getHealthPoints() - 200);
 		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() - 200);
+		break;
+
 	}case 32: {
 		owner->setHealthPoints(owner->getHealthPoints() - 500);
 		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() - 500);
+		break;
+
 	}case 33: {
 		owner->setHealthPoints(owner->getHealthPoints() - 900);
 		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() - 900);
+		break;
+
 	}case 34: {
 		owner->setHealthPoints(owner->getHealthPoints() - 2000);
 		owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() - 2000);
+		break;
+
 	}case 41: {
 		owner->setManaPoints(owner->getManaPoints() - 200);
 		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() - 200);
+		break;
+
 	}case 42: {
 		owner->setManaPoints(owner->getManaPoints() - 500);
 		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() - 500);
+		break;
+
 	}case 43: {
 		owner->setManaPoints(owner->getManaPoints() - 900);
 		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() - 900);
+		break;
+
 	}case 44: {
 		owner->setManaPoints(owner->getManaPoints() - 2000);
 		owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() - 2000);
+		break;
+
 	}
 	default:
 		break;

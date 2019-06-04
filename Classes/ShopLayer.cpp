@@ -1,7 +1,6 @@
 //该文件内的所有setposition的时候都应该加上player的位置，否则会显示错误，
 //介于角色类还未完全实现，暂时搁置此问题
 #include "ShopLayer.h"
-
 cocos2d::Layer* ShopLayer::createLayer(Hero* owner)
 {
 	auto layer = new(std::nothrow)ShopLayer();
