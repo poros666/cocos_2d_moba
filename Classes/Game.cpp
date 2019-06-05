@@ -1,6 +1,5 @@
 #include"Game.h"
 #include"CharacterAni.h"
-int a = 0;
 Scene* Game::createScene()
 {
 	return Game::create();
@@ -238,7 +237,7 @@ void Game::initKeyListener(Hero* hero)
 		{
 			if (this->getChildByName("Shop") == nullptr)
 			{
-				auto ShopLayer = ShopLayer::createLayer();
+				auto ShopLayer = ShopLayer::createLayer(hero);
 				this->addChild(ShopLayer, 6,"Shop");
 				//Mouselistener->setEnabled(false);
 			}

@@ -146,7 +146,7 @@ void Hero::move(Vec2 endPos,Hero* Hero)
 {
 	Vec2 route = Hero->getPosition() - endPos;
 	float Distance = route.length();
-	double Speed = 200;
+	double Speed = this->getMoveSpeed();
 	auto Moving = MoveTo::create(Distance / Speed, endPos);
 	Hero->stopAllActions();
 	Hero->runAction(Moving);
