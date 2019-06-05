@@ -1,5 +1,6 @@
 #include"Game.h"
 #include"CharacterAni.h"
+int a = 0;
 Scene* Game::createScene()
 {
 	return Game::create();
