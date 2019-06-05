@@ -51,10 +51,11 @@ using namespace cocos2d;
 
 bool Hero::hurt(float atk) {
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
-
+	int hp=this->getHealthPoints();
+	//hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	hp -= atk;
 	if (hp <= 0) {
+		setHealthPoints(0);
 		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
 		return true;
 	}

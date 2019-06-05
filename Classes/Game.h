@@ -9,7 +9,7 @@
 #include"cocos2d.h"
 #include"ShopLayer.h"
 #include"Skill.h"
-#include"MouseController.h"
+#include"ScoreBoard.h"
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -21,10 +21,11 @@ public:
 	void menuShopCallback(cocos2d::Ref* pSender);
 	void HeroPrint();
 	void recreateHero(float delta);
-	void test(float delta);
 	void CreepsPrint(float delta);
 	void StatusLayerPrint();
 	void TowerPrint();
+	void ScoreBoardPrint();
+	void ScoreBoardRelesed();
 	virtual void update(float delta);
 	void HeroDie();
 	void SetHpBar();
@@ -32,6 +33,8 @@ public:
 	void SetManaBar();
 	void UpdateManaBar(float delta);
 	virtual void onEnter();
+	void initKeyListener(Hero* hero);
+	void initMouseListener(Hero* hero);
 	CREATE_FUNC(Game);
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -41,5 +44,7 @@ private:
 	Hero* Myhero;
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;
-	MouseController *listener;
+	EventListenerTouchOneByOne *Mouselistener;
+	EventListenerKeyboard* keylistener;
+	Skill* skillQ;
 };
