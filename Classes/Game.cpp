@@ -21,14 +21,13 @@ bool Game::init()
 
 	auto ani = new CharaAni();
 	ani->init_Executioner();
-
-	MapLayerPrint();
+	
 	HeroPrint();
 	StatusLayerPrint();
 	TowerPrint();
 	ShopLayerPrint();
 	ShowPrint();
-	
+	MapLayerPrint();
 	return true;
 }
 void Game::onEnter()
@@ -43,7 +42,7 @@ void Game::MapLayerPrint()
 {
 	//if (UserDefault::getInstance()->getBoolForKey(SINGLE))
 	//{
-		auto Maplayer = OneMapLayer::CreateLayer();
+		auto Maplayer = OneMapLayer::CreateLayer(Myhero);
 	//}
 	//else 
 	//{ 
