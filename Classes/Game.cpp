@@ -21,13 +21,14 @@ bool Game::init()
 
 	auto ani = new CharaAni();
 	ani->init_Executioner();
-	
+	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
+	MapLayerPrint();
 	HeroPrint();
+	
 	StatusLayerPrint();
 	TowerPrint();
 	ShopLayerPrint();
 	ShowPrint();
-	MapLayerPrint();
 	return true;
 }
 void Game::onEnter()
@@ -42,7 +43,7 @@ void Game::MapLayerPrint()
 {
 	//if (UserDefault::getInstance()->getBoolForKey(SINGLE))
 	//{
-		auto Maplayer = OneMapLayer::CreateLayer(Myhero);
+		auto Maplayer = OneMapLayer::CreateLayer();
 	//}
 	//else 
 	//{ 
@@ -111,11 +112,11 @@ void Game::ScoreBoardRelesed()
 void Game::HeroPrint()
 {
 	//生成英雄的函数
-	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
+	
 	Myhero->x_position = visibleSize.width / 2 - 100;
 	Myhero->y_position = visibleSize.height / 2 - 100;
 	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
-	this->addChild(Myhero, 2,"Myhero");
+	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
 	SetHpBar();
 	SetManaBar();
 }
@@ -126,7 +127,7 @@ void Game::TowerPrint()
 	//放置塔的函数
 	auto tower = Tower::creatWithTowerTypes(TowerTypeTest);
 	tower->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 + 100));
-	this->addChild(tower, 2);
+	this->getChildByName("MapLayer")->addChild(tower, 2);
 }
 
 
@@ -136,7 +137,7 @@ void Game::CreepsPrint(float delta)
 
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
 	creep1->setPosition(Vec2(visibleSize.width / 2+a*5, visibleSize.height / 2));
-	this->addChild(creep1, 2);
+	this->getChildByName("MapLayer")->addChild(creep1, 2);
 	a++;
 }
 void Game::SetHpBar()
@@ -194,8 +195,7 @@ void Game::UpdateManaBar(float delta)
 void Game::update(float delta)
 {
 	//血条蓝条经验条的实时更新
-
-
+	
 
 
 	//英雄死亡监测
