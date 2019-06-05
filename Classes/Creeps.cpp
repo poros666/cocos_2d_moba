@@ -4,7 +4,7 @@
 5.27
 ver4
 */
-#include<Creeps.h>
+#include"Creeps.h"
 using namespace cocos2d;
 /*
 Creep::Creep(CreepTypes creepType) {
@@ -29,7 +29,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 		creep->atk = 10;
 		creep->atkDistance = 10;
 		creep->atkSpeeds = 10;
-		creep->initHealthPointsLimit = 222;
+		creep->SetHpBar();
 		//...
 		break;
 	/*
@@ -76,11 +76,15 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 		return creep;
 	}
 	CC_SAFE_DELETE(creep);
-
+	
 	return nullptr;
 }
 
 void Creep::update(float dt) {
+	if (this->healthPoints == 0)
+	{
+		this->die();
+	}
 	;
 }
 
@@ -118,5 +122,33 @@ bool Creep::hurt(float atk){
 
 void Creep::die() {
 	//不知道涉及什么先不写
+	//rdc:播放死亡动画
+	this->release();
 }
 
+void Creep::SetHpBar()
+{
+	auto Healthbar = Sprite::create("healthbar.dds");
+	HpBarProgress = ProgressTimer::create(Healthbar);
+	HpBarProgress->setScale(0.08, 0.3);
+	auto size = HpBarProgress->getContentSize();
+	float x = this->x_position + 30;
+	float y = this->y_position + 60;
+	HpBarProgress->setPosition(Vec2(x, y));
+	HpBarProgress->setType(ProgressTimer::Type::BAR);
+	HpBarProgress->setMidpoint(Vec2(0, 0));
+	HpBarProgress->setBarChangeRate(Vec2(1, 0));
+	HpBarProgress->setPercentage(100*this->getHealthPoints()/this->getInitHealthPointsLimit());
+	this->addChild(HpBarProgress, 4, "HpBarProgress");
+	this->schedule(schedule_selector(Creep::UpdateHpBar));
+}
+void Creep::UpdateHpBar(float delta)
+{
+	float percentage = 100 * this->getHealthPoints() / this->getInitHealthPointsLimit();
+	if (percentage <= 0)
+	{
+		percentage = 0;
+		this->unschedule(schedule_selector(Creep::UpdateHpBar));
+	}
+	HpBarProgress->setPercentage(percentage);
+}

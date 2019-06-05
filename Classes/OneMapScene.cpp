@@ -6,9 +6,9 @@
 #include "Creeps.h"
 #include "Tower.h"
 #include "Hero.h"
-#include "ShopLayer.h"
+#include "StatusLayer.h"
 USING_NS_CC;
-Scene* OneMapScene::CreateScene()
+Layer* OneMapScene::CreateLayer()
 {
 	return OneMapScene::create();
 }
@@ -20,7 +20,7 @@ static void problemLoading(const char* filename)
 }
 bool OneMapScene::init()
 {
-	if (!Scene::init())//ÅÐ¶Ï³õÊ¼»¯ÊÇ·ñ³É¹¦
+	if (!Layer::init())//ÅÐ¶Ï³õÊ¼»¯ÊÇ·ñ³É¹¦
 	{
 		return false;
 	}
@@ -46,24 +46,8 @@ bool OneMapScene::init()
 		float y = origin.y + visibleSize.height / 2 + 360;
 		BackItem->setPosition(Vec2(x, y));
 	}
-	auto ShopItem = MenuItemImage::create(
-		"ShopItem.png",
-		"ShopItem.png",
-		CC_CALLBACK_1(OneMapScene::menuShopCallback, this)
-	);
-	if (ShopItem == nullptr ||
-		ShopItem->getContentSize().width <= 0 ||
-		ShopItem->getContentSize().height<=0)
-	{
-		problemLoading("'ShopItem.png'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width / 2 + 610;
-		float y = origin.y + visibleSize.height / 2 + 370;
-		ShopItem->setPosition(Vec2(x, y));
-	}
-	auto menu = Menu::create(BackItem,ShopItem, NULL);
+	
+	auto menu = Menu::create(BackItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 100);
 
@@ -74,7 +58,6 @@ bool OneMapScene::init()
 	_tileMap->setTag(1000);
 	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
-	
 	///success1
 	/*
 	auto creep1 = Creep::create("creep_test.png");
@@ -82,20 +65,7 @@ bool OneMapScene::init()
 	this->addChild(creep1, 500);
 	*/
 	//success2
-	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
-	creep1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
-	this->addChild(creep1, 30);
 
-	auto tower1 = Tower::creatWithTowerTypes(TowerTypeTest);
-	tower1->setPosition(Vec2(visibleSize.width / 2+100, visibleSize.height / 2+100));
-	this->addChild(tower1, 30);
-
-	auto hero1 = Hero::creatWithHeroTypes(HeroTypeTest);
-	hero1->setPosition(Vec2(visibleSize.width / 2-100, visibleSize.height / 2-100));
-	this->addChild(hero1, 30);
-
-	auto statusLayer = StatusLayer::create();
-	this->addChild(statusLayer, 10);
 
 	return true;
 }
@@ -105,12 +75,9 @@ void OneMapScene::menuBackCallback(cocos2d::Ref* pSender)//°´°´Å¥·µ»Ø�
 	Director::getInstance()->popScene();
 }
 
-void OneMapScene::menuShopCallback(cocos2d::Ref* pSender)
-{
-	auto shoplayer =ShopLayer::createLayer();
-	this->addChild(shoplayer, 40);
-	shoplayer->setVisible(true);
-}
+
+
+
 
 
 void OneMapScene::setPlayerPosition(cocos2d::Vec2 position)

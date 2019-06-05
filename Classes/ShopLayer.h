@@ -2,13 +2,12 @@
 //介于角色类还未完全实现，暂时搁置此问题
 #pragma once
 #include"cocos2d.h"
-
+#include"EquipmentLayer.h"
+#include"Hero.h"
 USING_NS_CC;
 class ShopLayer :public cocos2d::Layer {
 public:
-	static cocos2d::Layer* createLayer();
-	virtual bool init();
+	static cocos2d::Layer* createLayer(Hero* owner);
+	virtual bool init(Hero* owner);
 	void menuEscCallback(cocos2d::Ref* pSender);
-	void menuEquipmentCallback(cocos2d::Ref* pSender);
-	CREATE_FUNC(ShopLayer);
 };
