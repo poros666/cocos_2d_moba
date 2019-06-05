@@ -5,7 +5,11 @@ Scene* Game::createScene()
 {
 	return Game::create();
 }
-
+static void problemLoading(const char* filename)
+{
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
+}
 bool Game::init()
 {
 	if (!Scene::init())
@@ -23,6 +27,7 @@ bool Game::init()
 	StatusLayerPrint();
 	TowerPrint();
 	ShopLayerPrint();
+	ShowPrint();
 	
 	return true;
 }
@@ -50,7 +55,7 @@ void Game::ShopLayerPrint()
 {
 	auto ShopItem = MenuItemImage::create("ShopItem.png","ShopItem.png",CC_CALLBACK_1(Game::menuShopCallback, this));
 	ShopItem->setPosition(Vec2(origin.x + visibleSize.width/2-30, origin.y +visibleSize.height/2-25));
-	auto menu = Menu::create(ShopItem, NULL);
+	auto menu = Menu::create(ShopItem,NULL);
 	this->addChild(menu, 5);
 }
 
@@ -58,9 +63,32 @@ void Game::menuShopCallback(cocos2d::Ref* pSender)
 {
 	Myhero->stopAllActions();
 	//Mouselistener->setEnabled(false);
-	auto ShopLayer = ShopLayer::createLayer();
+	auto ShopLayer = ShopLayer::createLayer(Myhero);
 	this->addChild(ShopLayer, 6,"Shop");
 }
+
+void Game::ShowPrint()
+{
+	auto ShowItem = MenuItemImage::create("EquipmentShow.png", "EquipmentShow.png", CC_CALLBACK_1(Game::menuShowCallback,this));
+	if (ShowItem == nullptr ||
+		ShowItem->getContentSize().width <= 0 ||
+		ShowItem->getContentSize().height <= 0) {
+		problemLoading("'EquipmentShow.png'and'EquipmentShow.png'");
+	}
+	else {
+		ShowItem->setPosition(Vec2(origin.x + visibleSize.width / 2 - 150, origin.y + visibleSize.height / 2 - 25));
+	}
+	auto menu = Menu::create(ShowItem, NULL);
+	this->addChild(menu, 5);
+}
+
+void Game::menuShowCallback(cocos2d::Ref* pSender)
+{
+	auto ShowLayer = EquipmentShowLayer::createLayer(Myhero);
+	this->addChild(ShowLayer, 6);
+}
+
+
 
 
 void Game::StatusLayerPrint()

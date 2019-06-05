@@ -7,8 +7,9 @@ ver1
 
 #pragma once
 #include<cocos2d.h>
+#include<map>
 using namespace cocos2d;
-
+using namespace std;
 /*¶¨ÒåÓ¢ÐÛÃû³ÆÒ²ÊÇÓ¢ÐÛÍ¼Æ¬ÎÄ¼þµÄÃû³Æ
 */
 #define Hero_test "desertExecutioner_0001.png"
@@ -57,7 +58,7 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, skillLevel_3, SkillLevel_3);//Èý¼¼ÄÜµÈ¼¶
 	CC_SYNTHESIZE(int, skillLevel_4, SkillLevel_4);//ËÄ¼¼ÄÜµÈ¼¶
 
-
+	CC_SYNTHESIZE(int, movespeed, MoveSpeed);
 	CC_SYNTHESIZE(int, gold, Gold);//½ðÇ® 
 	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//ÎïÆ·ÊýÁ¿
 
@@ -92,6 +93,7 @@ public:
 	//¼Ç·Ö°åÔÚÄÄÀï×öºÏÀí£¿ÎÒÕâÀï¿ÉÒÔ¼Ó»ñµÃ×Ü½ðÇ®£¬É±ÈËÊý ËÀÍöÊý£¬ÓÎÏ·½áÊøºó¶ÁÈ¡Êý¾Ý¾Í¿ÉÒÔÁË
 	float x_position=0;
 	float y_position=0;
+	list<int> equipment;
 private:
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;
