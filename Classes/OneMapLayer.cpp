@@ -52,9 +52,12 @@ bool OneMapLayer::init()
 
 	//´´½¨ÍßÆ¬µØÍ¼
 	_tileMap=TMXTiledMap::create("temmap/filemap.tmx");
+	MapSizeWidth = _tileMap->getMapSize().width;
+	MapSizeHeight = _tileMap->getMapSize().height;
 	_tileMap->setAnchorPoint(Vec2(0,0));
 	_tileMap -> setPosition(Vec2(0, 0));
-	_tileMap->setTag(1000);
+
+
 	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
 	
@@ -110,7 +113,7 @@ cocos2d::Vec2 OneMapLayer::tileCoordFromPosition(cocos2d::Vec2 position)
 
 
 //将视角与人物锁定，并且不超过地图显示范围
-void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
+cocos2d::Vec2 OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);
@@ -123,7 +126,9 @@ void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	Vec2 pointB = Vec2(x, y);
 	Vec2 offSet = pointA - pointB;
+
 	this->setPosition(offSet);
+	return offSet;
 }
 void OneMapLayer::UpdateViewPointCenter(float delat)
 {

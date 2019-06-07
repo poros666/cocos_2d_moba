@@ -43,6 +43,7 @@ public:
 	bool clickToAttack(Hero* owner);
 	std::list<Creep*> targetCreep;
 	Hero* OtherHero;
+	Tower* Tower1;
 	CREATE_FUNC(Game);
 	
 private:

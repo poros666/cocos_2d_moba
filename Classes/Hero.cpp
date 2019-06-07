@@ -28,6 +28,7 @@ using namespace cocos2d;
 		hero->SetHpBar();
 		hero->SetManaBar();
 		hero->setAtkDistance(100);
+		hero->setAtk(10);
 		//attack_rect = new Rect();
 		//...
 		break;
