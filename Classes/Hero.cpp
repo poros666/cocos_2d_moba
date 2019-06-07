@@ -18,13 +18,17 @@ using namespace cocos2d;
 	{
 	case HeroTypeTest:
 		filename1 = Hero_test;
+		hero->setGold(1000);
 		hero->setInitHealthPointsLimit(100);
 		hero->setHealthPoints(100);
 		hero->setHealthRecoverPoints(1);
 		hero->setInitManaPointsLimit(10);
 		hero->setManaPoints(10);
+		hero->setMoveSpeed(200);
 		hero->SetHpBar();
 		hero->SetManaBar();
+		hero->setAtkDistance(100);
+		//attack_rect = new Rect();
 		//...
 		break;
 		/*
@@ -49,12 +53,39 @@ using namespace cocos2d;
 	return nullptr;
 }
 
+ void Hero::clickAttack(Node* target,Hero* owner) {
+	 if (target == this->EnemyHero) {
+		 Hero* tempHero = static_cast<Hero*>(target);
+		 if (owner->attack_rect->containsPoint(tempHero->getPosition()) && tempHero->getHealthPoints()>0) {
+			 //这里留给攻击动画
+			 tempHero->setHealthPoints(tempHero->getHealthPoints() -owner->getAtk() );
+		 }
+	 }
+	 else if (target == this->EnemyTower) {
+		 Tower* tempTower = static_cast<Tower*>(target);
+		 if (owner->attack_rect->containsPoint(tempTower->getPosition()) && tempTower->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempTower->setHealthPoints(tempTower->getHealthPoints() - owner->getAtk());
+		 }
+	 }
+	 else if (target==this->EnemyCreep) {
+		 Creep* tempCreep = static_cast<Creep*>(target);
+		 if (owner->attack_rect->containsPoint(tempCreep->getPosition()) && tempCreep->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempCreep->setHealthPoints(getHealthPoints() - owner->getAtk());
+		 }
+	 }
+ }
+
+ 
+
 bool Hero::hurt(float atk) {
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
-
+	int hp=this->getHealthPoints();
+	//hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	hp -= atk;
 	if (hp <= 0) {
+		setHealthPoints(0);
 		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
 		return true;
 	}
@@ -87,6 +118,14 @@ void Hero::die()
 
 }
 
+void Hero::setNewAtkRect()
+{
+	attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
+}
+
+
+
+
 void Hero::SetHpBar()
 {
 	auto Healthbar = Sprite::create("healthbar.dds");
@@ -94,7 +133,7 @@ void Hero::SetHpBar()
 	HpBarProgress->setScale(0.1, 0.5);
 	auto size = HpBarProgress->getContentSize();
 	float x = this->x_position+50;
-	float y = this->y_position+60;
+	float y = this->y_position+120;
 	HpBarProgress->setPosition(Vec2(x, y));
 	HpBarProgress->setType(ProgressTimer::Type::BAR);
 	HpBarProgress->setMidpoint(Vec2(0, 0));
@@ -120,7 +159,7 @@ void Hero::SetManaBar()
 	ManaBarProgress->setScale(0.1, 0.2);
 	auto size = ManaBarProgress->getContentSize();
 	float x = this->x_position+50;
-	float y = this->y_position+60-size.height/5;
+	float y = this->y_position+120-size.height/5;
 	ManaBarProgress->setPosition(Vec2(x, y));
 	ManaBarProgress->setType(ProgressTimer::Type::BAR);
 	ManaBarProgress->setMidpoint(Vec2(0, 0));
@@ -138,4 +177,13 @@ void Hero::UpdateManaBar(float delta)
 		this->unschedule(schedule_selector(Hero::UpdateManaBar));
 	}
 	ManaBarProgress->setPercentage(percentage);
+}
+void Hero::move(Vec2 endPos,Hero* Hero)
+{
+	Vec2 route = Hero->getPosition() - endPos;
+	float Distance = route.length();
+	double Speed = this->getMoveSpeed();
+	auto Moving = MoveTo::create(Distance / Speed, endPos);
+	Hero->stopAllActions();
+	Hero->runAction(Moving);
 }

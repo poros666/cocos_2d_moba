@@ -5,16 +5,22 @@
 #include"ShoeLayer.h"
 #include"ArmorLayer.h"
 #include"RecoveryLayer.h"
-cocos2d::Layer* EquipmentLayer::createLayer()
+cocos2d::Layer* EquipmentLayer::createLayer(Hero* owner)
 {
-	return EquipmentLayer::create();
+	auto layer = new(std::nothrow)EquipmentLayer();
+	if (layer && layer->init(owner)) {
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+	return nullptr;
 }
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
 }
-bool EquipmentLayer::init()
+bool EquipmentLayer::init(Hero* owner)
 {
 	if (!Layer::init()) 
 	{
@@ -26,7 +32,7 @@ bool EquipmentLayer::init()
 	auto Weapon = MenuItemImage::create(
 		"shop/weapon.png",
 		"shop/weapon.png", 
-		CC_CALLBACK_1(EquipmentLayer::menuWeaponCallback,this)
+		CC_CALLBACK_1(EquipmentLayer::menuWeaponCallback,this,owner)
 	);
 	if (Weapon == nullptr ||
 		Weapon->getContentSize().width <= 0 ||
@@ -42,7 +48,7 @@ bool EquipmentLayer::init()
 	auto Shoe = MenuItemImage::create(
 		"shop/shoe.png",
 		"shop/shoe.png",
-		CC_CALLBACK_1(EquipmentLayer::menuShoeCallback, this)
+		CC_CALLBACK_1(EquipmentLayer::menuShoeCallback, this,owner)
 	);
 	if (Shoe == nullptr ||
 		Shoe->getContentSize().width <= 0 ||
@@ -58,7 +64,7 @@ bool EquipmentLayer::init()
 	auto Armor = MenuItemImage::create(
 		"shop/armor.png",
 		"shop/armor.png",
-		CC_CALLBACK_1(EquipmentLayer::menuArmorCallback, this)
+		CC_CALLBACK_1(EquipmentLayer::menuArmorCallback, this,owner)
 	);
 	if (Armor == nullptr ||
 		Armor->getContentSize().width <= 0 ||
@@ -74,7 +80,7 @@ bool EquipmentLayer::init()
 	auto Recovery = MenuItemImage::create(
 		"shop/recovery.png",
 		"shop/recovery.png",
-		CC_CALLBACK_1(EquipmentLayer::menuRecoveryCallback, this)
+		CC_CALLBACK_1(EquipmentLayer::menuRecoveryCallback, this,owner)
 	);
 	if (Recovery == nullptr ||
 		Recovery->getContentSize().width <= 0 ||
@@ -95,30 +101,30 @@ bool EquipmentLayer::init()
 
 }
 
-void EquipmentLayer::menuWeaponCallback(cocos2d::Ref* pSender)
+void EquipmentLayer::menuWeaponCallback(cocos2d::Ref* pSender,Hero*owner)
 {
-	auto layer=WeaponLayer::createLayer();
+	auto layer=WeaponLayer::createLayer(owner);
 	this->addChild(layer, 60);
 	layer->setVisible(true);
 }
 
-void EquipmentLayer::menuShoeCallback(cocos2d::Ref* pSender)
+void EquipmentLayer::menuShoeCallback(cocos2d::Ref* pSender,Hero* owner)
 {
-	auto layer = ShoeLayer::createLayer();
+	auto layer = ShoeLayer::createLayer(owner);
 	this->addChild(layer, 60);
 	layer->setVisible(true);
 }
 
-void EquipmentLayer::menuArmorCallback(cocos2d::Ref* pSender)
+void EquipmentLayer::menuArmorCallback(cocos2d::Ref* pSender,Hero* owner)
 {
-	auto layer = ArmorLayer::createLayer();
+	auto layer = ArmorLayer::createLayer(owner);
 	this->addChild(layer, 60);
 	layer->setVisible(true);
 }
 
-void EquipmentLayer::menuRecoveryCallback(cocos2d::Ref* pSender)
+void EquipmentLayer::menuRecoveryCallback(cocos2d::Ref* pSender,Hero* owner)
 {
-	auto layer = RecoveryLayer::createLayer();
+	auto layer = RecoveryLayer::createLayer(owner);
 	this->addChild(layer, 60);
 	layer->setVisible(true);
 }

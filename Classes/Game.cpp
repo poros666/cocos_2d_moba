@@ -5,7 +5,11 @@ Scene* Game::createScene()
 {
 	return Game::create();
 }
-
+static void problemLoading(const char* filename)
+{
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
+}
 bool Game::init()
 {
 	if (!Scene::init())
@@ -17,16 +21,23 @@ bool Game::init()
 
 	auto ani = new CharaAni();
 	ani->init_Executioner();
-
+	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
+	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest);
 	MapLayerPrint();
 	HeroPrint();
 	StatusLayerPrint();
 	TowerPrint();
 	ShopLayerPrint();
-	this->scheduleUpdate();
-	this->schedule(schedule_selector(Game::CreepsPrint),1,-1,0);
-	this->schedule(schedule_selector(Game::test), 1);
+	ShowPrint();
 	return true;
+}
+void Game::onEnter()
+{
+	Scene::onEnter();
+	Game::initMouseListener(Myhero);
+	Game::initKeyListener(Myhero);
+	this->scheduleUpdate();
+	this->schedule(schedule_selector(Game::CreepsPrint), 1, -1, 0);
 }
 void Game::MapLayerPrint()
 {
@@ -43,37 +54,77 @@ void Game::MapLayerPrint()
 void Game::ShopLayerPrint()
 {
 	auto ShopItem = MenuItemImage::create("ShopItem.png","ShopItem.png",CC_CALLBACK_1(Game::menuShopCallback, this));
-	 ShopItem->setPosition(Vec2(origin.x + visibleSize.width/2-30, origin.y +visibleSize.height/2-25));
-	auto menu = Menu::create(ShopItem, NULL);
+	ShopItem->setPosition(Vec2(origin.x + visibleSize.width/2-30, origin.y +visibleSize.height/2-25));
+	auto menu = Menu::create(ShopItem,NULL);
 	this->addChild(menu, 5);
 }
 
 void Game::menuShopCallback(cocos2d::Ref* pSender)
 {
-	auto ShopLayer = ShopLayer::createLayer();
-	this->addChild(ShopLayer, 6);
+	Myhero->stopAllActions();
+	//Mouselistener->setEnabled(false);
+	auto ShopLayer = ShopLayer::createLayer(Myhero);
+	this->addChild(ShopLayer, 6,"Shop");
 }
+
+void Game::ShowPrint()
+{
+	auto ShowItem = MenuItemImage::create("EquipmentShow.png", "EquipmentShow.png", CC_CALLBACK_1(Game::menuShowCallback,this));
+	if (ShowItem == nullptr ||
+		ShowItem->getContentSize().width <= 0 ||
+		ShowItem->getContentSize().height <= 0) {
+		problemLoading("'EquipmentShow.png'and'EquipmentShow.png'");
+	}
+	else {
+		ShowItem->setPosition(Vec2(origin.x + visibleSize.width / 2 - 150, origin.y + visibleSize.height / 2 - 25));
+	}
+	auto menu = Menu::create(ShowItem, NULL);
+	this->addChild(menu, 5);
+}
+
+void Game::menuShowCallback(cocos2d::Ref* pSender)
+{
+	auto ShowLayer = EquipmentShowLayer::createLayer(Myhero);
+	this->addChild(ShowLayer, 6);
+}
+
+
 
 
 void Game::StatusLayerPrint()
 {
-	auto skill = Skill::createWithNameCdPicOwner("ski_right",5,"Ski_right.png",Myhero);
-	skill->setPosition(Vec2(visibleSize.width /2-200,visibleSize.height/2-200));
+	skillQ = Skill::createWithNameCdPicOwner("ski_right",5,"Ski_right.png",Myhero);
+	skillQ->setPosition(Vec2(visibleSize.width /2-200,visibleSize.height/2-200));
 	auto Statuslayer = StatusLayer::createLayer();
 	this->addChild(Statuslayer,3,"StatusLayer");
-	Statuslayer->addChild(skill,1);
+	Statuslayer->addChild(skillQ,1);
 }
+void Game::ScoreBoardPrint()
+{
+	auto layer = ScoreBoard::createLayer(Myhero);
+	this->addChild(layer, 7, "ScoreBoard");
 
+}
+void Game::ScoreBoardRelesed() 
+{
+	this->removeChildByName("ScoreBoard");
+}
 void Game::HeroPrint()
 {
 	//生成英雄的函数
-	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
+	int _atkDistance=Myhero->getAtkDistance();
 	Myhero->x_position = visibleSize.width / 2 - 100;
 	Myhero->y_position = visibleSize.height / 2 - 100;
 	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
-	this->addChild(Myhero, 2);
+	Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance,Myhero->getPositionY() - _atkDistance,2* _atkDistance,2* _atkDistance);
+	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
 	SetHpBar();
 	SetManaBar();
+
+	OtherHero->x_position = visibleSize.width / 2-200;
+	OtherHero->y_position = visibleSize.height / 2-200;
+	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2 - 20));
+	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
 }
 
 
@@ -82,7 +133,7 @@ void Game::TowerPrint()
 	//放置塔的函数
 	auto tower = Tower::creatWithTowerTypes(TowerTypeTest);
 	tower->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 + 100));
-	this->addChild(tower, 2);
+	this->getChildByName("MapLayer")->addChild(tower, 2);
 }
 
 
@@ -92,10 +143,10 @@ void Game::CreepsPrint(float delta)
 
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
 	creep1->setPosition(Vec2(visibleSize.width / 2+a*5, visibleSize.height / 2));
-	this->addChild(creep1, 2);
+	this->getChildByName("MapLayer")->addChild(creep1, 2);
+	targetCreep.push_back(creep1);
 	a++;
 }
-
 void Game::SetHpBar()
 {
 	auto Healthbar = Sprite::create("healthbar.dds");
@@ -151,8 +202,7 @@ void Game::UpdateManaBar(float delta)
 void Game::update(float delta)
 {
 	//血条蓝条经验条的实时更新
-
-
+	
 
 
 	//英雄死亡监测
@@ -177,14 +227,160 @@ void Game::recreateHero(float delta)
 	Myhero->schedule(schedule_selector(Hero::UpdateHpBar));
 	Myhero->schedule(schedule_selector(Hero::UpdateManaBar));
 }
-void Game::test(float delta)
+void Game::initKeyListener(Hero* hero)
 {
-	if (Myhero != nullptr)
+	keylistener = EventListenerKeyboard::create();
+	keylistener->onKeyPressed = [this, hero](EventKeyboard::KeyCode keycode, Event *event)
 	{
-		Myhero->setHealthPoints(Myhero->getHealthPoints() - 10+Myhero->getHealthRecoverPoints());
-	}
+		switch (keycode)
+		{
+		case EventKeyboard::KeyCode::KEY_TAB:
+		{	
+			ScoreBoardPrint();
+			//Mouselistener->setEnabled(false);
+			break;
+		}
+		case EventKeyboard::KeyCode::KEY_B:
+		{
+			if (this->getChildByName("Shop") == nullptr)
+			{
+				auto ShopLayer = ShopLayer::createLayer(hero);
+				this->addChild(ShopLayer, 6,"Shop");
+				//Mouselistener->setEnabled(false);
+			}
+			break;
+		}
+		case EventKeyboard::KeyCode::KEY_Q:
+		{
+			
+			skillQ->Click(hero);
+			break;
+		}
+		case EventKeyboard::KeyCode::KEY_W:
+			break;
+		case EventKeyboard::KeyCode::KEY_E:
+			break;
+		case EventKeyboard::KeyCode::KEY_R:
+			break;
+		case EventKeyboard::KeyCode::KEY_A:
+		{
+			hero->hurt(10);
+			break;
+		}
+		case EventKeyboard::KeyCode::KEY_S:
+			break;
+		default:
+			break;
+		}
+		return true;
+	};
+	keylistener->onKeyReleased = [this, hero](EventKeyboard::KeyCode keycode, Event *event)
+	{
+		switch (keycode)
+		{
+		case EventKeyboard::KeyCode::KEY_TAB:
+		{	
+			ScoreBoardRelesed();
+			Mouselistener->setEnabled(true);
+			break;
+		}
+		default:
+			break;
+		}
+		return true;
+	};
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keylistener, this->getChildByName("MapLayer"));
 }
 
+void Game::initMouseListener(Hero* hero)
+{
+	Mouselistener = EventListenerTouchOneByOne::create();
+
+	Mouselistener->onTouchBegan = [this, hero](Touch* touch, Event* e) {
+
+
+		Vec2 startPos = hero->getPosition();
+
+		Vec2 endPos = touch->getLocation();
+
+
+		/*
+				int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
+
+				if (Angle > -45 && Angle < 45) {
+
+					Hero->move(Hero::Direction::RIGHT, endPos, Hero);//UP
+
+				}
+
+				else if (Angle > -135 && Angle < -45)
+
+				{
+
+					Hero->move(Hero::Direction::DOWN, endPos, Hero);//LE
+
+
+
+				}
+
+
+
+				else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
+
+				{
+
+
+
+					Hero->move(Hero::Direction::LEFT, endPos, Hero);//DO
+
+				}
+
+				else
+
+				{
+
+					Hero->move(Hero::Direction::UP, endPos, Hero);//R
+
+				}
+
+		*/
+		Rect* clickRect = new Rect(endPos.x - 5, endPos.y - 5, 10, 10);
+
+		
+		if (clickRect->containsPoint(OtherHero->getPosition()) &&
+			hero->attack_rect->containsPoint(OtherHero->getPosition())&&
+			OtherHero->getHealthPoints()>0) {
+			//这里留给攻击动画
+			OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
+			return true;
+		}
+
+
+
+		hero->move(endPos, hero);
+
+		return true;
+
+	};
+
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(Mouselistener,1);
+
+	Mouselistener->onTouchEnded = [this](Touch* touch, Event* e)
+
+	{
+
+		return true;
+
+	};
+
+}
+
+
+
+bool Game::clickToAttack(Hero* owner)
+{
+	return false;
+}
 
 
 
