@@ -43,7 +43,8 @@ class Tower :public cocos2d::Sprite {
 	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//攻击速度
 
 	CC_SYNTHESIZE(int, level, Level);//等级//有一个想法//把tower等级设为负数，然后可以把杀人得到的钱和那个单位的等级绑定，检测到等级为负几，就对应该某种小兵杀死所得钱数
-
+	CC_SYNTHESIZE(int, rewardmoney, RewardMoney);
+	CC_SYNTHESIZE(int, rewardexp, RewardExp);
 	//CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//移速
 	/*
 	关于CC_SYNTHESIZE
@@ -64,6 +65,7 @@ public:
 	void win();//判断胜利
 	//void hpRecover(int healthRecoverPoint);//回血
 	void SetHpBar();
+	virtual void update(float dt);
 	void UpdateHpBar(float delta);
 	float x_position = 0;
 	float y_position = 0;

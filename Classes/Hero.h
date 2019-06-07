@@ -65,6 +65,8 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//ÎïÆ·ÊýÁ¿
 
 
+	CC_SYNTHESIZE(Vec2, rebornpoint, ReBornPoint);
+
 	CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//ÒÆËÙ
 	/*
 	¹ØÓÚCC_SYNTHESIZE
@@ -79,8 +81,8 @@ public:
 	
 	//virtual void update(float dt);
 	Rect* attack_rect; 
+	Vec2 ReStart;
 	static Hero* creatWithHeroTypes(HeroTypes heroType);//¾²Ì¬´´ÔìÓ¢ÐÛº¯Êý
-	void clickAttack(Node* target);
 	bool hurt(float atk);//ÊÜÉË.
 	void die();//ËÀÍö.
 	void setNewAtkRect();
@@ -93,7 +95,7 @@ public:
 	void SetManaBar();
 	void UpdateManaBar(float delta);
 	void move(Vec2 endPos, Hero* Hero);
-
+	virtual void update(float dt);
 	float x_position=0;
 	float y_position=0;
 	Hero* EnemyHero;

@@ -29,6 +29,7 @@ using namespace cocos2d;
 		hero->SetManaBar();
 		hero->setAtkDistance(100);
 		hero->setAtk(10);
+		hero->setReBornPoint(Vec2(300,500));
 		//attack_rect = new Rect();
 		//...
 		break;
@@ -116,7 +117,8 @@ void Hero::die()
 {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画,挪回初始位置？
-
+	this->stopAllActions();
+	this->setPosition(getReBornPoint());
 }
 
 void Hero::setNewAtkRect()
@@ -187,4 +189,11 @@ void Hero::move(Vec2 endPos,Hero* Hero)
 	auto Moving = MoveTo::create(Distance / Speed, endPos);
 	Hero->stopAllActions();
 	Hero->runAction(Moving);
+}
+
+void Hero::update(float dt)
+{
+	if (this->getHealthPoints() <= 0) {
+		this->die();
+	}
 }

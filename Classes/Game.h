@@ -30,6 +30,8 @@ public:
 	void TowerPrint();
 	void ScoreBoardPrint();
 	void ScoreBoardRelesed();
+	void BackButtonPrint();
+	void menuBackCallback(cocos2d::Ref* pSender);
 	virtual void update(float delta);
 	void HeroDie();
 	void SetHpBar();
@@ -37,7 +39,6 @@ public:
 	void SetManaBar();
 	void UpdateManaBar(float delta);
 	virtual void onEnter();
-	void menuBackCallback(cocos2d::Ref* pSender);
 	void initKeyListener(Hero* hero);
 	void initMouseListener(Hero* hero);
 	bool clickToAttack(Hero* owner);

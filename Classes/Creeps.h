@@ -46,6 +46,8 @@ class Creep :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, level, Level);//等级//有一个想法//把小兵等级设为负数，然后可以把杀人得到的钱和那个单位的等级绑定，检测到等级为负几，就对应该某种小兵杀死所得钱数
 
 	CC_SYNTHESIZE(cocos2d::Vec2, velocity,Velocity);//移速
+	CC_SYNTHESIZE(int, rewardmoney, RewardMoney);
+	CC_SYNTHESIZE(int, rewardexp, RewardExp);
 	/*
 	关于CC_SYNTHESIZE
 	define CC_SYNTHESIZE(varType, varName, funName)\
@@ -59,12 +61,15 @@ public:
 	//void spawnCreep();//生成小兵函数
 	virtual void update(float dt);//游戏循环调用的默认函数//意义不明
 	static Creep* creatWithCreepTypes(CreepTypes creepType);//静态创造小兵函数
-
+	bool isAttacking = false;
+	Rect* attack_rect;
 	bool hurt(float atk);//受伤.
 	void die();//死亡.
 	//void hpRecover(int healthRecoverPoint);//回血
+	bool checkHeroInRect();
 	void SetHpBar();
 	void UpdateHpBar(float delta);
+	void attackOtherHero();
 	float x_position = 0;
 	float y_position = 0;
 private:

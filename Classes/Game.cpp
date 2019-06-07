@@ -31,6 +31,7 @@ bool Game::init()
 	TowerPrint();
 	ShopLayerPrint();
 	ShowPrint();
+	BackButtonPrint();
 	return true;
 }
 void Game::onEnter()
@@ -111,12 +112,43 @@ void Game::ScoreBoardRelesed()
 {
 	this->removeChildByName("ScoreBoard");
 }
+void Game::BackButtonPrint()
+{
+	auto BackItem = MenuItemImage::create(
+		"BackNormal.jpg",
+		"BackSelected.jpg",
+		CC_CALLBACK_1(Game::menuBackCallback, this)
+	);
+	if (BackItem == nullptr ||
+		BackItem->getContentSize().width <= 0 ||
+		BackItem->getContentSize().height <= 0)
+	{
+		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
+	}
+	else
+	{
+		float x = origin.x + visibleSize.width / 2 - 520;
+		float y = origin.y + visibleSize.height / 2 + 360;
+		BackItem->setPosition(Vec2(x, y));
+	}
+
+	auto menu = Menu::create(BackItem, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 5);
+
+}
+
+void Game::menuBackCallback(cocos2d::Ref* pSender)
+{
+	Director::getInstance()->popScene();
+}
+
 void Game::HeroPrint()
 {
 	//生成英雄的函数
 	int _atkDistance=Myhero->getAtkDistance();
-	Myhero->x_position = visibleSize.width / 2 - 100;
-	Myhero->y_position = visibleSize.height / 2 - 100;
+	Myhero->x_position = 300;
+	Myhero->y_position = 500;
 	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
 	Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance,Myhero->getPositionY() - _atkDistance,2* _atkDistance,2* _atkDistance);
 	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
@@ -125,7 +157,7 @@ void Game::HeroPrint()
 
 	OtherHero->x_position = visibleSize.width / 2-200;
 	OtherHero->y_position = visibleSize.height / 2-200;
-	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2 - 20));
+	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2));
 	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
 }
 
@@ -135,7 +167,7 @@ void Game::TowerPrint()
 	//放置塔的函数
 
 	Tower1->setPosition(Vec2(visibleSize.width / 2 -50, visibleSize.height / 2 - 50));
-	this->getChildByName("MapLayer")->addChild(Tower1, 2);
+	this->getChildByName("MapLayer")->addChild(Tower1, 2,"Tower1");
 }
 
 
@@ -144,7 +176,7 @@ void Game::CreepsPrint(float delta)
 	//生成兵的函数
 
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
-	creep1->setPosition(Vec2(visibleSize.width / 2+a*15, visibleSize.height / 2));
+	creep1->setPosition(Vec2(visibleSize.width / 2+a*50, visibleSize.height / 2));
 	this->getChildByName("MapLayer")->addChild(creep1, 2);
 	targetCreep.push_back(creep1);
 	a++;
@@ -204,8 +236,6 @@ void Game::UpdateManaBar(float delta)
 void Game::update(float delta)
 {
 	//血条蓝条经验条的实时更新
-	
-
 
 	//英雄死亡监测
 	if (Myhero->getHealthPoints() <= 0)
@@ -228,6 +258,7 @@ void Game::recreateHero(float delta)
 	this->schedule(schedule_selector(Game::UpdateManaBar));
 	Myhero->schedule(schedule_selector(Hero::UpdateHpBar));
 	Myhero->schedule(schedule_selector(Hero::UpdateManaBar));
+	
 }
 void Game::initKeyListener(Hero* hero)
 {
@@ -369,10 +400,11 @@ void Game::initMouseListener(Hero* hero)
 				}
 
 		*/
-		auto iter = targetCreep.begin();
-		Rect* clickRect = new Rect(endPos.x - 25, endPos.y - 25, 50, 50);
+		auto distance = hero->getAtkDistance();
+		hero->attack_rect = new Rect(hero->getPositionX()-distance,hero->getPositionY()-distance,distance,distance);
+		Rect* clickRect = new Rect(endPos.x-25, endPos.y -25, 50, 50);
 
-		
+
 		if (clickRect->containsPoint(OtherHero->getPosition()) &&
 			hero->attack_rect->containsPoint(OtherHero->getPosition())&&
 			OtherHero->getHealthPoints()>0) {
@@ -380,25 +412,42 @@ void Game::initMouseListener(Hero* hero)
 			OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
 			return true;
 		}
+
+		auto a = clickRect->containsPoint(Tower1->getPosition());
+		auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
+		auto eee = hero->getPosition();
+		auto d = Tower1->getPosition();
+		auto c = Tower1->getHealthPoints();
 		if (clickRect->containsPoint(Tower1->getPosition()) &&
 			hero->attack_rect->containsPoint(Tower1->getPosition()) &&
 			Tower1->getHealthPoints() > 0) {
 			Tower1->setHealthPoints(Tower1->getHealthPoints() - hero->getAtk());
+			if (Tower1->getHealthPoints() <= 0) {
+				hero->setGold(hero->getGold() + Tower1->getRewardMoney());
+				hero->setExp(hero->getExp() + Tower1->getRewardExp());
+				Tower1->setVisible(false);
+			}
 			return true;
 		}
-		if (*iter != nullptr) {
-			for (; iter != targetCreep.end(); iter++) {
+
+		if (targetCreep.size()) {
+			for (auto iter = targetCreep.begin(); iter != targetCreep.end(); iter++) {
 				auto _creep = *iter;
 				if (clickRect->containsPoint(_creep->getPosition()) &&
 					hero->attack_rect->containsPoint(_creep->getPosition()) &&
 					_creep->getHealthPoints() > 0) {
 					_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+					if (_creep->getHealthPoints()<=0) {
+						_creep->setVisible(false);
+						hero->setGold(hero->getGold() + _creep->getRewardMoney());
+						hero->setExp(hero->getExp() + _creep->getRewardExp());
+						targetCreep.erase(iter);
+					}
 					return true;
 				}
 			}
 		}
-
-
+		
 		hero->move(endPos, hero);
 
 		return true;
@@ -416,13 +465,11 @@ void Game::initMouseListener(Hero* hero)
 	};
 
 }
-
-
-
 bool Game::clickToAttack(Hero* owner)
 {
 	return false;
 }
+
 
 
 

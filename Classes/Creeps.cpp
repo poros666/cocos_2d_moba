@@ -5,7 +5,13 @@
 ver4
 */
 #include"Creeps.h"
+#include"Hero.h"
+#include"Tower.h"
+#include"Game.h"
 using namespace cocos2d;
+extern Hero* Myhero;
+extern Hero* OtherHero;
+extern Tower* Tower1;
 /*
 Creep::Creep(CreepTypes creepType) {
 	this->creepType = creepType;
@@ -27,9 +33,11 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 		creep->armorPoints = 10;
 		creep->magicArmorPoints = 10;
 		creep->atk = 10;
-		creep->atkDistance = 10;
+		creep->atkDistance = 100;
 		creep->atkSpeeds = 10;
 		creep->SetHpBar();
+		creep->setRewardMoney(30);
+		creep->setRewardExp(50);
 		//...
 		break;
 	/*
@@ -126,6 +134,7 @@ void Creep::die() {
 	this->release();
 }
 
+
 void Creep::SetHpBar()
 {
 	auto Healthbar = Sprite::create("healthbar.dds");
@@ -152,3 +161,27 @@ void Creep::UpdateHpBar(float delta)
 	}
 	HpBarProgress->setPercentage(percentage);
 }
+
+
+/*
+bool Creep::checkHeroInRect()
+{
+	auto distance = this->getAtkDistance();
+	if (this->isAttacking && this->attack_rect->containsPoint(OtherHero->getPosition())) {
+		this->isAttacking = true;
+		return true;
+	}
+	return false;
+}
+void Creep::attackOtherHero()
+{
+	this->stopAllActions();
+	if (this->isAttacking == true) {
+		this->isAttacking = false;
+		//²¥·Å¶¯»­
+
+		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
+
+	}
+}*/
+//

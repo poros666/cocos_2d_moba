@@ -20,7 +20,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 		tower->setInitHealthPointsLimit(10);
 		tower->setHealthPoints(10);
 		tower->SetHpBar();
-
+		tower->setRewardExp(300);
+		tower->setRewardMoney(200);
 		//...
 		break;
 		/*
@@ -59,7 +60,7 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
-	//不知道涉及什么先不写
+	this->setVisible(false);
 }
 
 void Tower::win() {
@@ -80,6 +81,12 @@ void Tower::SetHpBar()
 	HpBarProgress->setPercentage(100 * this->getHealthPoints() / this->getInitHealthPointsLimit());
 	this->addChild(HpBarProgress, 4, "HpBarProgress");
 	this->schedule(schedule_selector(Tower::UpdateHpBar));
+}
+void Tower::update(float dt)
+{
+	if (this->getHealthPoints() <= 0) {
+		die();
+	}
 }
 void Tower::UpdateHpBar(float delta)
 {

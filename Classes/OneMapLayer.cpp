@@ -28,27 +28,6 @@ bool OneMapLayer::init()
 
 	
 	//Éú³É°´Å¥ ·µ»ØÖ÷½çÃæ
-	auto BackItem = MenuItemImage::create(
-		"BackNormal.jpg",
-		"BackSelected.jpg",
-		CC_CALLBACK_1(OneMapLayer::menuBackCallback, this)
-	);
-	if (BackItem == nullptr ||
-		BackItem->getContentSize().width <= 0 ||
-		BackItem->getContentSize().height <= 0)
-	{
-		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width / 2 - 520;
-		float y = origin.y + visibleSize.height / 2 + 360;
-		BackItem->setPosition(Vec2(x, y));
-	}
-	
-	auto menu = Menu::create(BackItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 100);
 
 	//´´½¨ÍßÆ¬µØÍ¼
 	_tileMap=TMXTiledMap::create("temmap/filemap.tmx");
