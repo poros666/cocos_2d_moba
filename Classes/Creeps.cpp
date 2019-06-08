@@ -24,21 +24,46 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 		filename1 = Creep_test;
 		creep->initHealthPointsLimit = 10;
 		creep->healthPoints = 10;
-		creep->armorPoints = 10;
-		creep->magicArmorPoints = 10;
+		//creep->armorPoints = 10;
+		//creep->magicArmorPoints = 10;
 		creep->atk = 10;
 		creep->atkDistance = 10;
 		creep->atkSpeeds = 10;
 		creep->SetHpBar();
 		//...
 		break;
-	/*
+	
 	case CreepTypeMelee:
-		creepFramName = Creep_melee;
-		creep->initHealthPointsLimit = 10;
+		filename1 = Creep_melee;
+		creep->initHealthPointsLimit = 550;
+		creep->healthPoints = 550;
+		creep->atk = 15;
+		creep->atkDistance = 40;
+		creep->atkSpeeds = 1;
+		creep->SetHpBar();
 		//...
 		break;
-	*/
+	case CreepTypeRange:
+		filename1 = Creep_range;
+		creep->initHealthPointsLimit = 200;
+		creep->healthPoints = 200;
+		creep->atk = 20;
+		creep->atkDistance = 130;
+		creep->atkSpeeds = 1;
+		creep->SetHpBar();
+		//...
+		break;
+	case CreepTypeCannon:
+		filename1 = Creep_cannon;
+		creep->initHealthPointsLimit = 700;
+		creep->healthPoints = 700;
+		creep->atk = 30;
+		creep->atkDistance = 145;
+		creep->atkSpeeds = 1;
+		creep->SetHpBar();
+		//...
+		break;
+	
 	default:
 		break;
 	}
@@ -108,8 +133,9 @@ void Creep::spawnCreep() {
 
 bool Creep::hurt(float atk){
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	
+	int hp=getHealthPoints();
+	hp -= atk;
 
 	if (hp <= 0){
 		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
@@ -151,4 +177,19 @@ void Creep::UpdateHpBar(float delta)
 		this->unschedule(schedule_selector(Creep::UpdateHpBar));
 	}
 	HpBarProgress->setPercentage(percentage);
+}
+
+std::string Creep::getName() {
+	switch (creepType)
+	{
+	case CreepTypeMelee:
+		return "Myrmidon";
+		break;
+	case CreepTypeRange:
+		return "Blazefang";
+		break;
+	case CreepTypeCannon:
+		return "Quetzal";
+		break;
+	}
 }

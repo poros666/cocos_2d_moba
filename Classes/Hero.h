@@ -7,19 +7,20 @@ ver1
 
 #pragma once
 #include<cocos2d.h>
+#include<map>
 using namespace cocos2d;
-
+using namespace std;
 /*¶¨ÒåÓ¢ÐÛÃû³ÆÒ²ÊÇÓ¢ÐÛÍ¼Æ¬ÎÄ¼þµÄÃû³Æ
 */
 #define Hero_test "desertExecutioner_0001.png"
-#define Hero_1 "hero_1.png"
-#define Hero_2 "hero_2.png"
-#define Hero_3 "hero_3.png"
-#define Hero_4 "hero_4.png"
+#define Hero_execu "Character Model  res/desertExecutioner_0001.png"
+#define Hero_elite "Character Model  res/SaurianElite_0001.png"
+#define Hero_munra "Character Model  res/desertMunra_0001.png"
+#define Hero_4 "Character Model  res/hero_4.png"
 
-#define SKILL_LVL_LIMIT 4
+#define SKILL_LVL_LIMIT 3
 #define ITEMS_LIMIT 6
-#define LEVEL_LIMIT 25
+#define LEVEL_LIMIT 5
 #define LEVEL_UP_LIMIT_BASE 100
 
 /*
@@ -27,7 +28,9 @@ using namespace cocos2d;
 */
 typedef enum {
 	HeroTypeTest=0,
-	HeroTpye1,
+	HeroTpyeExecu,
+	HeroTpyeElite,
+	HeroTpyeMunra
 }HeroTypes;
 
 class Hero :public cocos2d::Sprite {
@@ -43,7 +46,7 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, manaRecoverPoints, ManaRecoverPoints);//À¶Á¿»Ö¸´ËÙ¶È
 
 	CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//»¤¼×
-	CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//Ä§¿¹
+	//CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//Ä§¿¹
 
 	CC_SYNTHESIZE(float, atk, Atk);//¹¥»÷Á¦
 	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//¹¥»÷¾àÀë
@@ -57,7 +60,7 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, skillLevel_3, SkillLevel_3);//Èý¼¼ÄÜµÈ¼¶
 	CC_SYNTHESIZE(int, skillLevel_4, SkillLevel_4);//ËÄ¼¼ÄÜµÈ¼¶
 
-
+	CC_SYNTHESIZE(int, movespeed, MoveSpeed);
 	CC_SYNTHESIZE(int, gold, Gold);//½ðÇ® 
 	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//ÎïÆ·ÊýÁ¿
 
@@ -87,10 +90,13 @@ public:
 	void UpdateHpBar(float delta);
 	void SetManaBar();
 	void UpdateManaBar(float delta);
+	void move(Vec2 endPos, Hero* Hero);
 	//ÒÉÎÊÕâÐ©Ö»¸Ä±äÊýÖµµÄº¯Êý»òÐí¿ÉÒÔ²»Ð´
 	//¼Ç·Ö°åÔÚÄÄÀï×öºÏÀí£¿ÎÒÕâÀï¿ÉÒÔ¼Ó»ñµÃ×Ü½ðÇ®£¬É±ÈËÊý ËÀÍöÊý£¬ÓÎÏ·½áÊøºó¶ÁÈ¡Êý¾Ý¾Í¿ÉÒÔÁË
 	float x_position=0;
 	float y_position=0;
+	list<int> equipment;
+	std::string getName();
 private:
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;

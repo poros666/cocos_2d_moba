@@ -12,8 +12,8 @@ using namespace cocos2d;
   定义塔名称也是塔图片文件的名称
 */
 #define Tower_test "tower_test.png"
-#define Tower_1 "tower_1.png"
-#define Base_1 "base_1.png"
+#define Tower_1 "Character Model  res/Mecha_0001.png"
+#define Base_1 "Character Model  res/ArchMageTower.png"
 
 /*
 定义tower类型
@@ -24,7 +24,7 @@ typedef enum {
 	TowerTypeT2,
 	TowerTypeT3,
 	TowerTypeT4,
-	TowerTypebase,
+	TowerTypeBase,
 }TowerTypes;
 
 class Tower :public cocos2d::Sprite {
@@ -35,7 +35,7 @@ class Tower :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//当前血量
 	//CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//生命恢复速度
 
-	CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//护甲
+	//CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//护甲
 	//CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//魔抗
 
 	CC_SYNTHESIZE(float, atk, Atk);//攻击力

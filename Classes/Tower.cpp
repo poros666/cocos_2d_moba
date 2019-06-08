@@ -23,13 +23,47 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 
 		//...
 		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
-			//...
-			break;
-		*/
+		
+	case TowerTypeT1:
+		filename1 = Tower_1;
+		tower->setInitHealthPointsLimit(1000);
+		tower->setHealthPoints(1000);
+		tower->setAtk(100);
+		tower->setAtkDistance(150);
+		tower->setAtkSpeeds(1);
+		tower->SetHpBar();
+		//...
+		break;
+	case TowerTypeT2:
+		filename1 = Tower_1;
+		tower->setInitHealthPointsLimit(1200);
+		tower->setHealthPoints(1200);
+		tower->setAtk(120);
+		tower->setAtkDistance(150);
+		tower->setAtkSpeeds(1);
+		tower->SetHpBar();
+		//...
+		break;
+	case TowerTypeT3:
+		filename1 = Tower_1;
+		tower->setInitHealthPointsLimit(1400);
+		tower->setHealthPoints(1400);
+		tower->setAtk(140);
+		tower->setAtkDistance(150);
+		tower->setAtkSpeeds(1);
+		tower->SetHpBar();
+		//...
+		break;
+	case TowerTypeBase:
+		filename1 = Base_1;
+		tower->setInitHealthPointsLimit(1500);
+		tower->setHealthPoints(1500);
+		tower->setAtk(0);
+		tower->setAtkDistance(0);
+		tower->setAtkSpeeds(0);
+		tower->SetHpBar();
+		//...
+		break;
 	default:
 		break;
 	}
@@ -46,8 +80,9 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 
 bool Tower::hurt(float atk) {
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	int hp = getHealthPoints();
+	hp -= atk;
+
 
 	if (hp <= 0) {
 		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();

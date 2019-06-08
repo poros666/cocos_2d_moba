@@ -14,18 +14,30 @@ using namespace cocos2d;
   先用一张图片替代
 */
 #define Creep_test "creep_test.png"
-//#define Creep_melee "creep_melee.png"
-//#define Creep_range "creep_range.png"
-//#define Creep_cannon "creep_cannon.png"
+#define Creep_melee "Character Model  res/SaurianMyrmidon_0001.png"
+#define Creep_range "Character Model  res/SaurianBlazefang_0001.png"
+#define Creep_cannon "Character Model  res/SaurianQuetzal_0001.png"
+#define Creep_j1 "Character Model  res/scorpion_0001.png"
+#define Creep_j2 "Character Model  res/desertImmortal_0001.png"
+#define Creep_j3 "Character Model  res/desertRaider_0001.png"
+#define Creep_j4 "Character Model  res/desertThug_0001.png"
+#define Creep_j5 "Character Model  res/fallen_0001.png"
+
 
 /*
+
 定义小兵与野怪类型
 */
 typedef enum {
 	CreepTypeTest=0,
 	CreepTypeMelee,
 	CreepTypeRange,
-	CreepTypeCannon
+	CreepTypeCannon,
+	CreepTypeJ1,
+	CreepTypeJ2,
+	CreepTypeJ3,
+	CreepTypeJ4,
+	CreepTypeJ5,
 }CreepTypes;
 
 class Creep :public cocos2d::Sprite {
@@ -36,8 +48,8 @@ class Creep :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//当前血量
 	//CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//生命恢复速度
 
-	CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//护甲
-	CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//魔抗
+	//CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//护甲
+	//CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//魔抗
 
 	CC_SYNTHESIZE(float, atk,Atk);//攻击力
 	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//攻击距离
@@ -65,6 +77,7 @@ public:
 	//void hpRecover(int healthRecoverPoint);//回血
 	void SetHpBar();
 	void UpdateHpBar(float delta);
+	std::string getName();
 	float x_position = 0;
 	float y_position = 0;
 private:

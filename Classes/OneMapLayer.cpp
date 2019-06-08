@@ -5,7 +5,6 @@
 #include "OneMapLayer.h"
 #include "Creeps.h"
 #include "Tower.h"
-#include "Hero.h"
 #include "StatusLayer.h"
 USING_NS_CC;
 Layer* OneMapLayer::CreateLayer()
@@ -59,15 +58,9 @@ bool OneMapLayer::init()
 	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
 	
-	///success1
-	/*
-	auto creep1 = Creep::create("creep_test.png");
-	creep1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
-	this->addChild(creep1, 500);
-	*/
-	//success2
+	
 
-
+	//this->schedule(schedule_selector(OneMapLayer::UpdateViewPointCenter));
 	return true;
 }
 
@@ -126,9 +119,11 @@ void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 	Vec2 pointB = Vec2(x, y);
 	Vec2 offSet = pointA - pointB;
 	this->setPosition(offSet);
-
 }
-
+void OneMapLayer::UpdateViewPointCenter(float delat)
+{
+	setViewPointCenter(this->getChildByName("Myhero")->getPosition());
+}
 
 
 

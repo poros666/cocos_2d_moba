@@ -18,22 +18,74 @@ using namespace cocos2d;
 	{
 	case HeroTypeTest:
 		filename1 = Hero_test;
+		hero->setGold(1000);
 		hero->setInitHealthPointsLimit(100);
 		hero->setHealthPoints(100);
 		hero->setHealthRecoverPoints(1);
 		hero->setInitManaPointsLimit(10);
 		hero->setManaPoints(10);
+		hero->setMoveSpeed(200);
 		hero->SetHpBar();
 		hero->SetManaBar();
 		//...
 		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
-			//...
-			break;
-		*/
+	case HeroTpyeExecu:
+		filename1 = Hero_execu;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(500);
+		hero->setHealthPoints(500);
+		hero->setInitManaPointsLimit(100);
+		hero->setManaPoints(100);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(60);
+		hero->setAtkDistance(40);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		//...
+		break;
+	case HeroTpyeElite:
+		filename1 = Hero_elite;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(450);
+		hero->setHealthPoints(450);
+		hero->setInitManaPointsLimit(120);
+		hero->setManaPoints(120);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(50);
+		hero->setAtkDistance(40);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		//...
+		break;
+	case HeroTpyeMunra:
+		filename1 = Hero_munra;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(400);
+		hero->setHealthPoints(400);
+		hero->setInitManaPointsLimit(160);
+		hero->setManaPoints(160);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(30);
+		hero->setAtkDistance(140);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		//...
+		break;
 	default:
 		break;
 	}
@@ -51,10 +103,11 @@ using namespace cocos2d;
 
 bool Hero::hurt(float atk) {
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
-
+	int hp=this->getHealthPoints();
+	//hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	hp -= atk;
 	if (hp <= 0) {
+		setHealthPoints(0);
 		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
 		return true;
 	}
@@ -75,8 +128,24 @@ void Hero::addExp(int exp) {
 	}
 
 	if (lvlup) {
+		switch (heroType)
+		{
+		case HeroTpyeExecu:
+			setHealthPoints(getHealthPoints() + 70);
+			setAtk(getAtk() + 24);
+			break;
+		case HeroTpyeElite:
+			setHealthPoints(getHealthPoints() + 60);
+			setAtk(getAtk() + 10);
+			break;
+		case HeroTpyeMunra:
+			setHealthPoints(getHealthPoints() + 50);
+			setAtk(getAtk() + 10);
+			break;
+		}
 		lvl++;
 		setLevel(lvl);
+		setSkillPoints(getSkillPoints() + 1);
 	}
 }
 
@@ -94,7 +163,7 @@ void Hero::SetHpBar()
 	HpBarProgress->setScale(0.1, 0.5);
 	auto size = HpBarProgress->getContentSize();
 	float x = this->x_position+50;
-	float y = this->y_position+60;
+	float y = this->y_position+120;
 	HpBarProgress->setPosition(Vec2(x, y));
 	HpBarProgress->setType(ProgressTimer::Type::BAR);
 	HpBarProgress->setMidpoint(Vec2(0, 0));
@@ -120,7 +189,7 @@ void Hero::SetManaBar()
 	ManaBarProgress->setScale(0.1, 0.2);
 	auto size = ManaBarProgress->getContentSize();
 	float x = this->x_position+50;
-	float y = this->y_position+60-size.height/5;
+	float y = this->y_position+120-size.height/5;
 	ManaBarProgress->setPosition(Vec2(x, y));
 	ManaBarProgress->setType(ProgressTimer::Type::BAR);
 	ManaBarProgress->setMidpoint(Vec2(0, 0));
@@ -138,4 +207,28 @@ void Hero::UpdateManaBar(float delta)
 		this->unschedule(schedule_selector(Hero::UpdateManaBar));
 	}
 	ManaBarProgress->setPercentage(percentage);
+}
+void Hero::move(Vec2 endPos,Hero* Hero)
+{
+	Vec2 route = Hero->getPosition() - endPos;
+	float Distance = route.length();
+	double Speed = this->getMoveSpeed();
+	auto Moving = MoveTo::create(Distance / Speed, endPos);
+	Hero->stopAllActions();
+	Hero->runAction(Moving);
+}
+
+std::string Hero::getName() {
+	switch (heroType)
+	{
+	case HeroTpyeExecu:
+		return "Executioner";
+		break;
+	case HeroTpyeElite:
+		return "Elite";
+		break;
+	case HeroTpyeMunra:
+		return "Munra";
+		break;
+	}
 }
