@@ -2,6 +2,10 @@
 #include"CharacterAni.h"
 int a = 0;
 USING_NS_CC;
+Hero* OtherHero;
+Tower* Tower1;
+std::list<Creep*> targetCreep;
+
 Scene* Game::createScene()
 {
 	return Game::create();
@@ -41,6 +45,8 @@ void Game::onEnter()
 	Game::initKeyListener(Myhero);
 	this->scheduleUpdate();
 	this->schedule(schedule_selector(Game::CreepsPrint), 1, -1, 0);
+	
+
 }
 void Game::MapLayerPrint()
 {
@@ -152,13 +158,14 @@ void Game::HeroPrint()
 	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
 	Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance,Myhero->getPositionY() - _atkDistance,2* _atkDistance,2* _atkDistance);
 	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
-	SetHpBar();
-	SetManaBar();
+	Myhero->SetHpBar();
+	Myhero->SetManaBar();
 
 	OtherHero->x_position = visibleSize.width / 2-200;
 	OtherHero->y_position = visibleSize.height / 2-200;
 	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2));
 	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
+
 }
 
 
@@ -174,12 +181,68 @@ void Game::TowerPrint()
 void Game::CreepsPrint(float delta)
 {
 	//生成兵的函数
-
+	
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
 	creep1->setPosition(Vec2(visibleSize.width / 2+a*50, visibleSize.height / 2));
 	this->getChildByName("MapLayer")->addChild(creep1, 2);
 	targetCreep.push_back(creep1);
 	a++;
+
+
+	//小兵攻击
+	if (targetCreep.size()>0) {
+		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+			auto i = *iter;				
+			iter++;
+			if (i->checkTowerInRect()) {
+				Tower1->setHealthPoints(Tower1->getHealthPoints() - i->getAtk());
+				if (Tower1->getHealthPoints() <= 0) {
+					Tower1->die();					
+				}
+				continue;
+			}
+			else if (i->checkHeroInRect()) {
+				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - i->getAtk());
+				if (OtherHero->getHealthPoints() <= 0) {
+					OtherHero->die();
+					
+				}
+				continue;
+			}
+			//这里预留一个给小兵的
+			else {//没有其他的攻击指令就向前走
+
+			}
+		}
+	}
+	//防御塔攻击
+	if (targetCreep.size() > 0) {
+		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+			auto _creep = *iter;
+			if (Tower1->newAttackRect()->containsPoint(_creep->getPosition())) {
+				_creep->setHealthPoints(_creep->getHealthPoints() - Tower1->getAtk());
+				if (_creep->getHealthPoints() <= 0) {
+					
+					_creep->die();
+					targetCreep.erase(iter);				
+				}
+				return;
+			}
+		}
+	}
+
+
+
+	if (Tower1->checkHeroInRect()) {
+		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - Tower1->getAtk());
+		if (OtherHero->getHealthPoints() < 0) {
+			OtherHero->die();
+		}
+	}
+
+
+
+
 }
 void Game::SetHpBar()
 {
@@ -410,14 +473,17 @@ void Game::initMouseListener(Hero* hero)
 			OtherHero->getHealthPoints()>0) {
 			//这里留给攻击动画
 			OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
+			if (OtherHero->getHealthPoints() <= 0) {
+				OtherHero->die();
+			}
 			return true;
 		}
 
-		auto a = clickRect->containsPoint(Tower1->getPosition());
-		auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
-		auto eee = hero->getPosition();
-		auto d = Tower1->getPosition();
-		auto c = Tower1->getHealthPoints();
+	//	auto a = clickRect->containsPoint(Tower1->getPosition());
+	//	auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
+	//	auto eee = hero->getPosition();
+	//	auto d = Tower1->getPosition();
+	//	auto c = Tower1->getHealthPoints();
 		if (clickRect->containsPoint(Tower1->getPosition()) &&
 			hero->attack_rect->containsPoint(Tower1->getPosition()) &&
 			Tower1->getHealthPoints() > 0) {
@@ -425,7 +491,8 @@ void Game::initMouseListener(Hero* hero)
 			if (Tower1->getHealthPoints() <= 0) {
 				hero->setGold(hero->getGold() + Tower1->getRewardMoney());
 				hero->setExp(hero->getExp() + Tower1->getRewardExp());
-				Tower1->setVisible(false);
+				Tower1->die();
+
 			}
 			return true;
 		}
@@ -438,7 +505,7 @@ void Game::initMouseListener(Hero* hero)
 					_creep->getHealthPoints() > 0) {
 					_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
 					if (_creep->getHealthPoints()<=0) {
-						_creep->setVisible(false);
+						_creep->die();
 						hero->setGold(hero->getGold() + _creep->getRewardMoney());
 						hero->setExp(hero->getExp() + _creep->getRewardExp());
 						targetCreep.erase(iter);

@@ -28,12 +28,12 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 	{
 	case CreepTypeTest:
 		filename1 = Creep_test;
-		creep->initHealthPointsLimit = 10;
-		creep->healthPoints = 10;
+		creep->initHealthPointsLimit = 20;
+		creep->healthPoints = 20;
 		creep->armorPoints = 10;
 		creep->magicArmorPoints = 10;
 		creep->atk = 10;
-		creep->atkDistance = 100;
+		creep->atkDistance = 1000;
 		creep->atkSpeeds = 10;
 		creep->SetHpBar();
 		creep->setRewardMoney(30);
@@ -89,6 +89,10 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 }
 
 void Creep::update(float dt) {
+	if (this->checkHeroInRect()) {
+		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
+	}
+
 	if (this->healthPoints == 0)
 	{
 		this->die();
@@ -131,9 +135,19 @@ bool Creep::hurt(float atk){
 void Creep::die() {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画
-	this->release();
+	this->stopAllActions();
+	this->setVisible(false);
+	this->setAtk(0);
 }
 
+
+bool Creep::checkTowerInRect(){
+	if (this->newAttackRect()->containsPoint(Tower1->getPosition())) {
+		this->isAttacking = true;
+		return true;
+	}
+	return false;
+}
 
 void Creep::SetHpBar()
 {
@@ -163,25 +177,31 @@ void Creep::UpdateHpBar(float delta)
 }
 
 
-/*
+
+Rect* Creep::newAttackRect()
+{
+	return new Rect(this->getPositionX() - this->getAtkDistance(),this->getPositionY() - this->getAtkDistance(),this->getAtkDistance() *2,this->getAtkDistance() *2);
+}
+
 bool Creep::checkHeroInRect()
 {
-	auto distance = this->getAtkDistance();
-	if (this->isAttacking && this->attack_rect->containsPoint(OtherHero->getPosition())) {
+	if (this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
 		this->isAttacking = true;
 		return true;
 	}
 	return false;
 }
+
+
+
 void Creep::attackOtherHero()
 {
-	this->stopAllActions();
+
 	if (this->isAttacking == true) {
 		this->isAttacking = false;
+		this->stopAllActions();
 		//播放动画
 
 		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
-
 	}
-}*/
-//
+}

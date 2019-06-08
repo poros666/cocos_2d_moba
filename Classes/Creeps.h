@@ -66,7 +66,10 @@ public:
 	bool hurt(float atk);//受伤.
 	void die();//死亡.
 	//void hpRecover(int healthRecoverPoint);//回血
+	Rect* newAttackRect();
 	bool checkHeroInRect();
+	bool checkCreepInRect();//之后又具体的小兵类之后写成两拨小兵
+	bool checkTowerInRect();
 	void SetHpBar();
 	void UpdateHpBar(float delta);
 	void attackOtherHero();

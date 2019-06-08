@@ -42,9 +42,7 @@ public:
 	void initKeyListener(Hero* hero);
 	void initMouseListener(Hero* hero);
 	bool clickToAttack(Hero* owner);
-	std::list<Creep*> targetCreep;
-	Hero* OtherHero;
-	Tower* Tower1;
+//	void creepMoveAndAttack();
 	CREATE_FUNC(Game);
 	
 private:
