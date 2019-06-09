@@ -84,7 +84,7 @@ public:
 	bool checkTowerInRect();
 	void SetHpBar();
 	void UpdateHpBar(float delta);
-
+	void moveForward();
 	std::string getName();
 
 	void attackOtherHero();

@@ -3,8 +3,11 @@
 int a = 0;
 USING_NS_CC;
 Hero* OtherHero;
+Hero* Myhero;
 Tower* Tower1;
+Tower* Tower2;
 std::list<Creep*> targetCreep;
+std::list<Creep*> OtherCreep;
 
 Scene* Game::createScene()
 {
@@ -201,25 +204,25 @@ void Game::CreepsPrint(float delta)
 
 	
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
-	creep1->setPosition(Vec2(visibleSize.width / 2+a*50, visibleSize.height / 2));
+	creep1->setPosition(640,400);
 	this->getChildByName("MapLayer")->addChild(creep1, 2);
 	targetCreep.push_back(creep1);
 	a++;
 
 
 	//小兵攻击
-	if (targetCreep.size()>0) {
+	if (targetCreep.size()>0 ) {
 		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
 			auto i = *iter;				
 			iter++;
-			if (i->checkTowerInRect()) {
+			if (i->checkTowerInRect() && Tower1->getHealthPoints()>0) {
 				Tower1->setHealthPoints(Tower1->getHealthPoints() - i->getAtk());
 				if (Tower1->getHealthPoints() <= 0) {
 					Tower1->die();					
 				}
 				continue;
 			}
-			else if (i->checkHeroInRect()) {
+			else if (i->checkHeroInRect() && OtherHero->getHealthPoints()>0) {
 				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - i->getAtk());
 				if (OtherHero->getHealthPoints() <= 0) {
 					OtherHero->die();
@@ -229,7 +232,7 @@ void Game::CreepsPrint(float delta)
 			}
 			//这里预留一个给小兵的
 			else {//没有其他的攻击指令就向前走
-
+				i->moveForward();
 			}
 		}
 	}

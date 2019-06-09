@@ -51,7 +51,7 @@ private:
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 	bool isGamming = true;
-	Hero* Myhero;
+
 
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;

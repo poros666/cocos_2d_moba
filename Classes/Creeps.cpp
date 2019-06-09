@@ -202,6 +202,13 @@ void Creep::UpdateHpBar(float delta)
 	HpBarProgress->setPercentage(percentage);
 }
 
+void Creep::moveForward()
+{
+	auto Moving = MoveTo::create(1, Vec2(this->getPositionX() + 50, this->getPositionY()));
+	this->stopAllActions();
+	this->runAction(Moving);
+}
+
 
 std::string Creep::getName() {
 	switch (creepType)
