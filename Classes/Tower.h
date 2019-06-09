@@ -6,6 +6,7 @@ ver2
 */
 #pragma once
 #include<cocos2d.h>
+#include"Creeps.h"
 using namespace cocos2d;
 
 /*
@@ -43,7 +44,8 @@ class Tower :public cocos2d::Sprite {
 	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//攻击速度
 
 	CC_SYNTHESIZE(int, level, Level);//等级//有一个想法//把tower等级设为负数，然后可以把杀人得到的钱和那个单位的等级绑定，检测到等级为负几，就对应该某种小兵杀死所得钱数
-
+	CC_SYNTHESIZE(int, rewardmoney, RewardMoney);
+	CC_SYNTHESIZE(int, rewardexp, RewardExp);
 	//CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//移速
 	/*
 	关于CC_SYNTHESIZE
@@ -58,13 +60,18 @@ public:
 	//void spawnTower();//生成tower函数
 	//virtual void update(float dt);//游戏循环调用的默认函数//设置默认对象的自动运动的位置和角度x
 	static Tower* creatWithTowerTypes(TowerTypes towerType);//静态创造tower函数
-
+	bool isAttacking;
 	bool hurt(float atk);//受伤
 	void die();//死亡
 	void win();//判断胜利
 	//void hpRecover(int healthRecoverPoint);//回血
 	void SetHpBar();
+	virtual void update(float dt);
 	void UpdateHpBar(float delta);
+	Rect* newAttackRect();
+	bool checkHeroInRect();
+	bool checkCreepInRect(std::list<Creep*>::iterator iter);//之后又具体的小兵类之后写成两拨小兵
+;	
 	float x_position = 0;
 	float y_position = 0;
 private:

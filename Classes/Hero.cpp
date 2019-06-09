@@ -27,6 +27,10 @@ using namespace cocos2d;
 		hero->setMoveSpeed(200);
 		hero->SetHpBar();
 		hero->SetManaBar();
+		hero->setAtkDistance(100);
+		hero->setAtk(10);
+		hero->setReBornPoint(Vec2(300, 500));
+		//attack_rect = new Rect();
 		//...
 		break;
 	case HeroTpyeExecu:
@@ -84,6 +88,7 @@ using namespace cocos2d;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
+		
 		//...
 		break;
 	default:
@@ -100,6 +105,33 @@ using namespace cocos2d;
 	
 	return nullptr;
 }
+
+ void Hero::clickAttack(Node* target,Hero* owner) {
+	 if (target == this->EnemyHero) {
+		 Hero* tempHero = static_cast<Hero*>(target);
+		 if (owner->attack_rect->containsPoint(tempHero->getPosition()) && tempHero->getHealthPoints()>0) {
+			 //这里留给攻击动画
+			 tempHero->setHealthPoints(tempHero->getHealthPoints() -owner->getAtk() );
+		 }
+	 }
+	 else if (target == this->EnemyTower) {
+		 Tower* tempTower = static_cast<Tower*>(target);
+		 if (owner->attack_rect->containsPoint(tempTower->getPosition()) && tempTower->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempTower->setHealthPoints(tempTower->getHealthPoints() - owner->getAtk());
+		 }
+	 }
+	 else if (target==this->EnemyCreep) {
+		 Creep* tempCreep = static_cast<Creep*>(target);
+		 if (owner->attack_rect->containsPoint(tempCreep->getPosition()) && tempCreep->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempCreep->setHealthPoints(getHealthPoints() - owner->getAtk());
+		 }
+	 }
+ }
+
+ 
+
 
 bool Hero::hurt(float atk) {
 
@@ -153,8 +185,17 @@ void Hero::die()
 {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画,挪回初始位置？
-
+	this->stopAllActions();
+	this->setPosition(getReBornPoint());
 }
+
+void Hero::setNewAtkRect()
+{
+	attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
+}
+
+
+
 
 void Hero::SetHpBar()
 {
@@ -232,3 +273,11 @@ std::string Hero::getName() {
 		break;
 	}
 }
+
+void Hero::update(float dt)
+{
+	if (this->getHealthPoints() <= 0) {
+		this->die();
+	}
+}
+

@@ -8,6 +8,9 @@ ver1
 #pragma once
 #include<cocos2d.h>
 #include<map>
+#include"Creeps.h"
+#include"Tower.h"
+
 using namespace cocos2d;
 using namespace std;
 /*¶¨ÒåÓ¢ÐÛÃû³ÆÒ²ÊÇÓ¢ÐÛÍ¼Æ¬ÎÄ¼þµÄÃû³Æ
@@ -65,6 +68,8 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//ÎïÆ·ÊýÁ¿
 
 
+	CC_SYNTHESIZE(Vec2, rebornpoint, ReBornPoint);
+
 	CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//ÒÆËÙ
 	/*
 	¹ØÓÚCC_SYNTHESIZE
@@ -77,11 +82,13 @@ class Hero :public cocos2d::Sprite {
 	*/
 public:
 	
-	//virtual void update(float dt);//ÓÎÏ·Ñ­»·µ÷ÓÃµÄÄ¬ÈÏº¯Êý
+	//virtual void update(float dt);
+	Rect* attack_rect; 
+	Vec2 ReStart;
 	static Hero* creatWithHeroTypes(HeroTypes heroType);//¾²Ì¬´´ÔìÓ¢ÐÛº¯Êý
-
 	bool hurt(float atk);//ÊÜÉË.
 	void die();//ËÀÍö.
+	void setNewAtkRect();
 	void hpRecover(int healthRecoverPoint);//»ØÑª
 	void mpRecover(int manaRecoverPoint);//»ØÀ¶
 	void addExp(int exp);//»ñµÃ¾­Ñé
@@ -91,12 +98,17 @@ public:
 	void SetManaBar();
 	void UpdateManaBar(float delta);
 	void move(Vec2 endPos, Hero* Hero);
-	//ÒÉÎÊÕâÐ©Ö»¸Ä±äÊýÖµµÄº¯Êý»òÐí¿ÉÒÔ²»Ð´
-	//¼Ç·Ö°åÔÚÄÄÀï×öºÏÀí£¿ÎÒÕâÀï¿ÉÒÔ¼Ó»ñµÃ×Ü½ðÇ®£¬É±ÈËÊý ËÀÍöÊý£¬ÓÎÏ·½áÊøºó¶ÁÈ¡Êý¾Ý¾Í¿ÉÒÔÁË
+
+	virtual void update(float dt);
 	float x_position=0;
 	float y_position=0;
+	Hero* EnemyHero;
+	Tower* EnemyTower;
+	Creep* EnemyCreep;
 	list<int> equipment;
+	void clickAttack(Node* target,Hero* owner);
 	std::string getName();
+
 private:
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;
