@@ -163,16 +163,7 @@ void Game::menuBackCallback(cocos2d::Ref* pSender)
 {
 	Director::getInstance()->popScene();
 }
-void Game::ScoreBoardPrint()
-{
-	auto layer = ScoreBoard::createLayer(Myhero);
-	this->addChild(layer, 7, "ScoreBoard");
 
-}
-void Game::ScoreBoardRelesed() 
-{
-	this->removeChildByName("ScoreBoard");
-}
 void Game::HeroPrint()
 {
 	//生成英雄的函数
@@ -183,8 +174,8 @@ void Game::HeroPrint()
 	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
 	Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance,Myhero->getPositionY() - _atkDistance,2* _atkDistance,2* _atkDistance);
 	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
-	Myhero->SetHpBar();
-	Myhero->SetManaBar();
+	SetHpBar();
+	SetManaBar();
 
 	OtherHero->x_position = visibleSize.width / 2-200;
 	OtherHero->y_position = visibleSize.height / 2-200;
@@ -360,7 +351,7 @@ void Game::initKeyListener(Hero* hero)
 		{
 		case EventKeyboard::KeyCode::KEY_TAB:
 		{	
-			ScoreBoardPrint();
+			this->ScoreBoardPrint();
 			//Mouselistener->setEnabled(false);
 			break;
 		}
@@ -404,7 +395,7 @@ void Game::initKeyListener(Hero* hero)
 		{
 		case EventKeyboard::KeyCode::KEY_TAB:
 		{	
-			ScoreBoardRelesed();
+			this->ScoreBoardRelesed();
 			Mouselistener->setEnabled(true);
 			break;
 		}
@@ -564,80 +555,6 @@ void Game::initMouseListener(Hero* hero)
 bool Game::clickToAttack(Hero* owner)
 {
 	return false;
-
-}
-
-void Game::initMouseListener(Hero* hero)
-{
-	Mouselistener = EventListenerTouchOneByOne::create();
-
-	Mouselistener->onTouchBegan = [this, hero](Touch* touch, Event* e) {
-
-
-		Vec2 startPos = hero->getPosition();
-
-		Vec2 endPos = touch->getLocation();
-
-
-		/*
-				int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
-
-				if (Angle > -45 && Angle < 45) {
-
-					Hero->move(Hero::Direction::RIGHT, endPos, Hero);//UP
-
-				}
-
-				else if (Angle > -135 && Angle < -45)
-
-				{
-
-					Hero->move(Hero::Direction::DOWN, endPos, Hero);//LE
-
-
-
-				}
-
-
-
-				else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
-
-				{
-
-
-
-					Hero->move(Hero::Direction::LEFT, endPos, Hero);//DO
-
-				}
-
-				else
-
-				{
-
-					Hero->move(Hero::Direction::UP, endPos, Hero);//R
-
-				}
-
-		*/
-
-
-
-		hero->move(endPos, hero);
-		//hero->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Elite_runright")));
-
-		return true;
-
-	};
-
-	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(Mouselistener,1);
-
-	Mouselistener->onTouchEnded = [this](Touch* touch, Event* e)
-
-	{
-
-		return true;
-
-	};
 
 }
 
