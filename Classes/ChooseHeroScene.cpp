@@ -36,7 +36,21 @@ bool ChooseHeroScene::init()
 		float y = origin.y + visibleSize.height / 2;
 		EliteItem->setPosition(Vec2(x, y));
 	}
+	auto Elitelabel = Label::createWithTTF("Elite", "fonts/Marker Felt.ttf", 24);
+	if (Elitelabel == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		float x = origin.x + visibleSize.width / 2;
+		float y = origin.y + visibleSize.height / 2 - 2*Elitelabel->getContentSize().height;
+		// position the label on the center of the screen
+		Elitelabel->setPosition(Vec2(x,y));
 
+		// add the label as a child to this layer
+		this->addChild(Elitelabel, 1);
+	}
 	auto ExecuItem = MenuItemImage::create(
 		"Character Model  res/desertExecutioner_0001.png",
 		"Character Model  res/desertExecutioner_0001.png",
@@ -49,11 +63,25 @@ bool ChooseHeroScene::init()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 2+200;
+		float x = origin.x + visibleSize.width / 2+300;
 		float y = origin.y + visibleSize.height / 2;
 		ExecuItem->setPosition(Vec2(x, y));
 	}
+	auto Execulabel = Label::createWithTTF("Execu", "fonts/Marker Felt.ttf", 24);
+	if (Execulabel == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		float x = origin.x + visibleSize.width / 2+300;
+		float y = origin.y + visibleSize.height / 2 - 2*Execulabel->getContentSize().height;
+		// position the label on the center of the screen
+		Execulabel->setPosition(Vec2(x, y));
 
+		// add the label as a child to this layer
+		this->addChild(Execulabel, 1);
+	}
 	auto MunaraItem = MenuItemImage::create(
 		"Character Model  res/desertMunra_0001.png",
 		"Character Model  res/desertMunra_0001.png",
@@ -67,27 +95,24 @@ bool ChooseHeroScene::init()
 	else
 	{
 		MunaraItem->setScale(2);
-		float x = origin.x + visibleSize.width / 2 - 200;
+		float x = origin.x + visibleSize.width / 2 - 300;
 		float y = origin.y + visibleSize.height / 2;
 		MunaraItem->setPosition(Vec2(x, y));
 	}
-	//Éú³É½øÈë1v1µØÍ¼µÄÍ¼±ê
-	auto OneMapItem = MenuItemImage::create(
-		"EnterOneMap.png",
-		"EnterOneMap.png",
-		CC_CALLBACK_1(ChooseHeroScene::menuOneMapChoosedCallBack, this));
-	if (OneMapItem == nullptr ||
-		OneMapItem->getContentSize().width <= 0 ||
-		OneMapItem->getContentSize().height <= 0)
+	auto Munaralabel = Label::createWithTTF("Munara", "fonts/Marker Felt.ttf", 24);
+	if (Munaralabel == nullptr)
 	{
-		problemLoading("'EnterOneMap.png' and 'EnterOneMap.png'");
+		problemLoading("'fonts/Marker Felt.ttf'");
 	}
 	else
 	{
+		float x = origin.x + visibleSize.width / 2 - 300;
+		float y = origin.y + visibleSize.height / 2 - 2 * Munaralabel->getContentSize().height;
+		// position the label on the center of the screen
+		Munaralabel->setPosition(Vec2(x, y));
 
-		float x = origin.x + visibleSize.width / 4;
-		float y = origin.y + visibleSize.height / 2;
-		OneMapItem->setPosition(Vec2(x, y));
+		// add the label as a child to this layer
+		this->addChild(Munaralabel, 1);
 	}
 
 	//Éú³É·µ»Ø¼ü
@@ -110,7 +135,7 @@ bool ChooseHeroScene::init()
 	}
 	//
 
-	auto menu = Menu::create(backItem,EliteItem,ExecuItem, MunaraItem, OneMapItem,NULL);
+	auto menu = Menu::create(backItem,EliteItem,ExecuItem, MunaraItem,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 	auto sprite = Sprite::create("SettingBackGround.png");
@@ -178,13 +203,3 @@ void ChooseHeroScene::menuBackCallback(Ref* pSender)//°´·µ»Ø¼ü·µ»ØÖ
 	}
 }
 
-void ChooseHeroScene::menuOneMapChoosedCallBack(cocos2d::Ref* pSender)
-{
-	auto scene = Game::createScene();
-	auto reScene = TransitionFadeDown::create(0.8f, scene);
-	Director::getInstance()->pushScene(reScene);
-	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
-	{
-		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
-	}
-}

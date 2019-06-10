@@ -13,6 +13,5 @@ public:
 	void menuExecuChoosedCallBack(cocos2d::Ref* pSender);
 	void menuMunaraChoosedCallBack(cocos2d::Ref* pSender);
 	void menuBackCallback(Ref* pSender);
-	void menuOneMapChoosedCallBack(cocos2d::Ref* pSender);
 	CREATE_FUNC(ChooseHeroScene);
 };
