@@ -4,8 +4,7 @@
 class ScoreBoard :public cocos2d::Layer
 {
 public:
-	static cocos2d::Layer* createLayer(Hero* Myhero);
+	static cocos2d::Layer* createLayer();
 	virtual bool init();
-	static void Print(Hero* Myhero);
 	CREATE_FUNC(ScoreBoard);
 };

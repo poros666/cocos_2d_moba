@@ -130,7 +130,7 @@ void Game::StatusLayerPrint()
 }
 void Game::ScoreBoardPrint()
 {
-	auto layer = ScoreBoard::createLayer(Myhero);
+	auto layer = ScoreBoard::createLayer();
 	this->addChild(layer, 7, "ScoreBoard");
 
 }
@@ -357,7 +357,6 @@ void Game::initKeyListener(Hero* hero)
 		case EventKeyboard::KeyCode::KEY_TAB:
 		{	
 			this->ScoreBoardPrint();
-			//Mouselistener->setEnabled(false);
 			break;
 		}
 		case EventKeyboard::KeyCode::KEY_B:
