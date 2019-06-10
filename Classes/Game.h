@@ -39,6 +39,8 @@ public:
 	void UpdateHpBar(float delta);
 	void SetManaBar();
 	void UpdateManaBar(float delta);
+	void SetExpBar();
+	void UpdateExpBar(float delta);
 	virtual void onEnter();
 	void initKeyListener(Hero* hero);
 	void initMouseListener(Hero* hero);
@@ -55,6 +57,7 @@ private:
 
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;
+	ProgressTimer* ExpBarProgress;
 	EventListenerTouchOneByOne *Mouselistener;
 	EventListenerKeyboard* keylistener;
 	Skill* skillQ;

@@ -181,12 +181,11 @@ void Game::HeroPrint()
 	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
 	SetHpBar();
 	SetManaBar();
-
+	SetExpBar();
 	OtherHero->x_position = visibleSize.width / 2-200;
 	OtherHero->y_position = visibleSize.height / 2-200;
 	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2));
 	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
-
 }
 
 
@@ -320,10 +319,34 @@ void Game::UpdateManaBar(float delta)
 	}
 	ManaBarProgress->setPercentage(percentage);
 }
+void Game::SetExpBar()
+{
+	auto ExpBar = Sprite::create("healthbar.dds");
+	ExpBarProgress = ProgressTimer::create(ExpBar);
+	ExpBarProgress->setColor(Color3B::RED);
+	ExpBarProgress->setScale(0.27, 0.7);
+	auto size = ExpBarProgress->getContentSize();
+	float x = visibleSize.width / 2;
+	float y = size.height +100 ;
+	ExpBarProgress->setPosition(Vec2(x, y));
+	ExpBarProgress->setType(ProgressTimer::Type::BAR);
+	ExpBarProgress->setMidpoint(Vec2(0, 0));
+	ExpBarProgress->setBarChangeRate(Vec2(1, 0));
+	ExpBarProgress->setPercentage(100 * Myhero->getExp() / Myhero->getExpLimit());
+	this->addChild(ExpBarProgress, 4, "ExpBarProgress");
+	this->schedule(schedule_selector(Game::UpdateExpBar));
+}
+void Game::UpdateExpBar(float delta)
+{
+	float percentage = 100 * Myhero->getExp() / Myhero->getExpLimit();
+	while (percentage >= 100)
+	{
+		percentage -= 100;
+	}
+	ExpBarProgress->setPercentage(percentage);
+}
 void Game::update(float delta)
 {
-	//血条蓝条经验条的实时更新
-
 	//英雄死亡监测
 	if (Myhero->getHealthPoints() <= 0)
 	{

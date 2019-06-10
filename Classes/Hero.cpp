@@ -30,6 +30,8 @@ using namespace cocos2d;
 		hero->setAtkDistance(100);
 		hero->setAtk(10);
 		hero->setReBornPoint(Vec2(300, 500));
+		hero->setExp(50);
+		hero->setExpLimit(100);
 		//attack_rect = new Rect();
 		//...
 		break;
@@ -50,6 +52,8 @@ using namespace cocos2d;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
+		hero->setExp(50);
+		hero->setExpLimit(100);
 		//...
 		break;
 	case HeroTpyeElite:
@@ -69,6 +73,8 @@ using namespace cocos2d;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
+		hero->setExp(50);
+		hero->setExpLimit(100);
 		//...
 		break;
 	case HeroTpyeMunra:
@@ -88,7 +94,8 @@ using namespace cocos2d;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
-		
+		hero->setExp(50);
+		hero->setExpLimit(100);
 		//...
 		break;
 	default:
