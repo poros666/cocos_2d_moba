@@ -40,8 +40,10 @@ bool Game::init()
 	ani->init_mechsTower();
 	ani->init_elite();
 	ani->init_munra();
-
-	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
+	UserDefault* defualts = UserDefault::getInstance();
+	if(defualts->getBoolForKey("Execu")){ Myhero = Hero::creatWithHeroTypes(HeroTpyeExecu); }
+	if (defualts->getBoolForKey("Elite")) { Myhero = Hero::creatWithHeroTypes(HeroTpyeElite); }
+	if (defualts->getBoolForKey("Munara")) { Myhero = Hero::creatWithHeroTypes(HeroTpyeMunra); }
 	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest);
 	Tower1 = Tower::creatWithTowerTypes(TowerTypeTest);
 

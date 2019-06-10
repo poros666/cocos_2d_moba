@@ -20,13 +20,13 @@ bool ChooseHeroScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	//Éú³ÉºóÒáµÄÍ¼±ê
-	auto HouyiItem = MenuItemImage::create(
-		"reimu.png",
-		"reimu.png",
-		CC_CALLBACK_1(ChooseHeroScene::menuHouyiChoosedCallBack,this));
-	if (HouyiItem == nullptr ||
-		HouyiItem->getContentSize().width <= 0 ||
-		HouyiItem->getContentSize().height <= 0)
+	auto EliteItem = MenuItemImage::create(
+		"Character Model  res/SaurianElite_0001.png",
+		"Character Model  res/SaurianElite_0001.png",
+		CC_CALLBACK_1(ChooseHeroScene::menuEliteChoosedCallBack,this));
+	if (EliteItem == nullptr ||
+		EliteItem->getContentSize().width <= 0 ||
+		EliteItem->getContentSize().height <= 0)
 	{
 		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
 	}
@@ -34,9 +34,43 @@ bool ChooseHeroScene::init()
 	{
 		float x = origin.x + visibleSize.width / 2;
 		float y = origin.y + visibleSize.height / 2;
-		HouyiItem->setPosition(Vec2(x, y));
+		EliteItem->setPosition(Vec2(x, y));
 	}
 
+	auto ExecuItem = MenuItemImage::create(
+		"Character Model  res/desertExecutioner_0001.png",
+		"Character Model  res/desertExecutioner_0001.png",
+		CC_CALLBACK_1(ChooseHeroScene::menuExecuChoosedCallBack, this));
+	if (ExecuItem == nullptr ||
+		ExecuItem->getContentSize().width <= 0 ||
+		ExecuItem->getContentSize().height <= 0)
+	{
+		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
+	}
+	else
+	{
+		float x = origin.x + visibleSize.width / 2+200;
+		float y = origin.y + visibleSize.height / 2;
+		ExecuItem->setPosition(Vec2(x, y));
+	}
+
+	auto MunaraItem = MenuItemImage::create(
+		"Character Model  res/desertMunra_0001.png",
+		"Character Model  res/desertMunra_0001.png",
+		CC_CALLBACK_1(ChooseHeroScene::menuMunaraChoosedCallBack, this));
+	if (MunaraItem == nullptr ||
+		MunaraItem->getContentSize().width <= 0 ||
+		MunaraItem->getContentSize().height <= 0)
+	{
+		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
+	}
+	else
+	{
+		MunaraItem->setScale(2);
+		float x = origin.x + visibleSize.width / 2 - 200;
+		float y = origin.y + visibleSize.height / 2;
+		MunaraItem->setPosition(Vec2(x, y));
+	}
 	//Éú³É½øÈë1v1µØÍ¼µÄÍ¼±ê
 	auto OneMapItem = MenuItemImage::create(
 		"EnterOneMap.png",
@@ -76,7 +110,7 @@ bool ChooseHeroScene::init()
 	}
 	//
 
-	auto menu = Menu::create(backItem,HouyiItem, OneMapItem,NULL);
+	auto menu = Menu::create(backItem,EliteItem,ExecuItem, MunaraItem, OneMapItem,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 	auto sprite = Sprite::create("SettingBackGround.png");
@@ -94,8 +128,11 @@ bool ChooseHeroScene::init()
 	}
 	return true;
 }
-void ChooseHeroScene::menuHouyiChoosedCallBack(cocos2d::Ref* pSender) 
+void ChooseHeroScene::menuEliteChoosedCallBack(cocos2d::Ref* pSender)
 {
+	UserDefault::getInstance()->setBoolForKey("Elite", true);
+	UserDefault::getInstance()->setBoolForKey("Execu", false);
+	UserDefault::getInstance()->setBoolForKey("Munara", false);
 	auto scene = Game::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
@@ -104,12 +141,31 @@ void ChooseHeroScene::menuHouyiChoosedCallBack(cocos2d::Ref* pSender)
 		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
 	}
 }
-void ChooseHeroScene::menuDaJiChoosedCallBack(cocos2d::Ref* pSender) 
+void ChooseHeroScene::menuExecuChoosedCallBack(cocos2d::Ref* pSender)
 {
-
+	UserDefault::getInstance()->setBoolForKey("Elite", false);
+	UserDefault::getInstance()->setBoolForKey("Execu", true);
+	UserDefault::getInstance()->setBoolForKey("Munara", false);
+	auto scene = Game::createScene();
+	auto reScene = TransitionFadeDown::create(0.8f, scene);
+	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
-void ChooseHeroScene::menuXiangYuChoosedCallBack(cocos2d::Ref* pSender) 
+void ChooseHeroScene::menuMunaraChoosedCallBack(cocos2d::Ref* pSender)
 {
+	UserDefault::getInstance()->setBoolForKey("Elite", false);
+	UserDefault::getInstance()->setBoolForKey("Execu", false);
+	UserDefault::getInstance()->setBoolForKey("Munara", true);
+	auto scene = Game::createScene();
+	auto reScene = TransitionFadeDown::create(0.8f, scene);
+	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
+	{
+		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
+	}
 }
 void ChooseHeroScene::menuBackCallback(Ref* pSender)//°´·µ»Ø¼ü·µ»ØÖ÷²Ëµ¥
 {
