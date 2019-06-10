@@ -10,6 +10,7 @@ Tower* Base1;
 Tower* Base2;
 std::list<Creep*> targetCreep;
 std::list<Creep*> OtherCreep;
+std::list<Creep*> FieldCreep;
 
 Scene* Game::createScene()
 {
@@ -45,18 +46,25 @@ bool Game::init()
 
 	Myhero = Hero::creatWithHeroTypes(HeroTypeTest);
 	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest);
-	Tower1 = Tower::creatWithTowerTypes(TowerTypeTest);
-
+	Tower1 = Tower::creatWithTowerTypes(TowerTypeTest,true);
+	Tower2 = Tower::creatWithTowerTypes(TowerTypeTest,false);
+	Base1 = Tower::creatWithTowerTypes(TowerTypeBase,true);
+	Base2 = Tower::creatWithTowerTypes(TowerTypeBase,false);
 	MapLayerPrint();
 	HeroPrint();
 	
+
+
+
+
+
+
+
 	StatusLayerPrint();
 	TowerPrint();
 	ShopLayerPrint();
 	ShowPrint();
-
 	BackButtonPrint();
-
 	return true;
 }
 void Game::onEnter()
@@ -65,7 +73,8 @@ void Game::onEnter()
 	Game::initMouseListener(Myhero);
 	Game::initKeyListener(Myhero);
 	this->scheduleUpdate();
-	this->schedule(schedule_selector(Game::CreepsPrint), 1, -1, 0);
+	this->schedule(schedule_selector(Game::CreepsPrint), 30, -1, 0);
+	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
 //	this->schedule(schedule_selector(), 1, -1, 1);
 }
 void Game::MapLayerPrint()
@@ -197,77 +206,69 @@ void Game::TowerPrint()
 	Tower1->setPosition(Vec2(visibleSize.width / 2 -50, visibleSize.height / 2 - 50));
 	this->getChildByName("MapLayer")->addChild(Tower1, 2,"Tower1");
 
+	Tower2->setPosition(Vec2(3600, 400));
+	this->getChildByName("MapLayer")->addChild(Tower2, 2, "Tower2");
+
+	Base1->setPosition(Vec2(300, 400));
+	this->getChildByName("MapLayer")->addChild(Base1, 2, "Base1");
+
+	Base2->setPosition(Vec2(3800, 400));
+	this->getChildByName("MapLayer")->addChild(Base2, 2, "Base2");
+
 }
 
 
 void Game::CreepsPrint(float delta)
 {
-	//生成兵的函数
+	//生成兵的函数	
+	auto melee1 = Creep::creatWithCreepTypes(CreepTypeMelee,true);
+	melee1->setPosition(640,400);
+	this->getChildByName("MapLayer")->addChild(melee1, 2);
+	targetCreep.push_back(melee1); 
+	auto range1 = Creep::creatWithCreepTypes(CreepTypeRange, true);
+	range1->setPosition(600, 430);
+	this->getChildByName("MapLayer")->addChild(range1, 2);
+	targetCreep.push_back(range1);
+	auto cannon1 = Creep::creatWithCreepTypes(CreepTypeCannon, true);
+	cannon1->setPosition(600, 370);
+	this->getChildByName("MapLayer")->addChild(cannon1, 2);
+	targetCreep.push_back(cannon1);
 
-	
-	auto creep1 = Creep::creatWithCreepTypes(CreepTypeTest);
-	creep1->setPosition(640,400);
+	auto melee2 = Creep::creatWithCreepTypes(CreepTypeMelee,false);
+	melee2->setPosition(4160, 400);
+	this->getChildByName("MapLayer")->addChild(melee2, 2);
+	OtherCreep.push_back(melee2);
+	auto range2 = Creep::creatWithCreepTypes(CreepTypeRange, false);
+	range2->setPosition(4200, 430);
+	this->getChildByName("MapLayer")->addChild(range2, 2);
+	OtherCreep.push_back(range2);
+	auto cannon2 = Creep::creatWithCreepTypes(CreepTypeCannon, false);
+	cannon2->setPosition(4200, 370);
+	this->getChildByName("MapLayer")->addChild(cannon2, 2);
+	OtherCreep.push_back(cannon2);
+
+
+
+
+}
+void Game::FieldPrint(float delta)
+{
+	auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1, true);
+	creep1->setPosition(1800, 50);
 	this->getChildByName("MapLayer")->addChild(creep1, 2);
-	targetCreep.push_back(creep1);
-	a++;
-
-
-	//小兵攻击
-	if (targetCreep.size()>0 ) {
-		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
-			auto i = *iter;				
-			iter++;
-			if (i->checkTower1InRect() && Tower1->getHealthPoints()>0) {
-				Tower1->setHealthPoints(Tower1->getHealthPoints() - i->getAtk());
-				if (Tower1->getHealthPoints() <= 0) {
-					Tower1->die();					
-				}
-				continue;
-			}
-			else if (i->checkOtherHeroInRect() && OtherHero->getHealthPoints()>0) {
-				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - i->getAtk());
-				if (OtherHero->getHealthPoints() <= 0) {
-					OtherHero->die();
-					
-				}
-				continue;
-			}
-			//这里预留一个给小兵的
-			else {//没有其他的攻击指令就向前走
-				i->moveForward();
-				
-			}
-		}
-	}
-	//防御塔攻击
-	if (targetCreep.size() > 0) {
-		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
-			auto _creep = *iter;
-			if (Tower1->newAttackRect()->containsPoint(_creep->getPosition())) {
-				_creep->setHealthPoints(_creep->getHealthPoints() - Tower1->getAtk());
-				if (_creep->getHealthPoints() <= 0) {
-					targetCreep.erase(iter);
-					_creep->die();
-							
-				}
-				return;
-			}
-		}
-	}
-
-
-
-	if (Tower1->checkHeroInRect()) {
-		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - Tower1->getAtk());
-		if (OtherHero->getHealthPoints() < 0) {
-			OtherHero->die();
-		}
-	}
-
-
-
-
-
+	FieldCreep.push_back(creep1);
+	auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2, true);
+	creep2->setPosition(3000, 50);
+	this->getChildByName("MapLayer")->addChild(creep2, 2);
+	FieldCreep.push_back(creep2);
+	auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3, true);
+	creep3->setPosition(1800, 900);
+	this->getChildByName("MapLayer")->addChild(creep3, 2);
+	FieldCreep.push_back(creep3);
+	auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4, true);
+	creep4->setPosition(3000, 900);
+	this->getChildByName("MapLayer")->addChild(creep4, 2);
+	FieldCreep.push_back(creep4);
 }
 void Game::SetHpBar()
 {
@@ -510,21 +511,21 @@ void Game::initMouseListener(Hero* hero)
 	//	auto eee = hero->getPosition();
 	//	auto d = Tower1->getPosition();
 	//	auto c = Tower1->getHealthPoints();
-		if (clickRect->containsPoint(Tower1->getPosition()) &&
-			hero->attack_rect->containsPoint(Tower1->getPosition()) &&
-			Tower1->getHealthPoints() > 0) {
-			Tower1->setHealthPoints(Tower1->getHealthPoints() - hero->getAtk());
-			if (Tower1->getHealthPoints() <= 0) {
-				hero->setGold(hero->getGold() + Tower1->getRewardMoney());
-				hero->setExp(hero->getExp() + Tower1->getRewardExp());
-				Tower1->die();
+		if (clickRect->containsPoint(Tower2->getPosition()) &&
+			hero->attack_rect->containsPoint(Tower2->getPosition()) &&
+			Tower2->getHealthPoints() > 0) {
+			Tower2->setHealthPoints(Tower2->getHealthPoints() - hero->getAtk());
+			if (Tower2->getHealthPoints() <= 0) {
+				hero->setGold(hero->getGold() + Tower2->getRewardMoney());
+				hero->setExp(hero->getExp() + Tower2->getRewardExp());
+				Tower2->die();
 
 			}
 			return true;
 		}
 
-		if (targetCreep.size()) {
-			for (auto iter = targetCreep.begin(); iter != targetCreep.end(); iter++) {
+		if (OtherCreep.size()) {
+			for (auto iter = OtherCreep.begin(); iter != OtherCreep.end(); iter++) {
 				auto _creep = *iter;
 				if (clickRect->containsPoint(_creep->getPosition()) &&
 					hero->attack_rect->containsPoint(_creep->getPosition()) &&
@@ -534,7 +535,24 @@ void Game::initMouseListener(Hero* hero)
 						_creep->die();
 						hero->setGold(hero->getGold() + _creep->getRewardMoney());
 						hero->setExp(hero->getExp() + _creep->getRewardExp());
-						targetCreep.erase(iter);
+						OtherCreep.erase(iter);
+					}
+					return true;
+				}
+			}
+		}
+		if (FieldCreep.size()) {
+			for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
+				auto _creep = *iter;
+				if (clickRect->containsPoint(_creep->getPosition()) &&
+					hero->attack_rect->containsPoint(_creep->getPosition()) &&
+					_creep->getHealthPoints() > 0) {
+					_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+					if (_creep->getHealthPoints() <= 0) {
+						_creep->die();
+						hero->setGold(hero->getGold() + _creep->getRewardMoney());
+						hero->setExp(hero->getExp() + _creep->getRewardExp());
+						FieldCreep.erase(iter);
 					}
 					return true;
 				}

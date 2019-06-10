@@ -17,68 +17,143 @@ extern Tower* Base1;
 extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
-Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
+extern std::list<Creep*> FieldCreep;
+
+Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 	Tower* tower = new (std::nothrow)Tower();
 	
 	std::string filename1 = Tower_test;
 
 	//通过switch根据type来初始化数值
-	switch (towerType)
-	{
-	case TowerTypeTest:
-		filename1 = Tower_test;
-		tower->setInitHealthPointsLimit(100);
-		tower->setHealthPoints(100);
-		tower->SetHpBar();
-		tower->setRewardExp(300);
-		tower->setRewardMoney(200);
-		tower->setAtkDistance(1000);
-		tower->setAtk(10);
-		//...
-		break;
-		
-	case TowerTypeT1:
-		filename1 = Tower_1;
-		tower->setInitHealthPointsLimit(1000);
-		tower->setHealthPoints(1000);
-		tower->setAtk(100);
-		tower->setAtkDistance(150);
-		tower->setAtkSpeeds(1);
-		tower->SetHpBar();
-		//...
-		break;
-	case TowerTypeT2:
-		filename1 = Tower_1;
-		tower->setInitHealthPointsLimit(1200);
-		tower->setHealthPoints(1200);
-		tower->setAtk(120);
-		tower->setAtkDistance(150);
-		tower->setAtkSpeeds(1);
-		tower->SetHpBar();
-		//...
-		break;
-	case TowerTypeT3:
-		filename1 = Tower_1;
-		tower->setInitHealthPointsLimit(1400);
-		tower->setHealthPoints(1400);
-		tower->setAtk(140);
-		tower->setAtkDistance(150);
-		tower->setAtkSpeeds(1);
-		tower->SetHpBar();
-		//...
-		break;
-	case TowerTypeBase:
-		filename1 = Base_1;
-		tower->setInitHealthPointsLimit(1500);
-		tower->setHealthPoints(1500);
-		tower->setAtk(0);
-		tower->setAtkDistance(0);
-		tower->setAtkSpeeds(0);
-		tower->SetHpBar();
-		//...
-		break;
-	default:
-		break;
+	if (pending) {
+		switch (towerType)
+		{
+
+		case TowerTypeTest:
+			filename1 = Tower_test;
+			tower->setInitHealthPointsLimit(100);
+			tower->setHealthPoints(100);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->setAtkDistance(1000);
+			tower->setAtk(10);
+			tower->Attack1();
+			//...
+			break;
+
+		case TowerTypeT1:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1000);
+			tower->setHealthPoints(1000);
+			tower->setAtk(100);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->Attack1();
+			//...
+			break;
+		case TowerTypeT2:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1200);
+			tower->setHealthPoints(1200);
+			tower->setAtk(120);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->Attack1();
+			//...
+			break;
+		case TowerTypeT3:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1400);
+			tower->setHealthPoints(1400);
+			tower->setAtk(140);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->Attack1();
+			//...
+			break;
+		case TowerTypeBase:
+			filename1 = Base_1;
+			tower->setInitHealthPointsLimit(1500);
+			tower->setHealthPoints(1500);
+			tower->setAtk(0);
+			tower->setAtkDistance(0);
+			tower->setAtkSpeeds(0);
+			tower->SetHpBar();
+			tower->Attack1();
+			//...
+			break;
+		default:
+			break;
+		}
+	}
+	else {
+		switch (towerType)
+		{
+
+		case TowerTypeTest:
+			filename1 = Tower_test;
+			tower->setInitHealthPointsLimit(100);
+			tower->setHealthPoints(100);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->setAtkDistance(1000);
+			tower->setAtk(10);
+			tower->Attack2();
+			//...
+			break;
+
+		case TowerTypeT1:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1000);
+			tower->setHealthPoints(1000);
+			tower->setAtk(100);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->Attack2();
+			//...
+			break;
+		case TowerTypeT2:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1200);
+			tower->setHealthPoints(1200);
+			tower->setAtk(120);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->Attack2();
+			//...
+			break;
+		case TowerTypeT3:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1400);
+			tower->setHealthPoints(1400);
+			tower->setAtk(140);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->Attack2();
+			//...
+			break;
+		case TowerTypeBase:
+			filename1 = Base_1;
+			tower->setInitHealthPointsLimit(1500);
+			tower->setHealthPoints(1500);
+			tower->setAtk(0);
+			tower->setAtkDistance(0);
+			tower->setAtkSpeeds(0);
+			tower->SetHpBar();
+			tower->Attack2();
+			//...
+			break;
+		default:
+			break;
+		}
 	}
 
 	const std::string& filename = filename1;

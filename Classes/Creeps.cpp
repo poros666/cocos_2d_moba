@@ -17,71 +17,169 @@ extern Tower* Base1;
 extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
+extern std::list<Creep*> FieldCreep;
+
 /*
 Creep::Creep(CreepTypes creepType) {
 	this->creepType = creepType;
 	this->velocity = Vec2::ZERO;
 }
 */
-Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
+Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 	Creep* creep = new (std::nothrow)Creep();
 
 	std::string filename1 = Creep_test;
 
 	//通过switch根据type来初始化数值
-	switch (creepType)
-	{
-	case CreepTypeTest:
-		filename1 = Creep_test;
-		creep->initHealthPointsLimit = 20;
-		creep->healthPoints = 20;
-		//creep->armorPoints = 10;
-		//creep->magicArmorPoints = 10;
-		creep->atk = 10;
-		creep->atkDistance = 1000;
-		creep->atkSpeeds = 10;
-		creep->SetHpBar();
-		creep->setRewardMoney(30);
-		creep->setRewardExp(50);
+	if (pending) {
+		switch (creepType)
+		{
+		case CreepTypeTest:
+			filename1 = Creep_test;
+			creep->initHealthPointsLimit = 20;
+			creep->healthPoints = 20;
+			//creep->armorPoints = 10;
+			//creep->magicArmorPoints = 10;
+			creep->atk = 10;
+			creep->atkDistance = 1000;
+			creep->atkSpeeds = 10;
+			creep->SetHpBar();
+			creep->setRewardMoney(30);
+			creep->setRewardExp(50);
+			creep->UpdateAttack1();
+			//...
+			break;
 
-		//...
-		break;
-	
-	case CreepTypeMelee:
-		filename1 = Creep_melee;
-		creep->initHealthPointsLimit = 550;
-		creep->healthPoints = 550;
-		creep->atk = 15;
-		creep->atkDistance = 40;
-		creep->atkSpeeds = 1;
-		creep->SetHpBar();
-		//...
-		break;
-	case CreepTypeRange:
-		filename1 = Creep_range;
-		creep->initHealthPointsLimit = 200;
-		creep->healthPoints = 200;
-		creep->atk = 20;
-		creep->atkDistance = 130;
-		creep->atkSpeeds = 1;
-		creep->SetHpBar();
-		//...
-		break;
-	case CreepTypeCannon:
-		filename1 = Creep_cannon;
-		creep->initHealthPointsLimit = 700;
-		creep->healthPoints = 700;
-		creep->atk = 30;
-		creep->atkDistance = 145;
-		creep->atkSpeeds = 1;
-		creep->SetHpBar();
-		//...
-		break;
-	
-	default:
-		break;
+		case CreepTypeMelee:
+			filename1 = Creep_melee;
+			creep->initHealthPointsLimit = 550;
+			creep->healthPoints = 550;
+			creep->atk = 15;
+			creep->atkDistance = 40;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateAttack1();
+			//...
+			break;
+		case CreepTypeRange:
+			filename1 = Creep_range;
+			creep->initHealthPointsLimit = 200;
+			creep->healthPoints = 200;
+			creep->atk = 20;
+			creep->atkDistance = 130;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateAttack1();
+			//...
+			break;
+		case CreepTypeCannon:
+			filename1 = Creep_cannon;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 145;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateAttack1();
+			//...
+			break;
+		case CreepTypeJ1:
+			filename1 = Creep_j1;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 145;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateFAttack();
+		case CreepTypeJ2:
+			filename1 = Creep_j2;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 145;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateFAttack();
+		case CreepTypeJ3:
+			filename1 = Creep_j3;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 145;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateFAttack();
+		case CreepTypeJ4:
+			filename1 = Creep_j4;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 145;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateFAttack();
+		default:
+			break;
+		}
 	}
+	else {
+		switch (creepType)
+		{
+		case CreepTypeTest:
+			filename1 = Creep_test;
+			creep->initHealthPointsLimit = 20;
+			creep->healthPoints = 20;
+			//creep->armorPoints = 10;
+			//creep->magicArmorPoints = 10;
+			creep->atk = 10;
+			creep->atkDistance = 1000;
+			creep->atkSpeeds = 10;
+			creep->SetHpBar();
+			creep->setRewardMoney(30);
+			creep->setRewardExp(50);
+			creep->UpdateAttack2();
+			//...
+			break;
 
+		case CreepTypeMelee:
+			filename1 = Creep_melee;
+			creep->initHealthPointsLimit = 550;
+			creep->healthPoints = 550;
+			creep->atk = 15;
+			creep->atkDistance = 40;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateAttack2();
+			//...
+			break;
+		case CreepTypeRange:
+			filename1 = Creep_range;
+			creep->initHealthPointsLimit = 200;
+			creep->healthPoints = 200;
+			creep->atk = 20;
+			creep->atkDistance = 130;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateAttack2();
+			//...
+			break;
+		case CreepTypeCannon:
+			filename1 = Creep_cannon;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 145;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->UpdateAttack2();
+			//...
+			break;
+
+		default:
+			break;
+		}
+	}
 	const std::string& filename = filename1;
 
 	if (creep && creep->initWithFile(filename)) {//判断creep对象是否生成成功
@@ -213,7 +311,24 @@ void Creep::UpdateHpBar(float delta)
 	HpBarProgress->setPercentage(percentage);
 }
 
-void Creep::AttackAndMove1()
+void Creep::UpdateAttack1()
+{
+	this->schedule(schedule_selector(Creep::AttackAndMove1), 1, -1, 0);
+}
+
+void Creep::UpdateAttack2()
+{
+	this->schedule(schedule_selector(Creep::AttackAndMove2), 1, -1, 0);
+}
+
+void Creep::UpdateFAttack()
+{
+	this->schedule(schedule_selector(Creep::FieldAttackAndMove), 1, -1, 0);
+}
+
+
+
+void Creep::AttackAndMove1(float delta)
 {
 	if (targetCreep.size() > 0) {
 		for (auto iter = targetCreep.begin(); iter!= targetCreep.end();) {
@@ -231,7 +346,7 @@ void Creep::AttackAndMove1()
 					continue;
 				}
 			}
-			else if (i->newAttackRect()->containsPoint(Tower2->getPosition()) && Tower2->getHealthPoints()>0) {//防御塔2号
+			if (i->newAttackRect()->containsPoint(Tower2->getPosition()) && Tower2->getHealthPoints()>0) {//防御塔2号
 				Tower2->setHealthPoints(Tower2->getHealthPoints() - atk);
 				if (Tower2->getHealthPoints() <= 0) {
 					Tower2->die();
@@ -243,8 +358,9 @@ void Creep::AttackAndMove1()
 				if (Base2->getHealthPoints() >= 0) {
 					Base2->die();
 				}
+				continue;
 			}
-			else if (i->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+			else if (i->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints()>0) {
 				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - atk);
 				if(OtherHero->getHealthPoints() <= 0) {
 					OtherHero->die();
@@ -257,7 +373,7 @@ void Creep::AttackAndMove1()
 	}
 }
 
-void Creep::AttackAndMove2()
+void Creep::AttackAndMove2(float delta)
 {
 	if (OtherCreep.size() > 0) {
 		for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
@@ -274,7 +390,7 @@ void Creep::AttackAndMove2()
 					continue;
 				}
 			}
-			else if (i->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints()>0) {
+			if (i->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints()>0) {
 				Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
 				if (Tower1->getHealthPoints() <= 0) {
 					Tower1->die();
@@ -286,6 +402,7 @@ void Creep::AttackAndMove2()
 				if (Base1->getHealthPoints() >= 0) {
 					Base1->die();
 				}
+				continue;
 			}
 			else if (i->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints()>0) {
 				Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
@@ -300,13 +417,14 @@ void Creep::AttackAndMove2()
 	}
 }
 
-void Creep::FieldAttackAndMove()
+void Creep::FieldAttackAndMove(float delta)
 {
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
 		if (Myhero->getHealthPoints() <= 0) {
 			Myhero->die();
 		}
+		
 	}
 	else if(this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
 		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());

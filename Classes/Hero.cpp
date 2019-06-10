@@ -14,6 +14,7 @@ extern Tower* Base1;
 extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
+extern std::list<Creep*> FieldCreep;
 
  Hero* Hero::creatWithHeroTypes(HeroTypes heroType) {
 	Hero* hero = new (std::nothrow)Hero();

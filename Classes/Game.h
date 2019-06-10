@@ -27,6 +27,7 @@ public:
 	void HeroPrint();
 	void recreateHero(float delta);
 	void CreepsPrint(float delta);
+	void FieldPrint(float delta);
 	void StatusLayerPrint();
 	void TowerPrint();
 	void ScoreBoardPrint();
