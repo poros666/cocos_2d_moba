@@ -6,7 +6,14 @@ ver1
 */
 #include"Hero.h"
 using namespace cocos2d;
-
+extern Hero* Myhero;
+extern Hero* OtherHero;
+extern Tower* Tower1;
+extern Tower* Tower2;
+extern Tower* Base1;
+extern Tower* Base2;
+extern std::list<Creep*> targetCreep;
+extern std::list<Creep*> OtherCreep;
 
  Hero* Hero::creatWithHeroTypes(HeroTypes heroType) {
 	Hero* hero = new (std::nothrow)Hero();
@@ -248,6 +255,54 @@ void Hero::UpdateManaBar(float delta)
 		this->unschedule(schedule_selector(Hero::UpdateManaBar));
 	}
 	ManaBarProgress->setPercentage(percentage);
+}
+Rect* Hero::newAttackRect()
+{
+	return new Rect(this->getPositionX() - this->getAtkDistance(), this->getPositionY() - this->getAtkDistance(), this->getAtkDistance() * 2, this->getAtkDistance() * 2);
+}
+void Hero::moveBack()
+{
+	auto Moving = MoveTo::create(1, Vec2(this->getPositionX() - 50, this->getPositionY()));
+	this->stopAllActions();
+	this->runAction(Moving);
+}
+void Hero::AttackAndMove()
+{
+	//Ä¬ÈÏaiÓ¢ÐÛÊÇÓÒ±ßµÄ
+	auto atk= this->getAtk();
+	if (targetCreep.size() > 0) {//¹¥»÷target
+		auto ocreep = *targetCreep.begin();
+		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+			ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
+			if (ocreep->getHealthPoints() <= 0) {
+				ocreep->die();
+			}
+			return;
+		}
+	}
+	else if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
+		Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
+		if (Tower1->getHealthPoints() <= 0) {
+			Tower1->die();
+		}
+		return;
+	}
+	else if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() >= 0) {
+		Base1->setHealthPoints(Base1->getHealthPoints() - atk);
+		if (Base1->getHealthPoints() >= 0) {
+			Base1->die();
+		}
+	}
+	else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
+		if (Myhero->getHealthPoints() <= 0) {
+			Myhero->die();
+		}
+		return;
+	}
+	else {
+		this->moveBack();
+	}
 }
 void Hero::move(Vec2 endPos,Hero* Hero)
 {

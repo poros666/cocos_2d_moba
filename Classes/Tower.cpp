@@ -12,7 +12,11 @@ using namespace cocos2d;
 extern Hero* Myhero;
 extern Hero* OtherHero;
 extern Tower* Tower1;
+extern Tower* Tower2;
+extern Tower* Base1;
+extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
+extern std::list<Creep*> OtherCreep;
 Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 	Tower* tower = new (std::nothrow)Tower();
 	
@@ -169,4 +173,48 @@ bool Tower::checkCreepInRect(std::list<Creep*>::iterator iter)
 	}
 	
 	return false;
+}
+
+void Tower::Attack1()
+{
+	if (OtherCreep.size() > 0) {
+		auto ocreep = *OtherCreep.begin();
+		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
+			if (ocreep->getHealthPoints() <= 0) {
+				OtherCreep.erase(OtherCreep.begin());
+				ocreep->die();
+			}
+			return;
+		}
+	}
+	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints()>0){
+		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
+		if (Myhero->getHealthPoints() <= 0) {
+			Myhero->die();
+		}
+		return;
+	}
+}
+
+void Tower::Attack2()
+{
+	if (targetCreep.size() > 0) {
+		auto ocreep = *targetCreep.begin();
+		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
+			if (ocreep->getHealthPoints() <= 0) {
+				targetCreep.erase(targetCreep.begin());
+				ocreep->die();
+			}
+			return;
+		}
+	}
+	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
+		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
+		if (OtherHero->getHealthPoints() <= 0) {
+			OtherHero->die();
+		}
+		return;
+	}
 }

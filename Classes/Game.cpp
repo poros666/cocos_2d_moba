@@ -6,6 +6,8 @@ Hero* OtherHero;
 Hero* Myhero;
 Tower* Tower1;
 Tower* Tower2;
+Tower* Base1;
+Tower* Base2;
 std::list<Creep*> targetCreep;
 std::list<Creep*> OtherCreep;
 
@@ -64,7 +66,7 @@ void Game::onEnter()
 	Game::initKeyListener(Myhero);
 	this->scheduleUpdate();
 	this->schedule(schedule_selector(Game::CreepsPrint), 1, -1, 0);
-
+//	this->schedule(schedule_selector(), 1, -1, 1);
 }
 void Game::MapLayerPrint()
 {
@@ -215,14 +217,14 @@ void Game::CreepsPrint(float delta)
 		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
 			auto i = *iter;				
 			iter++;
-			if (i->checkTowerInRect() && Tower1->getHealthPoints()>0) {
+			if (i->checkTower1InRect() && Tower1->getHealthPoints()>0) {
 				Tower1->setHealthPoints(Tower1->getHealthPoints() - i->getAtk());
 				if (Tower1->getHealthPoints() <= 0) {
 					Tower1->die();					
 				}
 				continue;
 			}
-			else if (i->checkHeroInRect() && OtherHero->getHealthPoints()>0) {
+			else if (i->checkOtherHeroInRect() && OtherHero->getHealthPoints()>0) {
 				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - i->getAtk());
 				if (OtherHero->getHealthPoints() <= 0) {
 					OtherHero->die();
@@ -233,6 +235,7 @@ void Game::CreepsPrint(float delta)
 			//这里预留一个给小兵的
 			else {//没有其他的攻击指令就向前走
 				i->moveForward();
+				
 			}
 		}
 	}
@@ -243,9 +246,9 @@ void Game::CreepsPrint(float delta)
 			if (Tower1->newAttackRect()->containsPoint(_creep->getPosition())) {
 				_creep->setHealthPoints(_creep->getHealthPoints() - Tower1->getAtk());
 				if (_creep->getHealthPoints() <= 0) {
-					
+					targetCreep.erase(iter);
 					_creep->die();
-					targetCreep.erase(iter);				
+							
 				}
 				return;
 			}
@@ -537,7 +540,6 @@ void Game::initMouseListener(Hero* hero)
 				}
 			}
 		}
-		
 		hero->move(endPos, hero);
 
 		return true;

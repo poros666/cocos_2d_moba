@@ -79,12 +79,19 @@ public:
 	void die();//死亡.
 	//void hpRecover(int healthRecoverPoint);//回血
 	Rect* newAttackRect();
-	bool checkHeroInRect();
-	bool checkCreepInRect();//之后又具体的小兵类之后写成两拨小兵
-	bool checkTowerInRect();
+	bool chechMyheroInRect();
+	bool checkOtherHeroInRect();
+	bool checkTargetCreepInRect();
+	bool checkOtherCreepInRect();
+	bool checkTower1InRect();
+	bool checkTower2InRect();
 	void SetHpBar();
 	void UpdateHpBar(float delta);
+	void AttackAndMove1();
+	void AttackAndMove2();
+	void FieldAttackAndMove();
 	void moveForward();
+	void moveBack();
 	std::string getName();
 
 	void attackOtherHero();
