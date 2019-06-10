@@ -27,15 +27,70 @@ using namespace cocos2d;
 		hero->setMoveSpeed(200);
 		hero->SetHpBar();
 		hero->SetManaBar();
+		hero->setAtkDistance(100);
+		hero->setAtk(10);
+		hero->setReBornPoint(Vec2(300, 500));
+		//attack_rect = new Rect();
 		//...
 		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
-			//...
-			break;
-		*/
+	case HeroTpyeExecu:
+		filename1 = Hero_execu;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(500);
+		hero->setHealthPoints(500);
+		hero->setInitManaPointsLimit(100);
+		hero->setManaPoints(100);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(60);
+		hero->setAtkDistance(40);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		//...
+		break;
+	case HeroTpyeElite:
+		filename1 = Hero_elite;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(450);
+		hero->setHealthPoints(450);
+		hero->setInitManaPointsLimit(120);
+		hero->setManaPoints(120);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(50);
+		hero->setAtkDistance(40);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		//...
+		break;
+	case HeroTpyeMunra:
+		filename1 = Hero_munra;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(400);
+		hero->setHealthPoints(400);
+		hero->setInitManaPointsLimit(160);
+		hero->setManaPoints(160);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(30);
+		hero->setAtkDistance(140);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		
+		//...
+		break;
 	default:
 		break;
 	}
@@ -50,6 +105,33 @@ using namespace cocos2d;
 	
 	return nullptr;
 }
+
+ void Hero::clickAttack(Node* target,Hero* owner) {
+	 if (target == this->EnemyHero) {
+		 Hero* tempHero = static_cast<Hero*>(target);
+		 if (owner->attack_rect->containsPoint(tempHero->getPosition()) && tempHero->getHealthPoints()>0) {
+			 //这里留给攻击动画
+			 tempHero->setHealthPoints(tempHero->getHealthPoints() -owner->getAtk() );
+		 }
+	 }
+	 else if (target == this->EnemyTower) {
+		 Tower* tempTower = static_cast<Tower*>(target);
+		 if (owner->attack_rect->containsPoint(tempTower->getPosition()) && tempTower->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempTower->setHealthPoints(tempTower->getHealthPoints() - owner->getAtk());
+		 }
+	 }
+	 else if (target==this->EnemyCreep) {
+		 Creep* tempCreep = static_cast<Creep*>(target);
+		 if (owner->attack_rect->containsPoint(tempCreep->getPosition()) && tempCreep->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempCreep->setHealthPoints(getHealthPoints() - owner->getAtk());
+		 }
+	 }
+ }
+
+ 
+
 
 bool Hero::hurt(float atk) {
 
@@ -78,8 +160,24 @@ void Hero::addExp(int exp) {
 	}
 
 	if (lvlup) {
+		switch (heroType)
+		{
+		case HeroTpyeExecu:
+			setHealthPoints(getHealthPoints() + 70);
+			setAtk(getAtk() + 24);
+			break;
+		case HeroTpyeElite:
+			setHealthPoints(getHealthPoints() + 60);
+			setAtk(getAtk() + 10);
+			break;
+		case HeroTpyeMunra:
+			setHealthPoints(getHealthPoints() + 50);
+			setAtk(getAtk() + 10);
+			break;
+		}
 		lvl++;
 		setLevel(lvl);
+		setSkillPoints(getSkillPoints() + 1);
 	}
 }
 
@@ -87,8 +185,17 @@ void Hero::die()
 {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画,挪回初始位置？
-
+	this->stopAllActions();
+	this->setPosition(getReBornPoint());
 }
+
+void Hero::setNewAtkRect()
+{
+	attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
+}
+
+
+
 
 void Hero::SetHpBar()
 {
@@ -151,3 +258,26 @@ void Hero::move(Vec2 endPos,Hero* Hero)
 	Hero->stopAllActions();
 	Hero->runAction(Moving);
 }
+
+std::string Hero::getName() {
+	switch (heroType)
+	{
+	case HeroTpyeExecu:
+		return "Executioner";
+		break;
+	case HeroTpyeElite:
+		return "Elite";
+		break;
+	case HeroTpyeMunra:
+		return "Munra";
+		break;
+	}
+}
+
+void Hero::update(float dt)
+{
+	if (this->getHealthPoints() <= 0) {
+		this->die();
+	}
+}
+

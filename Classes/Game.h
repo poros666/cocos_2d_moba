@@ -11,6 +11,8 @@
 #include"Skill.h"
 #include"ScoreBoard.h"
 #include "EquipmentShowLayer.h"
+#include<list>
+
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -29,6 +31,8 @@ public:
 	void TowerPrint();
 	void ScoreBoardPrint();
 	void ScoreBoardRelesed();
+	void BackButtonPrint();
+	void menuBackCallback(cocos2d::Ref* pSender);
 	virtual void update(float delta);
 	void HeroDie();
 	void SetHpBar();
@@ -38,13 +42,17 @@ public:
 	virtual void onEnter();
 	void initKeyListener(Hero* hero);
 	void initMouseListener(Hero* hero);
+	bool clickToAttack(Hero* owner);
+//	void creepMoveAndAttack();
 	CREATE_FUNC(Game);
+	
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 	bool isGamming = true;
-	Hero* Myhero;
+
+
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;
 	EventListenerTouchOneByOne *Mouselistener;

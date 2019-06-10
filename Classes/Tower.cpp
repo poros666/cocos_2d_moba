@@ -5,8 +5,14 @@
 ver2
 */
 #include<Tower.h>
+#include"Hero.h"
+#include"Creeps.h"
+#include"Game.h"
 using namespace cocos2d;
-
+extern Hero* Myhero;
+extern Hero* OtherHero;
+extern Tower* Tower1;
+extern std::list<Creep*> targetCreep;
 Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 	Tower* tower = new (std::nothrow)Tower();
 	
@@ -17,19 +23,56 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 	{
 	case TowerTypeTest:
 		filename1 = Tower_test;
-		tower->setInitHealthPointsLimit(10);
-		tower->setHealthPoints(10);
+		tower->setInitHealthPointsLimit(100);
+		tower->setHealthPoints(100);
 		tower->SetHpBar();
-
+		tower->setRewardExp(300);
+		tower->setRewardMoney(200);
+		tower->setAtkDistance(1000);
+		tower->setAtk(10);
 		//...
 		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
-			//...
-			break;
-		*/
+		
+	case TowerTypeT1:
+		filename1 = Tower_1;
+		tower->setInitHealthPointsLimit(1000);
+		tower->setHealthPoints(1000);
+		tower->setAtk(100);
+		tower->setAtkDistance(150);
+		tower->setAtkSpeeds(1);
+		tower->SetHpBar();
+		//...
+		break;
+	case TowerTypeT2:
+		filename1 = Tower_1;
+		tower->setInitHealthPointsLimit(1200);
+		tower->setHealthPoints(1200);
+		tower->setAtk(120);
+		tower->setAtkDistance(150);
+		tower->setAtkSpeeds(1);
+		tower->SetHpBar();
+		//...
+		break;
+	case TowerTypeT3:
+		filename1 = Tower_1;
+		tower->setInitHealthPointsLimit(1400);
+		tower->setHealthPoints(1400);
+		tower->setAtk(140);
+		tower->setAtkDistance(150);
+		tower->setAtkSpeeds(1);
+		tower->SetHpBar();
+		//...
+		break;
+	case TowerTypeBase:
+		filename1 = Base_1;
+		tower->setInitHealthPointsLimit(1500);
+		tower->setHealthPoints(1500);
+		tower->setAtk(0);
+		tower->setAtkDistance(0);
+		tower->setAtkSpeeds(0);
+		tower->SetHpBar();
+		//...
+		break;
 	default:
 		break;
 	}
@@ -46,8 +89,9 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 
 bool Tower::hurt(float atk) {
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	int hp = getHealthPoints();
+	hp -= atk;
+
 
 	if (hp <= 0) {
 		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
@@ -59,8 +103,10 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
-	//不知道涉及什么先不写
+	this->setAtk(0);
+	this->setVisible(false);
 }
+
 
 void Tower::win() {
 	//
@@ -81,6 +127,12 @@ void Tower::SetHpBar()
 	this->addChild(HpBarProgress, 4, "HpBarProgress");
 	this->schedule(schedule_selector(Tower::UpdateHpBar));
 }
+void Tower::update(float dt)
+{
+	if (this->getHealthPoints() <= 0) {
+		die();
+	}
+}
 void Tower::UpdateHpBar(float delta)
 {
 	float percentage = 100 * this->getHealthPoints() / this->getInitHealthPointsLimit();
@@ -90,4 +142,31 @@ void Tower::UpdateHpBar(float delta)
 		this->unschedule(schedule_selector(Tower::UpdateHpBar));
 	}
 	HpBarProgress->setPercentage(percentage);
+}
+
+Rect* Tower::newAttackRect()
+{
+	return	new Rect(this->getPositionX() - this->getAtkDistance(), this->getPositionY() - this->getAtkDistance(), 2*this->getAtkDistance(), 2*this->getAtkDistance());
+}
+
+bool Tower::checkHeroInRect()
+{
+	if (this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+
+		return true;
+	}
+	return false;
+}
+
+bool Tower::checkCreepInRect(std::list<Creep*>::iterator iter)
+{
+	auto a = *iter;
+	auto x = this->newAttackRect();
+	auto y = a->getPosition();
+	if (this->newAttackRect()->containsPoint(a->getPosition())) {
+
+		return true;
+	}
+	
+	return false;
 }
