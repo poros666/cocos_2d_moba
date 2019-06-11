@@ -99,7 +99,7 @@ public:
 	void UpdateManaBar(float delta);
 	Rect* newAttackRect();
 	void moveBack();
-	void AttackAndMove();//单机模式的时候我方默认选择左边，所以这里采用右侧的逻辑，即otherhero
+	void AttackAndMove(float);//单机模式的时候我方默认选择左边，所以这里采用右侧的逻辑，即otherhero
 	void move(Vec2 endPos, Hero* Hero);
 
 	virtual void update(float dt);

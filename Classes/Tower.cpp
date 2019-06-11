@@ -265,8 +265,10 @@ void Tower::Attack1(float)
 	if (OtherCreep.size() > 0) {
 		auto ocreep = *OtherCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			//ÕâÀï¼Ó¹¥»÷¶¯»­
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
 			if (ocreep->getHealthPoints() <= 0) {
+				//ËÀÍö¶¯»­
 				OtherCreep.erase(OtherCreep.begin());
 				ocreep->die();
 			}
@@ -274,8 +276,10 @@ void Tower::Attack1(float)
 		}
 	}
 	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
+		//¹¥»÷¶¯»­
 		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
 		if (OtherHero->getHealthPoints() <= 0) {
+			//ËÀÍö¶¯»­
 			OtherHero->die();
 		}
 		return;
@@ -287,8 +291,10 @@ void Tower::Attack2(float)
 	if (targetCreep.size() > 0) {
 		auto ocreep = *targetCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			//¹¥»÷¶¯»­
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
 			if (ocreep->getHealthPoints() <= 0) {
+				//ËÀÍö¶¯»­
 				targetCreep.erase(targetCreep.begin());
 				ocreep->die();
 			}
@@ -296,8 +302,10 @@ void Tower::Attack2(float)
 		}
 	}
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		//¹¥»÷¶¯»­
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
 		if (Myhero->getHealthPoints() <= 0) {
+			//ËÀÍö¶¯»­
 			Myhero->die();
 		}
 		return;
