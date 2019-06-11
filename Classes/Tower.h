@@ -59,7 +59,7 @@ public:
 	//Tower(TowerTypes towerType);//构造函数
 	//void spawnTower();//生成tower函数
 	//virtual void update(float dt);//游戏循环调用的默认函数//设置默认对象的自动运动的位置和角度x
-	static Tower* creatWithTowerTypes(TowerTypes towerType);//静态创造tower函数
+	static Tower* creatWithTowerTypes(TowerTypes towerType,bool pending);//静态创造tower函数
 	bool isAttacking;
 	bool hurt(float atk);//受伤
 	void die();//死亡
@@ -71,7 +71,8 @@ public:
 	Rect* newAttackRect();
 	bool checkHeroInRect();
 	bool checkCreepInRect(std::list<Creep*>::iterator iter);//之后又具体的小兵类之后写成两拨小兵
-;	
+	void Attack1();
+	void Attack2();
 	float x_position = 0;
 	float y_position = 0;
 private:

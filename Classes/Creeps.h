@@ -72,19 +72,30 @@ public:
 	//Creep(CreepTypes creepType);//构造函数
 	//void spawnCreep();//生成小兵函数
 	virtual void update(float dt);//游戏循环调用的默认函数//意义不明
-	static Creep* creatWithCreepTypes(CreepTypes creepType);//静态创造小兵函数
+	static Creep* creatWithCreepTypes(CreepTypes creepType,bool pending);//静态创造小兵函数
 	bool isAttacking = false;
 	Rect* attack_rect;
 	bool hurt(float atk);//受伤.
 	void die();//死亡.
 	//void hpRecover(int healthRecoverPoint);//回血
 	Rect* newAttackRect();
-	bool checkHeroInRect();
-	bool checkCreepInRect();//之后又具体的小兵类之后写成两拨小兵
-	bool checkTowerInRect();
+	bool chechMyheroInRect();
+	bool checkOtherHeroInRect();
+	bool checkTargetCreepInRect();
+	bool checkOtherCreepInRect();
+	bool checkTower1InRect();
+	bool checkTower2InRect();
 	void SetHpBar();
 	void UpdateHpBar(float delta);
+	void UpdateAttack1();
+	void UpdateAttack2();
+	void UpdateFAttack();
+	void AttackAndMove1(float delta);
+	void AttackAndMove2(float delta);
+	void FieldAttackAndMove(float delta);
+
 	void moveForward();
+	void moveBack();
 	std::string getName();
 
 	void attackOtherHero();
