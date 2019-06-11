@@ -27,8 +27,8 @@ extern std::list<Creep*> FieldCreep;
 	case HeroTypeTest:
 		filename1 = Hero_test;
 		hero->setGold(1000);
-		hero->setInitHealthPointsLimit(1000);
-		hero->setHealthPoints(1000);
+		hero->setInitHealthPointsLimit(100);
+		hero->setHealthPoints(100);
 		hero->setHealthRecoverPoints(1);
 		hero->setInitManaPointsLimit(10);
 		hero->setManaPoints(10);

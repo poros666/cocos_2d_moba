@@ -336,21 +336,17 @@ void Creep::AttackAndMove1(float delta)
 			auto atk = i->getAtk();
 			iter++;
 			if (OtherCreep.size() > 0 ) {//¹¥»÷othercreep
-				for (auto it = OtherCreep.begin(); it != OtherCreep.end();) {
-					auto ocreep = *it;
-					it++;
-					if (i->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
-						//¹¥»÷¶¯»­
-						ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
-						if (ocreep->getHealthPoints() <= 0) {
-							//ËÀÍö¶¯»­
-							OtherCreep.erase(it);
-							ocreep->die();
-						}
-						continue;
+				auto ocreep = *OtherCreep.begin();
+				if (i->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+					//¹¥»÷¶¯»­
+					ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
+					if (ocreep->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						OtherCreep.erase(OtherCreep.begin());
+						ocreep->die();
 					}
+					continue;
 				}
-				continue;
 			}
 			if (i->newAttackRect()->containsPoint(Tower2->getPosition()) && Tower2->getHealthPoints()>0) {//·ÀÓùËþ2ºÅ
 				//¹¥»÷¶¯»­
@@ -393,18 +389,14 @@ void Creep::AttackAndMove2(float delta)
 			auto atk = i->getAtk();
 			iter++;
 			if (targetCreep.size() > 0) {//¹¥»÷target
-				for (auto it = targetCreep.begin(); it != targetCreep.end();) {
-					auto ocreep = *it;
-					it++;
-					if (i->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
-						//¹¥»÷¶¯»­
-						ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
-						if (ocreep->getHealthPoints() <= 0) {
-							//ËÀÍö¶¯»­
-							targetCreep.erase(it);
-							ocreep->die();
-						}
-						continue;
+				auto ocreep = *targetCreep.begin();
+				if (i->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+					//¹¥»÷¶¯»­
+					ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
+					if (ocreep->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						targetCreep.erase(targetCreep.begin());
+						ocreep->die();
 					}
 					continue;
 				}
