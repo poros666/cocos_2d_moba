@@ -75,7 +75,7 @@ void Game::onEnter()
 	Game::initMouseListener(Myhero);
 	Game::initKeyListener(Myhero);
 	this->scheduleUpdate();
-	this->schedule(schedule_selector(Game::CreepsPrint), 30, -1, 0);
+	this->schedule(schedule_selector(Game::CreepsPrint), 5, -1, 0);
 	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
 //	this->schedule(schedule_selector(), 1, -1, 1);
 }
@@ -519,72 +519,189 @@ void Game::initMouseListener(Hero* hero)
 		Rect* clickRect = new Rect(endPos.x-25, endPos.y -25, 50, 50);
 
 
-		if (clickRect->containsPoint(OtherHero->getPosition()) &&
-			hero->attack_rect->containsPoint(OtherHero->getPosition())&&
-			OtherHero->getHealthPoints()>0) {
-			//这里留给攻击动画
-			OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
-			if (OtherHero->getHealthPoints() <= 0) {
-				OtherHero->die();
+		if (hero == Myhero) {//这个if的判断主要是留给以后联机战斗的时候能够读入hero是myhero（左边的英雄）还是otherhero（右边的英雄）
+			//达到操作不同英雄的目的
+
+
+			if (clickRect->containsPoint(OtherHero->getPosition()) &&
+				hero->attack_rect->containsPoint(OtherHero->getPosition()) &&
+				OtherHero->getHealthPoints() > 0) {
+				//这里留给攻击动画
+				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
+				if (OtherHero->getHealthPoints() <= 0) {
+					//死亡动画
+					OtherHero->die();
+				}
+				return true;
 			}
-			return true;
-		}
 
-	//	auto a = clickRect->containsPoint(Tower1->getPosition());
-	//	auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
-	//	auto eee = hero->getPosition();
-	//	auto d = Tower1->getPosition();
-	//	auto c = Tower1->getHealthPoints();
-		if (clickRect->containsPoint(Tower2->getPosition()) &&
-			hero->attack_rect->containsPoint(Tower2->getPosition()) &&
-			Tower2->getHealthPoints() > 0) {
-			Tower2->setHealthPoints(Tower2->getHealthPoints() - hero->getAtk());
-			if (Tower2->getHealthPoints() <= 0) {
-				hero->setGold(hero->getGold() + Tower2->getRewardMoney());
-				hero->setExp(hero->getExp() + Tower2->getRewardExp());
-				Tower2->die();
+			//	auto a = clickRect->containsPoint(Tower1->getPosition());
+			//	auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
+			//	auto eee = hero->getPosition();
+			//	auto d = Tower1->getPosition();
+			//	auto c = Tower1->getHealthPoints();
+			if (clickRect->containsPoint(Tower2->getPosition()) &&
+				hero->attack_rect->containsPoint(Tower2->getPosition()) &&
+				Tower2->getHealthPoints() > 0) {
+				//攻击动画
+				Tower2->setHealthPoints(Tower2->getHealthPoints() - hero->getAtk());
+				if (Tower2->getHealthPoints() <= 0) {
+					hero->setGold(hero->getGold() + Tower2->getRewardMoney());
+					hero->setExp(hero->getExp() + Tower2->getRewardExp());
+					//死亡动画
+					Tower2->die();
 
+				}
+				return true;
 			}
-			return true;
-		}
+			if (clickRect->containsPoint(Base2->getPosition()) &&
+				hero->attack_rect->containsPoint(Base2->getPosition()) &&
+				Base2->getHealthPoints() > 0) {
+				//攻击动画
+				Base2->setHealthPoints(Base2->getHealthPoints() - hero->getAtk());
+				if (Base2->getHealthPoints() <= 0) {
+					//死亡动画
+					hero->setGold(hero->getGold() + Base2->getRewardMoney());
+					hero->setExp(hero->getExp() + Base2->getRewardExp());
+					Base2->die();
 
-		if (OtherCreep.size()) {
-			for (auto iter = OtherCreep.begin(); iter != OtherCreep.end(); iter++) {
-				auto _creep = *iter;
-				if (clickRect->containsPoint(_creep->getPosition()) &&
-					hero->attack_rect->containsPoint(_creep->getPosition()) &&
-					_creep->getHealthPoints() > 0) {
-					_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
-					if (_creep->getHealthPoints()<=0) {
-						_creep->die();
-						hero->setGold(hero->getGold() + _creep->getRewardMoney());
-						hero->setExp(hero->getExp() + _creep->getRewardExp());
-						OtherCreep.erase(iter);
+				}
+				return true;
+			}
+			if (OtherCreep.size()) {
+				for (auto iter = OtherCreep.begin(); iter != OtherCreep.end(); iter++) {
+					auto _creep = *iter;
+					if (clickRect->containsPoint(_creep->getPosition()) &&
+						hero->attack_rect->containsPoint(_creep->getPosition()) &&
+						_creep->getHealthPoints() > 0) {
+						//攻击动画
+						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						if (_creep->getHealthPoints() <= 0) {
+							//死亡动画
+							_creep->die();
+						
+							hero->setGold(hero->getGold() + _creep->getRewardMoney());
+							hero->setExp(hero->getExp() + _creep->getRewardExp());
+							OtherCreep.erase(iter);
+						}
+						return true;
 					}
-					return true;
 				}
 			}
-		}
-		if (FieldCreep.size()) {
-			for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
-				auto _creep = *iter;
-				if (clickRect->containsPoint(_creep->getPosition()) &&
-					hero->attack_rect->containsPoint(_creep->getPosition()) &&
-					_creep->getHealthPoints() > 0) {
-					_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
-					if (_creep->getHealthPoints() <= 0) {
-						_creep->die();
-						hero->setGold(hero->getGold() + _creep->getRewardMoney());
-						hero->setExp(hero->getExp() + _creep->getRewardExp());
-						FieldCreep.erase(iter);
+			if (FieldCreep.size()) {
+				for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
+					auto _creep = *iter;
+					if (clickRect->containsPoint(_creep->getPosition()) &&
+						hero->attack_rect->containsPoint(_creep->getPosition()) &&
+						_creep->getHealthPoints() > 0) {
+						//攻击动画
+						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						if (_creep->getHealthPoints() <= 0) {
+							//死亡动画
+							_creep->die();
+							hero->setGold(hero->getGold() + _creep->getRewardMoney());
+							hero->setExp(hero->getExp() + _creep->getRewardExp());
+							FieldCreep.erase(iter);
+						}
+						return true;
 					}
-					return true;
 				}
 			}
-		}
-		hero->move(endPos, hero);
+			//移动动画
+			hero->move(endPos, hero);
 
-		return true;
+			return true;
+		}
+		else {
+			if (clickRect->containsPoint(Myhero->getPosition()) &&
+				hero->attack_rect->containsPoint(Myhero->getPosition()) &&
+				Myhero->getHealthPoints() > 0) {
+				//这里留给攻击动画
+				Myhero->setHealthPoints(Myhero->getHealthPoints() - hero->getAtk());
+				if (Myhero->getHealthPoints() <= 0) {
+					//死亡动画
+					Myhero->die();
+				}
+				return true;
+			}
+
+			//	auto a = clickRect->containsPoint(Tower1->getPosition());
+			//	auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
+			//	auto eee = hero->getPosition();
+			//	auto d = Tower1->getPosition();
+			//	auto c = Tower1->getHealthPoints();
+			if (clickRect->containsPoint(Tower1->getPosition()) &&
+				hero->attack_rect->containsPoint(Tower1->getPosition()) &&
+				Tower1->getHealthPoints() > 0) {
+				//攻击动画
+				Tower1->setHealthPoints(Tower1->getHealthPoints() - hero->getAtk());
+				if (Tower1->getHealthPoints() <= 0) {
+					//死亡动画
+					hero->setGold(hero->getGold() + Tower1->getRewardMoney());
+					hero->setExp(hero->getExp() + Tower1->getRewardExp());
+					Tower1->die();
+
+				}
+				return true;
+			}
+
+			if (clickRect->containsPoint(Base1->getPosition()) &&
+				hero->attack_rect->containsPoint(Base1->getPosition()) &&
+				Base1->getHealthPoints() > 0) {
+				//攻击动画
+				Base1->setHealthPoints(Base1->getHealthPoints() - hero->getAtk());
+				if (Base1->getHealthPoints() <= 0) {
+					//死亡动画
+					hero->setGold(hero->getGold() + Base1->getRewardMoney());
+					hero->setExp(hero->getExp() + Base1->getRewardExp());
+					Base1->die();
+
+				}
+				return true;
+			}
+			if (targetCreep.size()) {
+				for (auto iter = targetCreep.begin(); iter != targetCreep.end(); iter++) {
+					auto _creep = *iter;
+					if (clickRect->containsPoint(_creep->getPosition()) &&
+						hero->attack_rect->containsPoint(_creep->getPosition()) &&
+						_creep->getHealthPoints() > 0) {
+						//攻击动画
+						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						if (_creep->getHealthPoints() <= 0) {
+							//死亡动画
+							_creep->die();
+							hero->setGold(hero->getGold() + _creep->getRewardMoney());
+							hero->setExp(hero->getExp() + _creep->getRewardExp());
+							targetCreep.erase(iter);
+						}
+						return true;
+					}
+				}
+			}
+			if (FieldCreep.size()) {
+				for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
+					auto _creep = *iter;
+					if (clickRect->containsPoint(_creep->getPosition()) &&
+						hero->attack_rect->containsPoint(_creep->getPosition()) &&
+						_creep->getHealthPoints() > 0) {
+						//攻击动画
+						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						if (_creep->getHealthPoints() <= 0) {
+							//死亡动画
+							_creep->die();
+							hero->setGold(hero->getGold() + _creep->getRewardMoney());
+							hero->setExp(hero->getExp() + _creep->getRewardExp());
+							FieldCreep.erase(iter);
+						}
+						return true;
+					}
+				}
+			}
+			//移动
+			hero->move(endPos, hero);
+
+			return true;
+		}
 
 	};
 

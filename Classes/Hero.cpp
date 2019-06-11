@@ -102,8 +102,7 @@ extern std::list<Creep*> FieldCreep;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
-		hero->setExp(50);
-		hero->setExpLimit(100);
+		
 		//...
 		break;
 	default:
@@ -274,41 +273,55 @@ void Hero::moveBack()
 	this->stopAllActions();
 	this->runAction(Moving);
 }
-void Hero::AttackAndMove()
+void Hero::AttackAndMove(float)
 {
+	//英雄的逻辑比较复杂，暂时初始化的时候不加入ai
 	//默认ai英雄是右边的
 	auto atk= this->getAtk();
 	if (targetCreep.size() > 0) {//攻击target
+
 		auto ocreep = *targetCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+			//攻击动画
+			//这里解释一下，一般来讲敌方英雄可能是一个个把兵线上的小兵按顺序杀掉的，所以就只搜索begin
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
 			if (ocreep->getHealthPoints() <= 0) {
+				//死亡动画
+				
+				targetCreep.erase(targetCreep.begin());
 				ocreep->die();
 			}
 			return;
 		}
 	}
 	else if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
+		//攻击动画
 		Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
 		if (Tower1->getHealthPoints() <= 0) {
+			//死亡动画
 			Tower1->die();
 		}
 		return;
 	}
 	else if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() >= 0) {
+		//攻击动画
 		Base1->setHealthPoints(Base1->getHealthPoints() - atk);
 		if (Base1->getHealthPoints() >= 0) {
+			//死亡动画
 			Base1->die();
 		}
 	}
 	else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		//攻击动画
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
 		if (Myhero->getHealthPoints() <= 0) {
+			//死亡动画
 			Myhero->die();
 		}
 		return;
 	}
 	else {
+		//移动动画
 		this->moveBack();
 	}
 }

@@ -1,6 +1,6 @@
 //////////////////
 /*
-�����
+Ðì±þ²ý
 5.27
 ver2
 */
@@ -24,7 +24,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 	
 	std::string filename1 = Tower_test;
 
-	//ͨ��switch����type����ʼ����ֵ
+	//Í¨¹ýswitch¸ù¾ÝtypeÀ´³õÊ¼»¯ÊýÖµ
 	if (pending) {
 		switch (towerType)
 		{
@@ -38,7 +38,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardMoney(200);
 			tower->setAtkDistance(1000);
 			tower->setAtk(10);
-			tower->Attack1();
+			tower->UpdateAttack1();
 			//...
 			break;
 
@@ -50,7 +50,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
-			tower->Attack1();
+			tower->UpdateAttack1();
 			//...
 			break;
 		case TowerTypeT2:
@@ -61,7 +61,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
-			tower->Attack1();
+			tower->UpdateAttack1();
 			//...
 			break;
 		case TowerTypeT3:
@@ -72,7 +72,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
-			tower->Attack1();
+			tower->UpdateAttack1();
 			//...
 			break;
 		case TowerTypeBase:
@@ -83,7 +83,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(0);
 			tower->setAtkSpeeds(0);
 			tower->SetHpBar();
-			tower->Attack1();
+			tower->UpdateAttack1();
 			//...
 			break;
 		default:
@@ -103,7 +103,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardMoney(200);
 			tower->setAtkDistance(1000);
 			tower->setAtk(10);
-			tower->Attack2();
+			tower->UpdateAttack2();
 			//...
 			break;
 
@@ -115,7 +115,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
-			tower->Attack2();
+			tower->UpdateAttack2();
 			//...
 			break;
 		case TowerTypeT2:
@@ -126,7 +126,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
-			tower->Attack2();
+			tower->UpdateAttack2();
 			//...
 			break;
 		case TowerTypeT3:
@@ -137,7 +137,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
-			tower->Attack2();
+			tower->UpdateAttack2();
 			//...
 			break;
 		case TowerTypeBase:
@@ -148,7 +148,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(0);
 			tower->setAtkSpeeds(0);
 			tower->SetHpBar();
-			tower->Attack2();
+			tower->UpdateAttack2();
 			//...
 			break;
 		default:
@@ -158,8 +158,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 
 	const std::string& filename = filename1;
 
-	if (tower && tower->initWithFile(filename)) {//�ж�tower�����Ƿ����ɳɹ�
-		tower->autorelease();//�����ڴ��ͷų��У����������ͷ�creep����
+	if (tower && tower->initWithFile(filename)) {//ÅÐ¶Ïtower¶ÔÏóÊÇ·ñÉú³É³É¹¦
+		tower->autorelease();//¼ÓÈëÄÚ´æÊÍ·Å³ØÖÐ£¬²»»áÁ¢¼´ÊÍ·Åcreep¶ÔÏó
 		return tower;
 	}
 	CC_SAFE_DELETE(tower);
@@ -173,7 +173,7 @@ bool Tower::hurt(float atk) {
 
 
 	if (hp <= 0) {
-		//die();//�����ж�����д������Ҳ����ͨ��hurt�������ص�boolֵ�ٵ���die();
+		//die();//ËÀÍöÅÐ¶¨¿ÉÒÔÐ´µ½ÕâÀïÒ²¿ÉÒÔÍ¨¹ýhurtº¯Êý·µ»ØµÄboolÖµÔÙµ÷ÓÃdie();
 		return true;
 	}
 	setHealthPoints(hp);
@@ -250,45 +250,62 @@ bool Tower::checkCreepInRect(std::list<Creep*>::iterator iter)
 	return false;
 }
 
-void Tower::Attack1()
+void Tower::UpdateAttack1()
+{
+	this->schedule(schedule_selector(Tower::Attack1), 1, -1, 0);
+}
+
+void Tower::UpdateAttack2()
+{
+	this->schedule(schedule_selector(Tower::Attack2), 1, -1, 0);
+}
+
 {
 	if (OtherCreep.size() > 0) {
 		auto ocreep = *OtherCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			//ÕâÀï¼Ó¹¥»÷¶¯»­
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
 			if (ocreep->getHealthPoints() <= 0) {
+				//ËÀÍö¶¯»­
 				OtherCreep.erase(OtherCreep.begin());
 				ocreep->die();
 			}
 			return;
 		}
 	}
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints()>0){
-		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
-		if (Myhero->getHealthPoints() <= 0) {
-			Myhero->die();
+	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
+		//¹¥»÷¶¯»­
+		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
+		if (OtherHero->getHealthPoints() <= 0) {
+			//ËÀÍö¶¯»­
+			OtherHero->die();
 		}
 		return;
 	}
 }
 
-void Tower::Attack2()
+void Tower::Attack2(float)
 {
 	if (targetCreep.size() > 0) {
 		auto ocreep = *targetCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			//¹¥»÷¶¯»­
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
 			if (ocreep->getHealthPoints() <= 0) {
+				//ËÀÍö¶¯»­
 				targetCreep.erase(targetCreep.begin());
 				ocreep->die();
 			}
 			return;
 		}
 	}
-	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
-		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
-		if (OtherHero->getHealthPoints() <= 0) {
-			OtherHero->die();
+	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		//¹¥»÷¶¯»­
+		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
+		if (Myhero->getHealthPoints() <= 0) {
+			//ËÀÍö¶¯»­
+			Myhero->die();
 		}
 		return;
 	}
