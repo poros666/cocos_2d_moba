@@ -25,6 +25,7 @@ extern std::list<Creep*> FieldCreep;
 	switch (heroType)
 	{
 	case HeroTypeTest:
+		hero->setHeroType(heroType);
 		filename1 = Hero_test;
 		hero->setGold(1000);
 		hero->setInitHealthPointsLimit(100);
@@ -41,7 +42,8 @@ extern std::list<Creep*> FieldCreep;
 		//attack_rect = new Rect();
 		//...
 		break;
-	case HeroTpyeExecu:
+	case HeroTypeExecu:
+		hero->setHeroType(heroType);
 		filename1 = Hero_execu;
 		hero->setGold(0);
 		hero->setInitHealthPointsLimit(500);
@@ -60,7 +62,8 @@ extern std::list<Creep*> FieldCreep;
 		hero->SetManaBar();
 		//...
 		break;
-	case HeroTpyeElite:
+	case HeroTypeElite:
+		hero->setHeroType(heroType);
 		filename1 = Hero_elite;
 		hero->setGold(0);
 		hero->setInitHealthPointsLimit(450);
@@ -79,7 +82,8 @@ extern std::list<Creep*> FieldCreep;
 		hero->SetManaBar();
 		//...
 		break;
-	case HeroTpyeMunra:
+	case HeroTypeMunra:
+		hero->setHeroType(heroType);
 		filename1 = Hero_munra;
 		hero->setGold(0);
 		hero->setInitHealthPointsLimit(400);
@@ -170,15 +174,15 @@ void Hero::addExp(int exp) {
 	if (lvlup) {
 		switch (heroType)
 		{
-		case HeroTpyeExecu:
+		case HeroTypeExecu:
 			setHealthPoints(getHealthPoints() + 70);
 			setAtk(getAtk() + 24);
 			break;
-		case HeroTpyeElite:
+		case HeroTypeElite:
 			setHealthPoints(getHealthPoints() + 60);
 			setAtk(getAtk() + 10);
 			break;
-		case HeroTpyeMunra:
+		case HeroTypeMunra:
 			setHealthPoints(getHealthPoints() + 50);
 			setAtk(getAtk() + 10);
 			break;
@@ -193,8 +197,34 @@ void Hero::die()
 {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画,挪回初始位置？
+
+
+	const auto typ = this->getHeroType();
+	std::string actname = "Executioner_death";
+	switch (typ)
+	{
+	case HeroTypeTest:
+		actname = "Executioner_death";
+		break;
+	case HeroTypeExecu:
+		actname = "Executioner_death";
+		break;
+	case HeroTypeElite:
+		actname = "Elite_death";
+		break;
+	case HeroTypeMunra:
+		actname = "Munra_death";
+		break;
+	}
+
+
 	this->stopAllActions();
-	this->setPosition(getReBornPoint());
+	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+	this->runAction(Sequence::create(DelayTime::create(1), CallFunc::create([&]() {
+		this->setPosition(getReBornPoint());
+		}), NULL));
+
+
 }
 
 void Hero::setNewAtkRect()
@@ -267,64 +297,105 @@ void Hero::moveBack()
 	this->stopAllActions();
 	this->runAction(Moving);
 }
-void Hero::AttackAndMove()
+void Hero::AttackAndMove(float)
 {
+	//英雄的逻辑比较复杂，暂时初始化的时候不加入ai
 	//默认ai英雄是右边的
 	auto atk= this->getAtk();
 	if (targetCreep.size() > 0) {//攻击target
+
 		auto ocreep = *targetCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+			//攻击动画
+			//这里解释一下，一般来讲敌方英雄可能是一个个把兵线上的小兵按顺序杀掉的，所以就只搜索begin
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
 			if (ocreep->getHealthPoints() <= 0) {
+				//死亡动画
+				
+				targetCreep.erase(targetCreep.begin());
 				ocreep->die();
 			}
 			return;
 		}
 	}
 	else if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
+		//攻击动画
 		Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
 		if (Tower1->getHealthPoints() <= 0) {
+			//死亡动画
 			Tower1->die();
 		}
 		return;
 	}
 	else if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() >= 0) {
+		//攻击动画
 		Base1->setHealthPoints(Base1->getHealthPoints() - atk);
 		if (Base1->getHealthPoints() >= 0) {
+			//死亡动画
 			Base1->die();
 		}
 	}
 	else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		//攻击动画
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
 		if (Myhero->getHealthPoints() <= 0) {
+			//死亡动画
 			Myhero->die();
 		}
 		return;
 	}
 	else {
+		//移动动画
 		this->moveBack();
 	}
 }
-void Hero::move(Vec2 endPos,Hero* Hero)
+void Hero::move(Vec2 endPos,Hero* Hero,std::string dir)
 {
 	Vec2 route = Hero->getPosition() - endPos;
 	float Distance = route.length();
 	double Speed = this->getMoveSpeed();
 	auto Moving = MoveTo::create(Distance / Speed, endPos);
+	const auto typ = this->getHeroType();
+	std::string actname = "Executioner_death";
+	switch (typ)
+	{
+	case HeroTypeTest:
+		actname = "Executioner_run"+dir;
+		break;
+	case HeroTypeExecu:
+		actname = "Executioner_run" + dir;
+		break;
+	case HeroTypeElite:
+		actname = "Elite_run" + dir;
+		break;
+	case HeroTypeMunra:
+		actname = "Munra_run" + dir;
+		break;
+	}
+
+
+	//this->stopAllActions();
+	//this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+
+
+
+
+
 	Hero->stopAllActions();
 	Hero->runAction(Moving);
+	Hero->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
 }
 
 std::string Hero::getName() {
 	switch (heroType)
 	{
-	case HeroTpyeExecu:
+	case HeroTypeExecu:
 		return "Executioner";
 		break;
-	case HeroTpyeElite:
+	case HeroTypeElite:
 		return "Elite";
 		break;
-	case HeroTpyeMunra:
+	case HeroTypeMunra:
 		return "Munra";
 		break;
 	}
@@ -337,3 +408,26 @@ void Hero::update(float dt)
 	}
 }
 
+void Hero::atkF() {
+	const auto typ = this->getHeroType();
+	std::string actname = "Executioner_death";
+	switch (typ)
+	{
+	case HeroTypeTest:
+		actname = "Executioner_attack";
+		break;
+	case HeroTypeExecu:
+		actname = "Executioner_attack";
+		break;
+	case HeroTypeElite:
+		actname = "Elite_attack";
+		break;
+	case HeroTypeMunra:
+		actname = "Munra_attack";
+		break;
+	}
+
+
+	this->stopAllActions();
+	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+}

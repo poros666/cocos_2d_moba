@@ -112,6 +112,7 @@ void CharaAni::init_mechsTower(){//tower
 	AnimationCache::getInstance()->addAnimation(createAnimation("Mecha_0%03d.png", 106, 143, 0.03f), "Mecha_shit");
 	//AnimationCache::getInstance()->addAnimation(createAnimation("Mecha_Shitting_0%03d.png", 122, 143, 0.03f, "Mecha_Shitting_0001.png"), "Mecha_shitting");
 	AnimationCache::getInstance()->addAnimation(createAnimation("mech_missile_0%03d.png", 106, 143, 0.03f), "Mecha_missile");
+	AnimationCache::getInstance()->addAnimation(createAnimation("explosion_air_00%02d.png", 1, 17, 0.04f), "bomb");
 }
 
 void CharaAni::init_scorpion(){//jungle creep1

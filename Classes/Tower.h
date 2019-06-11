@@ -71,8 +71,10 @@ public:
 	Rect* newAttackRect();
 	bool checkHeroInRect();
 	bool checkCreepInRect(std::list<Creep*>::iterator iter);//之后又具体的小兵类之后写成两拨小兵
-	void Attack1();
-	void Attack2();
+	void UpdateAttack1();
+	void UpdateAttack2();
+	void Attack1(float);
+	void Attack2(float);
 	float x_position = 0;
 	float y_position = 0;
 private:
