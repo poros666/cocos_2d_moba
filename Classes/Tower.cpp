@@ -18,6 +18,7 @@ extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
 extern std::list<Creep*> FieldCreep;
+extern Sprite* bombsp1;
 
 Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 	Tower* tower = new (std::nothrow)Tower();
@@ -30,6 +31,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 		{
 
 		case TowerTypeTest:
+			tower->setTowerType(towerType);
 			filename1 = Tower_test;
 			tower->setInitHealthPointsLimit(100);
 			tower->setHealthPoints(100);
@@ -43,6 +45,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			break;
 
 		case TowerTypeT1:
+			tower->setTowerType(towerType);
 			filename1 = Tower_1;
 			tower->setInitHealthPointsLimit(1000);
 			tower->setHealthPoints(1000);
@@ -54,6 +57,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			//...
 			break;
 		case TowerTypeT2:
+			tower->setTowerType(towerType);
 			filename1 = Tower_1;
 			tower->setInitHealthPointsLimit(1200);
 			tower->setHealthPoints(1200);
@@ -65,6 +69,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			//...
 			break;
 		case TowerTypeT3:
+			tower->setTowerType(towerType);
 			filename1 = Tower_1;
 			tower->setInitHealthPointsLimit(1400);
 			tower->setHealthPoints(1400);
@@ -76,6 +81,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			//...
 			break;
 		case TowerTypeBase:
+			tower->setTowerType(towerType);
 			filename1 = Base_1;
 			tower->setInitHealthPointsLimit(1500);
 			tower->setHealthPoints(1500);
@@ -95,6 +101,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 		{
 
 		case TowerTypeTest:
+			tower->setTowerType(towerType);
 			filename1 = Tower_test;
 			tower->setInitHealthPointsLimit(100);
 			tower->setHealthPoints(100);
@@ -108,6 +115,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			break;
 
 		case TowerTypeT1:
+			tower->setTowerType(towerType);
 			filename1 = Tower_1;
 			tower->setInitHealthPointsLimit(1000);
 			tower->setHealthPoints(1000);
@@ -119,6 +127,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			//...
 			break;
 		case TowerTypeT2:
+			tower->setTowerType(towerType);
 			filename1 = Tower_1;
 			tower->setInitHealthPointsLimit(1200);
 			tower->setHealthPoints(1200);
@@ -130,6 +139,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			//...
 			break;
 		case TowerTypeT3:
+			tower->setTowerType(towerType);
 			filename1 = Tower_1;
 			tower->setInitHealthPointsLimit(1400);
 			tower->setHealthPoints(1400);
@@ -141,6 +151,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			//...
 			break;
 		case TowerTypeBase:
+			tower->setTowerType(towerType);
 			filename1 = Base_1;
 			tower->setInitHealthPointsLimit(1500);
 			tower->setHealthPoints(1500);
@@ -265,7 +276,13 @@ void Tower::Attack1(float)
 	if (OtherCreep.size() > 0) {
 		auto ocreep = *OtherCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+
 			//ÕâÀï¼Ó¹¥»÷¶¯»­
+			bombsp1->setPosition(ocreep->getPosition());
+			bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
+			this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+
+
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
 			if (ocreep->getHealthPoints() <= 0) {
 				//ËÀÍö¶¯»­
@@ -276,7 +293,11 @@ void Tower::Attack1(float)
 		}
 	}
 	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
+		
 		//¹¥»÷¶¯»­
+
+		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+
 		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
 		if (OtherHero->getHealthPoints() <= 0) {
 			//ËÀÍö¶¯»­
@@ -292,6 +313,9 @@ void Tower::Attack2(float)
 		auto ocreep = *targetCreep.begin();
 		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
 			//¹¥»÷¶¯»­
+			this->setFlipX(true);
+			this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+
 			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
 			if (ocreep->getHealthPoints() <= 0) {
 				//ËÀÍö¶¯»­
@@ -303,6 +327,9 @@ void Tower::Attack2(float)
 	}
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
 		//¹¥»÷¶¯»­
+		this->setFlipX(true);
+		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
 		if (Myhero->getHealthPoints() <= 0) {
 			//ËÀÍö¶¯»­

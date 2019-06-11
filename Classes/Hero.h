@@ -31,9 +31,9 @@ using namespace std;
 */
 typedef enum {
 	HeroTypeTest=0,
-	HeroTpyeExecu,
-	HeroTpyeElite,
-	HeroTpyeMunra
+	HeroTypeExecu,
+	HeroTypeElite,
+	HeroTypeMunra
 }HeroTypes;
 
 class Hero :public cocos2d::Sprite {
@@ -100,7 +100,7 @@ public:
 	Rect* newAttackRect();
 	void moveBack();
 	void AttackAndMove(float);//单机模式的时候我方默认选择左边，所以这里采用右侧的逻辑，即otherhero
-	void move(Vec2 endPos, Hero* Hero);
+	void move(Vec2 endPos, Hero* Hero, std::string dir);
 
 	virtual void update(float dt);
 	float x_position=0;
@@ -111,6 +111,8 @@ public:
 	list<int> equipment;
 	void clickAttack(Node* target,Hero* owner);
 	std::string getName();
+
+	void atkF();
 
 private:
 	ProgressTimer* HpBarProgress;
