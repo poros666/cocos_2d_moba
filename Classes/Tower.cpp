@@ -274,22 +274,25 @@ void Tower::UpdateAttack2()
 void Tower::Attack1(float)
 {
 	if (OtherCreep.size() > 0) {
-		auto ocreep = *OtherCreep.begin();
-		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+		for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
+			auto ocreep = *iter;
+			iter++;
+			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
 
-			//ÕâÀï¼Ó¹¥»÷¶¯»­
-			bombsp1->setPosition(ocreep->getPosition());
-			bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
-			this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+				//ÕâÀï¼Ó¹¥»÷¶¯»­
+				bombsp1->setPosition(ocreep->getPosition());
+				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
+				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 
 
-			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
-			if (ocreep->getHealthPoints() <= 0) {
-				//ËÀÍö¶¯»­
-				OtherCreep.erase(OtherCreep.begin());
-				ocreep->die();
+				ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
+				if (ocreep->getHealthPoints() <= 0) {
+					//ËÀÍö¶¯»­
+					OtherCreep.erase(OtherCreep.begin());
+					ocreep->die();
+				}
+				return;
 			}
-			return;
 		}
 	}
 	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
@@ -310,19 +313,22 @@ void Tower::Attack1(float)
 void Tower::Attack2(float)
 {
 	if (targetCreep.size() > 0) {
-		auto ocreep = *targetCreep.begin();
-		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
-			//¹¥»÷¶¯»­
-			this->setFlipX(true);
-			this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+			auto ocreep = *iter;
+			iter++;
+			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+				//¹¥»÷¶¯»­
+				this->setFlipX(true);
+				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 
-			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
-			if (ocreep->getHealthPoints() <= 0) {
-				//ËÀÍö¶¯»­
-				targetCreep.erase(targetCreep.begin());
-				ocreep->die();
+				ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
+				if (ocreep->getHealthPoints() <= 0) {
+					//ËÀÍö¶¯»­
+					targetCreep.erase(targetCreep.begin());
+					ocreep->die();
+				}
+				return;
 			}
-			return;
 		}
 	}
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
@@ -337,4 +343,9 @@ void Tower::Attack2(float)
 		}
 		return;
 	}
+}
+
+Rect* Tower::newRect()
+{
+	return new Rect(this->getPositionX() - 205, this->getPositionY() - 180, 250, 280);
 }

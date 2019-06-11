@@ -75,6 +75,7 @@ public:
 	void UpdateAttack2();
 	void Attack1(float);
 	void Attack2(float);
+	Rect* newRect();
 	float x_position = 0;
 	float y_position = 0;
 private:

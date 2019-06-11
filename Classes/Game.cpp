@@ -46,7 +46,7 @@ bool Game::init()
 	ani->init_munra();
 
 	Myhero = Hero::creatWithHeroTypes(HeroTypeExecu);
-	OtherHero = Hero::creatWithHeroTypes(HeroTypeExecu);
+	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest);
 	Tower1 = Tower::creatWithTowerTypes(TowerTypeT1,true);
 	Tower2 = Tower::creatWithTowerTypes(TowerTypeT1,false);
 	Base1 = Tower::creatWithTowerTypes(TowerTypeBase,true);
@@ -75,7 +75,7 @@ void Game::onEnter()
 	Game::initMouseListener(Myhero);
 	Game::initKeyListener(Myhero);
 	this->scheduleUpdate();
-	this->schedule(schedule_selector(Game::CreepsPrint), 10, -1, 0);
+	this->schedule(schedule_selector(Game::CreepsPrint), 30, -1, 0);
 	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
 //	this->schedule(schedule_selector(), 1, -1, 1);
 }
@@ -195,7 +195,7 @@ void Game::HeroPrint()
 
 	OtherHero->x_position = visibleSize.width / 2-200;
 	OtherHero->y_position = visibleSize.height / 2-200;
-	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2));
+	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 500, visibleSize.height / 2));
 	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
 
 }
@@ -514,7 +514,7 @@ void Game::initMouseListener(Hero* hero)
 			//达到操作不同英雄的目的
 
 
-			if (clickRect->containsPoint(OtherHero->getPosition()) &&
+			if (OtherHero->newRect()->containsPoint(Vec2(endPos.x,endPos.y)) &&
 				hero->attack_rect->containsPoint(OtherHero->getPosition()) &&
 				OtherHero->getHealthPoints() > 0) {
 				//这里留给攻击动画
@@ -532,7 +532,7 @@ void Game::initMouseListener(Hero* hero)
 			//	auto eee = hero->getPosition();
 			//	auto d = Tower1->getPosition();
 			//	auto c = Tower1->getHealthPoints();
-			if (clickRect->containsPoint(Tower2->getPosition()) &&
+			if (Tower2->newRect()->containsPoint(Vec2(endPos.x,endPos.y)) &&
 				hero->attack_rect->containsPoint(Tower2->getPosition()) &&
 				Tower2->getHealthPoints() > 0) {
 				//攻击动画
@@ -547,7 +547,7 @@ void Game::initMouseListener(Hero* hero)
 				}
 				return true;
 			}
-			if (clickRect->containsPoint(Base2->getPosition()) &&
+			if (Base2->newRect()->containsPoint(Vec2(endPos.x,endPos.y)) &&
 				hero->attack_rect->containsPoint(Base2->getPosition()) &&
 				Base2->getHealthPoints() > 0) {
 				//攻击动画
@@ -565,7 +565,7 @@ void Game::initMouseListener(Hero* hero)
 			if (OtherCreep.size()) {
 				for (auto iter = OtherCreep.begin(); iter != OtherCreep.end(); iter++) {
 					auto _creep = *iter;
-					if (clickRect->containsPoint(_creep->getPosition()) &&
+					if (_creep->newRect()->containsPoint(Vec2(endPos.x,endPos.y)) &&
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//攻击动画
@@ -586,7 +586,7 @@ void Game::initMouseListener(Hero* hero)
 			if (FieldCreep.size()) {
 				for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
 					auto _creep = *iter;
-					if (clickRect->containsPoint(_creep->getPosition()) &&
+					if (_creep->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//攻击动画
@@ -609,7 +609,7 @@ void Game::initMouseListener(Hero* hero)
 			return true;
 		}
 		else {
-			if (clickRect->containsPoint(Myhero->getPosition()) &&
+			if (Myhero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 				hero->attack_rect->containsPoint(Myhero->getPosition()) &&
 				Myhero->getHealthPoints() > 0) {
 				//这里留给攻击动画
@@ -627,7 +627,7 @@ void Game::initMouseListener(Hero* hero)
 			//	auto eee = hero->getPosition();
 			//	auto d = Tower1->getPosition();
 			//	auto c = Tower1->getHealthPoints();
-			if (clickRect->containsPoint(Tower1->getPosition()) &&
+			if (Tower1->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 				hero->attack_rect->containsPoint(Tower1->getPosition()) &&
 				Tower1->getHealthPoints() > 0) {
 				//攻击动画
@@ -643,7 +643,7 @@ void Game::initMouseListener(Hero* hero)
 				return true;
 			}
 
-			if (clickRect->containsPoint(Base1->getPosition()) &&
+			if (Base1->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 				hero->attack_rect->containsPoint(Base1->getPosition()) &&
 				Base1->getHealthPoints() > 0) {
 				//攻击动画
@@ -661,7 +661,7 @@ void Game::initMouseListener(Hero* hero)
 			if (targetCreep.size()) {
 				for (auto iter = targetCreep.begin(); iter != targetCreep.end(); iter++) {
 					auto _creep = *iter;
-					if (clickRect->containsPoint(_creep->getPosition()) &&
+					if (_creep->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//攻击动画
@@ -681,7 +681,7 @@ void Game::initMouseListener(Hero* hero)
 			if (FieldCreep.size()) {
 				for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
 					auto _creep = *iter;
-					if (clickRect->containsPoint(_creep->getPosition()) &&
+					if (_creep->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//攻击动画
