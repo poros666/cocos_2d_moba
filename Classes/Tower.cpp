@@ -12,35 +12,148 @@ using namespace cocos2d;
 extern Hero* Myhero;
 extern Hero* OtherHero;
 extern Tower* Tower1;
+extern Tower* Tower2;
+extern Tower* Base1;
+extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
-Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
+extern std::list<Creep*> OtherCreep;
+extern std::list<Creep*> FieldCreep;
+
+Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 	Tower* tower = new (std::nothrow)Tower();
 	
 	std::string filename1 = Tower_test;
 
 	//通过switch根据type来初始化数值
-	switch (towerType)
-	{
-	case TowerTypeTest:
-		filename1 = Tower_test;
-		tower->setInitHealthPointsLimit(100);
-		tower->setHealthPoints(100);
-		tower->SetHpBar();
-		tower->setRewardExp(300);
-		tower->setRewardMoney(200);
-		tower->setAtkDistance(1000);
-		tower->setAtk(10);
-		//...
-		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
+	if (pending) {
+		switch (towerType)
+		{
+
+		case TowerTypeTest:
+			filename1 = Tower_test;
+			tower->setInitHealthPointsLimit(100);
+			tower->setHealthPoints(100);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->setAtkDistance(1000);
+			tower->setAtk(10);
+			tower->UpdateAttack1();
 			//...
 			break;
-		*/
-	default:
-		break;
+
+		case TowerTypeT1:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1000);
+			tower->setHealthPoints(1000);
+			tower->setAtk(100);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->UpdateAttack1();
+			//...
+			break;
+		case TowerTypeT2:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1200);
+			tower->setHealthPoints(1200);
+			tower->setAtk(120);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->UpdateAttack1();
+			//...
+			break;
+		case TowerTypeT3:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1400);
+			tower->setHealthPoints(1400);
+			tower->setAtk(140);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->UpdateAttack1();
+			//...
+			break;
+		case TowerTypeBase:
+			filename1 = Base_1;
+			tower->setInitHealthPointsLimit(1500);
+			tower->setHealthPoints(1500);
+			tower->setAtk(0);
+			tower->setAtkDistance(0);
+			tower->setAtkSpeeds(0);
+			tower->SetHpBar();
+			tower->UpdateAttack1();
+			//...
+			break;
+		default:
+			break;
+		}
+	}
+	else {
+		switch (towerType)
+		{
+
+		case TowerTypeTest:
+			filename1 = Tower_test;
+			tower->setInitHealthPointsLimit(100);
+			tower->setHealthPoints(100);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->setAtkDistance(1000);
+			tower->setAtk(10);
+			tower->UpdateAttack2();
+			//...
+			break;
+
+		case TowerTypeT1:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1000);
+			tower->setHealthPoints(1000);
+			tower->setAtk(100);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->UpdateAttack2();
+			//...
+			break;
+		case TowerTypeT2:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1200);
+			tower->setHealthPoints(1200);
+			tower->setAtk(120);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->UpdateAttack2();
+			//...
+			break;
+		case TowerTypeT3:
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1400);
+			tower->setHealthPoints(1400);
+			tower->setAtk(140);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->UpdateAttack2();
+			//...
+			break;
+		case TowerTypeBase:
+			filename1 = Base_1;
+			tower->setInitHealthPointsLimit(1500);
+			tower->setHealthPoints(1500);
+			tower->setAtk(0);
+			tower->setAtkDistance(0);
+			tower->setAtkSpeeds(0);
+			tower->SetHpBar();
+			tower->UpdateAttack2();
+			//...
+			break;
+		default:
+			break;
+		}
 	}
 
 	const std::string& filename = filename1;
@@ -55,8 +168,9 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 
 bool Tower::hurt(float atk) {
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	int hp = getHealthPoints();
+	hp -= atk;
+
 
 	if (hp <= 0) {
 		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
@@ -134,4 +248,58 @@ bool Tower::checkCreepInRect(std::list<Creep*>::iterator iter)
 	}
 	
 	return false;
+}
+
+void Tower::UpdateAttack1()
+{
+	this->schedule(schedule_selector(Tower::Attack1), 1, -1, 0);
+}
+
+void Tower::UpdateAttack2()
+{
+	this->schedule(schedule_selector(Tower::Attack2), 1, -1, 0);
+}
+
+void Tower::Attack1(float)
+{
+	if (OtherCreep.size() > 0) {
+		auto ocreep = *OtherCreep.begin();
+		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
+			if (ocreep->getHealthPoints() <= 0) {
+				OtherCreep.erase(OtherCreep.begin());
+				ocreep->die();
+			}
+			return;
+		}
+	}
+	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
+		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
+		if (OtherHero->getHealthPoints() <= 0) {
+			OtherHero->die();
+		}
+		return;
+	}
+}
+
+void Tower::Attack2(float)
+{
+	if (targetCreep.size() > 0) {
+		auto ocreep = *targetCreep.begin();
+		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
+			if (ocreep->getHealthPoints() <= 0) {
+				targetCreep.erase(targetCreep.begin());
+				ocreep->die();
+			}
+			return;
+		}
+	}
+	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
+		if (Myhero->getHealthPoints() <= 0) {
+			Myhero->die();
+		}
+		return;
+	}
 }

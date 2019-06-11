@@ -15,7 +15,9 @@ class OneMapLayer : public cocos2d::Layer
 		void menuShopCallback(cocos2d::Ref* pSender);
 		void setPlayerPosition(cocos2d::Vec2 position);
 		cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2 position);
+
 		cocos2d::Vec2 setViewPointCenter(cocos2d::Vec2 position);
+
 		void UpdateViewPointCenter(float delat);
 		virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 		virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);

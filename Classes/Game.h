@@ -12,6 +12,7 @@
 #include"ScoreBoard.h"
 #include "EquipmentShowLayer.h"
 #include<list>
+
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -26,6 +27,7 @@ public:
 	void HeroPrint();
 	void recreateHero(float delta);
 	void CreepsPrint(float delta);
+	void FieldPrint(float delta);
 	void StatusLayerPrint();
 	void TowerPrint();
 	void ScoreBoardPrint();
@@ -50,7 +52,7 @@ private:
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 	bool isGamming = true;
-	Hero* Myhero;
+
 
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;

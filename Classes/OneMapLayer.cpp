@@ -40,6 +40,7 @@ bool OneMapLayer::init()
 	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
 	
+
 	///success1
 	/*
 	auto creep1 = Creep::create("creep_test.png");
@@ -48,6 +49,7 @@ bool OneMapLayer::init()
 	*/
 	//success2
 	this->schedule(schedule_selector(OneMapLayer::UpdateViewPointCenter));
+
 	return true;
 }
 
@@ -113,6 +115,7 @@ void OneMapLayer::UpdateViewPointCenter(float delat)
 {
 	setViewPointCenter(this->getChildByName("Myhero")->getPosition());
 }
+
 
 
 

@@ -6,7 +6,15 @@ ver1
 */
 #include"Hero.h"
 using namespace cocos2d;
-
+extern Hero* Myhero;
+extern Hero* OtherHero;
+extern Tower* Tower1;
+extern Tower* Tower2;
+extern Tower* Base1;
+extern Tower* Base2;
+extern std::list<Creep*> targetCreep;
+extern std::list<Creep*> OtherCreep;
+extern std::list<Creep*> FieldCreep;
 
  Hero* Hero::creatWithHeroTypes(HeroTypes heroType) {
 	Hero* hero = new (std::nothrow)Hero();
@@ -19,8 +27,8 @@ using namespace cocos2d;
 	case HeroTypeTest:
 		filename1 = Hero_test;
 		hero->setGold(1000);
-		hero->setInitHealthPointsLimit(100);
-		hero->setHealthPoints(100);
+		hero->setInitHealthPointsLimit(1000);
+		hero->setHealthPoints(1000);
 		hero->setHealthRecoverPoints(1);
 		hero->setInitManaPointsLimit(10);
 		hero->setManaPoints(10);
@@ -29,17 +37,68 @@ using namespace cocos2d;
 		hero->SetManaBar();
 		hero->setAtkDistance(100);
 		hero->setAtk(10);
-		hero->setReBornPoint(Vec2(300,500));
+		hero->setReBornPoint(Vec2(300, 500));
 		//attack_rect = new Rect();
 		//...
 		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
-			//...
-			break;
-		*/
+	case HeroTpyeExecu:
+		filename1 = Hero_execu;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(500);
+		hero->setHealthPoints(500);
+		hero->setInitManaPointsLimit(100);
+		hero->setManaPoints(100);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(60);
+		hero->setAtkDistance(40);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		//...
+		break;
+	case HeroTpyeElite:
+		filename1 = Hero_elite;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(450);
+		hero->setHealthPoints(450);
+		hero->setInitManaPointsLimit(120);
+		hero->setManaPoints(120);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(50);
+		hero->setAtkDistance(40);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		//...
+		break;
+	case HeroTpyeMunra:
+		filename1 = Hero_munra;
+		hero->setGold(0);
+		hero->setInitHealthPointsLimit(400);
+		hero->setHealthPoints(400);
+		hero->setInitManaPointsLimit(160);
+		hero->setManaPoints(160);
+		hero->setMoveSpeed(200);
+		hero->setArmorPoints(0);
+		hero->setAtk(30);
+		hero->setAtkDistance(140);
+		hero->setAtkSpeeds(1);
+		hero->setLevel(1);
+		hero->setExp(0);
+		hero->setSkillPoints(0);
+		hero->SetHpBar();
+		hero->SetManaBar();
+		
+		//...
+		break;
 	default:
 		break;
 	}
@@ -81,6 +140,7 @@ using namespace cocos2d;
 
  
 
+
 bool Hero::hurt(float atk) {
 
 	int hp=this->getHealthPoints();
@@ -108,8 +168,24 @@ void Hero::addExp(int exp) {
 	}
 
 	if (lvlup) {
+		switch (heroType)
+		{
+		case HeroTpyeExecu:
+			setHealthPoints(getHealthPoints() + 70);
+			setAtk(getAtk() + 24);
+			break;
+		case HeroTpyeElite:
+			setHealthPoints(getHealthPoints() + 60);
+			setAtk(getAtk() + 10);
+			break;
+		case HeroTpyeMunra:
+			setHealthPoints(getHealthPoints() + 50);
+			setAtk(getAtk() + 10);
+			break;
+		}
 		lvl++;
 		setLevel(lvl);
+		setSkillPoints(getSkillPoints() + 1);
 	}
 }
 
@@ -181,6 +257,54 @@ void Hero::UpdateManaBar(float delta)
 	}
 	ManaBarProgress->setPercentage(percentage);
 }
+Rect* Hero::newAttackRect()
+{
+	return new Rect(this->getPositionX() - this->getAtkDistance(), this->getPositionY() - this->getAtkDistance(), this->getAtkDistance() * 2, this->getAtkDistance() * 2);
+}
+void Hero::moveBack()
+{
+	auto Moving = MoveTo::create(1, Vec2(this->getPositionX() - 50, this->getPositionY()));
+	this->stopAllActions();
+	this->runAction(Moving);
+}
+void Hero::AttackAndMove()
+{
+	//Ä¬ÈÏaiÓ¢ÐÛÊÇÓÒ±ßµÄ
+	auto atk= this->getAtk();
+	if (targetCreep.size() > 0) {//¹¥»÷target
+		auto ocreep = *targetCreep.begin();
+		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+			ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
+			if (ocreep->getHealthPoints() <= 0) {
+				ocreep->die();
+			}
+			return;
+		}
+	}
+	else if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
+		Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
+		if (Tower1->getHealthPoints() <= 0) {
+			Tower1->die();
+		}
+		return;
+	}
+	else if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() >= 0) {
+		Base1->setHealthPoints(Base1->getHealthPoints() - atk);
+		if (Base1->getHealthPoints() >= 0) {
+			Base1->die();
+		}
+	}
+	else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
+		if (Myhero->getHealthPoints() <= 0) {
+			Myhero->die();
+		}
+		return;
+	}
+	else {
+		this->moveBack();
+	}
+}
 void Hero::move(Vec2 endPos,Hero* Hero)
 {
 	Vec2 route = Hero->getPosition() - endPos;
@@ -191,9 +315,25 @@ void Hero::move(Vec2 endPos,Hero* Hero)
 	Hero->runAction(Moving);
 }
 
+std::string Hero::getName() {
+	switch (heroType)
+	{
+	case HeroTpyeExecu:
+		return "Executioner";
+		break;
+	case HeroTpyeElite:
+		return "Elite";
+		break;
+	case HeroTpyeMunra:
+		return "Munra";
+		break;
+	}
+}
+
 void Hero::update(float dt)
 {
 	if (this->getHealthPoints() <= 0) {
 		this->die();
 	}
 }
+
