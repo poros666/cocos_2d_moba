@@ -77,6 +77,10 @@ public:
 	Rect* attack_rect;
 	bool hurt(float atk);//ÊÜÉË.
 	void die();//ËÀÍö.
+	void runF();
+	void runB();
+	void atkF();
+	void atkB();
 	//void hpRecover(int healthRecoverPoint);//»ØÑª
 	Rect* newAttackRect();
 	bool chechMyheroInRect();

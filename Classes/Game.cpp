@@ -8,6 +8,7 @@ Tower* Tower1;
 Tower* Tower2;
 Tower* Base1;
 Tower* Base2;
+Sprite* bombsp1;
 std::list<Creep*> targetCreep;
 std::list<Creep*> OtherCreep;
 std::list<Creep*> FieldCreep;
@@ -52,6 +53,7 @@ bool Game::init()
 	Tower2 = Tower::creatWithTowerTypes(TowerTypeTest,false);
 	Base1 = Tower::creatWithTowerTypes(TowerTypeBase,true);
 	Base2 = Tower::creatWithTowerTypes(TowerTypeBase,false);
+	bombsp1 = Sprite::create();
 	MapLayerPrint();
 	HeroPrint();
 	
@@ -207,14 +209,20 @@ void Game::TowerPrint()
 	Tower1->setPosition(Vec2(visibleSize.width / 2 -50, visibleSize.height / 2 - 50));
 	this->getChildByName("MapLayer")->addChild(Tower1, 2,"Tower1");
 
+	Tower2->setFlipX(true);
 	Tower2->setPosition(Vec2(3600, 400));
 	this->getChildByName("MapLayer")->addChild(Tower2, 2, "Tower2");
 
 	Base1->setPosition(Vec2(300, 400));
 	this->getChildByName("MapLayer")->addChild(Base1, 2, "Base1");
 
+	Base2->setFlipX(true);
 	Base2->setPosition(Vec2(3800, 400));
 	this->getChildByName("MapLayer")->addChild(Base2, 2, "Base2");
+
+
+	bombsp1->setPosition(Vec2(1,1));
+	this->getChildByName("MapLayer")->addChild(bombsp1, 2, "bombsp1");
 
 }
 
@@ -474,20 +482,24 @@ void Game::initMouseListener(Hero* hero)
 
 
 
-		/*
+		
 				int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
 
 				if (Angle > -45 && Angle < 45) {
-
-					Hero->move(Hero::Direction::RIGHT, endPos, Hero);//UP
+					//hero->stopAllActions();
+					hero->setFlipX(false);
+					hero->move(endPos, hero,"right");//R
+					
 
 				}
 
 				else if (Angle > -135 && Angle < -45)
 
 				{
-
-					Hero->move(Hero::Direction::DOWN, endPos, Hero);//LE
+					//hero->stopAllActions();
+					
+					hero->move(endPos, hero,"down");//D
+				
 
 
 
@@ -499,21 +511,24 @@ void Game::initMouseListener(Hero* hero)
 
 				{
 
-
-
-					Hero->move(Hero::Direction::LEFT, endPos, Hero);//DO
+					//hero->stopAllActions();
+					hero->setFlipX(true);
+					hero->move(endPos, hero,"left");//L
+					
 
 				}
 
 				else
 
 				{
-
-					Hero->move(Hero::Direction::UP, endPos, Hero);//R
+					//hero->stopAllActions();
+					
+					hero->move(endPos, hero,"up");//U
+		
 
 				}
 
-		*/
+		
 		auto distance = hero->getAtkDistance();
 		hero->attack_rect = new Rect(hero->getPositionX()-distance,hero->getPositionY()-distance,distance,distance);
 		Rect* clickRect = new Rect(endPos.x-25, endPos.y -25, 50, 50);
@@ -527,6 +542,7 @@ void Game::initMouseListener(Hero* hero)
 				hero->attack_rect->containsPoint(OtherHero->getPosition()) &&
 				OtherHero->getHealthPoints() > 0) {
 				//ÕâÀïÁô¸ø¹¥»÷¶¯»­
+				hero->atkF();
 				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
 				if (OtherHero->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
@@ -544,6 +560,7 @@ void Game::initMouseListener(Hero* hero)
 				hero->attack_rect->containsPoint(Tower2->getPosition()) &&
 				Tower2->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
+				hero->atkF();
 				Tower2->setHealthPoints(Tower2->getHealthPoints() - hero->getAtk());
 				if (Tower2->getHealthPoints() <= 0) {
 					hero->setGold(hero->getGold() + Tower2->getRewardMoney());
@@ -558,6 +575,7 @@ void Game::initMouseListener(Hero* hero)
 				hero->attack_rect->containsPoint(Base2->getPosition()) &&
 				Base2->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
+				hero->atkF();
 				Base2->setHealthPoints(Base2->getHealthPoints() - hero->getAtk());
 				if (Base2->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
@@ -575,6 +593,7 @@ void Game::initMouseListener(Hero* hero)
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
+						hero->atkF();
 						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
@@ -595,6 +614,7 @@ void Game::initMouseListener(Hero* hero)
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
+						hero->atkF();
 						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
@@ -608,7 +628,7 @@ void Game::initMouseListener(Hero* hero)
 				}
 			}
 			//ÒÆ¶¯¶¯»­
-			hero->move(endPos, hero);
+			//hero->move(endPos, hero);
 
 			return true;
 		}
@@ -617,6 +637,7 @@ void Game::initMouseListener(Hero* hero)
 				hero->attack_rect->containsPoint(Myhero->getPosition()) &&
 				Myhero->getHealthPoints() > 0) {
 				//ÕâÀïÁô¸ø¹¥»÷¶¯»­
+				hero->atkF();
 				Myhero->setHealthPoints(Myhero->getHealthPoints() - hero->getAtk());
 				if (Myhero->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
@@ -634,6 +655,7 @@ void Game::initMouseListener(Hero* hero)
 				hero->attack_rect->containsPoint(Tower1->getPosition()) &&
 				Tower1->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
+				hero->atkF();
 				Tower1->setHealthPoints(Tower1->getHealthPoints() - hero->getAtk());
 				if (Tower1->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
@@ -649,6 +671,7 @@ void Game::initMouseListener(Hero* hero)
 				hero->attack_rect->containsPoint(Base1->getPosition()) &&
 				Base1->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
+				hero->atkF();
 				Base1->setHealthPoints(Base1->getHealthPoints() - hero->getAtk());
 				if (Base1->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
@@ -666,6 +689,7 @@ void Game::initMouseListener(Hero* hero)
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
+						hero->atkF();
 						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
@@ -685,6 +709,7 @@ void Game::initMouseListener(Hero* hero)
 						hero->attack_rect->containsPoint(_creep->getPosition()) &&
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
+						hero->atkF();
 						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
