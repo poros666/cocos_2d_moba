@@ -77,7 +77,7 @@ void Game::onEnter()
 	Game::initMouseListener(Myhero);
 	Game::initKeyListener(Myhero);
 	this->scheduleUpdate();
-	this->schedule(schedule_selector(Game::CreepsPrint), 5, -1, 0);
+	this->schedule(schedule_selector(Game::CreepsPrint), 10, -1, 0);
 	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
 //	this->schedule(schedule_selector(), 1, -1, 1);
 }
@@ -723,7 +723,7 @@ void Game::initMouseListener(Hero* hero)
 				}
 			}
 			//ÒÆ¶¯
-			hero->move(endPos, hero);
+			//hero->move(endPos, hero);
 
 			return true;
 		}
