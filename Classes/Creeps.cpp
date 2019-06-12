@@ -62,6 +62,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 40;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(40);
+			creep->setRewardExp(50);
 			creep->UpdateAttack1();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
@@ -75,6 +77,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 130;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(60);
+			creep->setRewardExp(75);
 			creep->UpdateAttack1();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
@@ -88,6 +92,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 145;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(100);
+			creep->setRewardExp(90);
 			creep->UpdateAttack1();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
@@ -101,6 +107,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 145;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		case CreepTypeJ2:
@@ -112,6 +120,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 145;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		case CreepTypeJ3:
@@ -123,6 +133,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 145;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		case CreepTypeJ4:
@@ -134,6 +146,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 145;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		default:
@@ -170,6 +184,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 40;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(40);
+			creep->setRewardExp(50);
 			creep->UpdateAttack2();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
@@ -183,6 +199,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 130;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(60);
+			creep->setRewardExp(75);
 			creep->UpdateAttack2();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
@@ -196,6 +214,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 145;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(100);
+			creep->setRewardExp(90);
 			creep->UpdateAttack2();
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
@@ -640,7 +660,7 @@ void Creep::FieldAttackAndMove(float delta)
 
 Rect* Creep::newRect()
 {
-	return new Rect(this->getPositionX()-80,this->getPositionY()-100,160,200);
+	return new Rect(this->getPositionX()-40,this->getPositionY()-40,80,80);
 }
 
 void Creep::moveForward()
@@ -726,6 +746,8 @@ void Creep::attackOtherHero()
 
 void Creep::UpdateDeath(float) {
 	if (this->getHealthPoints() <= 0) {
-		removeFromParentAndCleanup(this);
+		this->setVisible(false);
+		this->setAtkDistance(0);
+		this->setAtk(0);
 	}
 }

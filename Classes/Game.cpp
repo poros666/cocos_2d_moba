@@ -45,8 +45,10 @@ bool Game::init()
 	ani->init_elite();
 	ani->init_munra();
 
-	Myhero = Hero::creatWithHeroTypes(HeroTypeExecu);
-	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest);
+	Myhero = Hero::creatWithHeroTypes(HeroTypeElite,true);
+	OtherHero = Hero::creatWithHeroTypes(HeroTypeMunra,false);
+	OtherHero->setFlipX(true);
+
 	Tower1 = Tower::creatWithTowerTypes(TowerTypeT1,true);
 	Tower2 = Tower::creatWithTowerTypes(TowerTypeT1,false);
 	Base1 = Tower::creatWithTowerTypes(TowerTypeBase,true);
@@ -185,17 +187,13 @@ void Game::HeroPrint()
 	//Éú³ÉÓ¢ÐÛµÄº¯Êý
 
 	int _atkDistance=Myhero->getAtkDistance();
-	Myhero->x_position = 300;
-	Myhero->y_position = 500;
-	Myhero->setPosition(Vec2(Myhero->x_position,Myhero->y_position));
+	Myhero->setPosition(Myhero->getReBornPoint());
 	Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance,Myhero->getPositionY() - _atkDistance,2* _atkDistance,2* _atkDistance);
 	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
 	SetHpBar();
 	SetManaBar();
 
-	OtherHero->x_position = visibleSize.width / 2-200;
-	OtherHero->y_position = visibleSize.height / 2-200;
-	OtherHero->setPosition(Vec2(visibleSize.width / 2 - 500, visibleSize.height / 2));
+	OtherHero->setPosition(OtherHero->getReBornPoint());
 	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
 
 }
@@ -394,8 +392,196 @@ void Game::initKeyListener(Hero* hero)
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
 		{
-			hero->hurt(10);
-			break;
+			if (hero == Myhero) {
+				if (
+					hero->setNewAtkRect()->containsPoint(OtherHero->getPosition()) &&
+					OtherHero->getHealthPoints() > 0) {
+					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
+					hero->atkF();
+					OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
+					if (OtherHero->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						OtherHero->die();
+					}
+					return true;
+				}
+
+				//	auto a = clickRect->containsPoint(Tower1->getPosition());
+				//	auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
+				//	auto eee = hero->getPosition();
+				//	auto d = Tower1->getPosition();
+				//	auto c = Tower1->getHealthPoints();
+				if (
+					hero->setNewAtkRect()->containsPoint(Tower2->getPosition()) &&
+					Tower2->getHealthPoints() > 0) {
+					//¹¥»÷¶¯»­
+					hero->atkF();
+					Tower2->setHealthPoints(Tower2->getHealthPoints() - hero->getAtk());
+					if (Tower2->getHealthPoints() <= 0) {
+						hero->setGold(hero->getGold() + Tower2->getRewardMoney());
+						hero->setExp(hero->getExp() + Tower2->getRewardExp());
+						//ËÀÍö¶¯»­
+						Tower2->die();
+
+					}
+					return true;
+				}
+				if (
+					hero->setNewAtkRect()->containsPoint(Base2->getPosition()) &&
+					Base2->getHealthPoints() > 0) {
+					//¹¥»÷¶¯»­
+					hero->atkF();
+					Base2->setHealthPoints(Base2->getHealthPoints() - hero->getAtk());
+					if (Base2->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						hero->setGold(hero->getGold() + Base2->getRewardMoney());
+						hero->setExp(hero->getExp() + Base2->getRewardExp());
+						Base2->die();
+
+					}
+					return true;
+				}
+				if (OtherCreep.size()) {
+					for (auto iter = OtherCreep.begin(); iter != OtherCreep.end(); iter++) {
+						auto _creep = *iter;
+						if (
+							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
+							_creep->getHealthPoints() > 0) {
+							//¹¥»÷¶¯»­
+							hero->atkF();
+							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							if (_creep->getHealthPoints() <= 0) {
+								//ËÀÍö¶¯»­
+								_creep->die();
+
+								hero->setGold(hero->getGold() + _creep->getRewardMoney());
+								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								OtherCreep.erase(iter);
+							}
+							return true;
+						}
+					}
+				}
+				if (FieldCreep.size()) {
+					for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
+						auto _creep = *iter;
+						if (
+							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
+							_creep->getHealthPoints() > 0) {
+							//¹¥»÷¶¯»­
+							hero->atkF();
+							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							if (_creep->getHealthPoints() <= 0) {
+								//ËÀÍö¶¯»­
+								_creep->die();
+								hero->setGold(hero->getGold() + _creep->getRewardMoney());
+								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								FieldCreep.erase(iter);
+							}
+							return true;
+						}
+					}
+				}
+				//ÒÆ¶¯¶¯»­
+				//hero->move(endPos, hero);
+
+				return true;
+			}
+			else {
+				if (
+					hero->setNewAtkRect()->containsPoint(Myhero->getPosition()) &&
+					Myhero->getHealthPoints() > 0) {
+					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
+					hero->atkF();
+					Myhero->setHealthPoints(Myhero->getHealthPoints() - hero->getAtk());
+					if (Myhero->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						Myhero->die();
+					}
+					return true;
+				}
+
+				//	auto a = clickRect->containsPoint(Tower1->getPosition());
+				//	auto b = hero->attack_rect->containsPoint(Tower1->getPosition());
+				//	auto eee = hero->getPosition();
+				//	auto d = Tower1->getPosition();
+				//	auto c = Tower1->getHealthPoints();
+				if (
+					hero->setNewAtkRect()->containsPoint(Tower1->getPosition()) &&
+					Tower1->getHealthPoints() > 0) {
+					//¹¥»÷¶¯»­
+					hero->atkF();
+					Tower1->setHealthPoints(Tower1->getHealthPoints() - hero->getAtk());
+					if (Tower1->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						hero->setGold(hero->getGold() + Tower1->getRewardMoney());
+						hero->setExp(hero->getExp() + Tower1->getRewardExp());
+						Tower1->die();
+
+					}
+					return true;
+				}
+
+				if (
+					hero->setNewAtkRect()->containsPoint(Base1->getPosition()) &&
+					Base1->getHealthPoints() > 0) {
+					//¹¥»÷¶¯»­
+					hero->atkF();
+					Base1->setHealthPoints(Base1->getHealthPoints() - hero->getAtk());
+					if (Base1->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						hero->setGold(hero->getGold() + Base1->getRewardMoney());
+						hero->setExp(hero->getExp() + Base1->getRewardExp());
+						Base1->die();
+
+					}
+					return true;
+				}
+				if (targetCreep.size()) {
+					for (auto iter = targetCreep.begin(); iter != targetCreep.end(); iter++) {
+						auto _creep = *iter;
+						if (
+							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
+							_creep->getHealthPoints() > 0) {
+							//¹¥»÷¶¯»­
+							hero->atkF();
+							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							if (_creep->getHealthPoints() <= 0) {
+								//ËÀÍö¶¯»­
+								_creep->die();
+								hero->setGold(hero->getGold() + _creep->getRewardMoney());
+								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								targetCreep.erase(iter);
+							}
+							return true;
+						}
+					}
+				}
+				if (FieldCreep.size()) {
+					for (auto iter = FieldCreep.begin(); iter != FieldCreep.end(); iter++) {
+						auto _creep = *iter;
+						if (
+							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
+							_creep->getHealthPoints() > 0) {
+							//¹¥»÷¶¯»­
+							hero->atkF();
+							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							if (_creep->getHealthPoints() <= 0) {
+								//ËÀÍö¶¯»­
+								_creep->die();
+								hero->setGold(hero->getGold() + _creep->getRewardMoney());
+								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								FieldCreep.erase(iter);
+							}
+							return true;
+						}
+					}
+				}
+				//ÒÆ¶¯
+				//hero->move(endPos, hero);
+
+				return true;
+			}
 		}
 		case EventKeyboard::KeyCode::KEY_S:
 			break;
@@ -444,7 +630,6 @@ void Game::initMouseListener(Hero* hero)
 		else {
 			endPos.x = MapSizeWidth - visiblesize.width + touch->getLocation().x;
 		}
-
 		if (hero->getPositionY() <= visiblesize.height / 2) {
 			endPos.y = touch->getLocation().y;
 		}
@@ -460,51 +645,16 @@ void Game::initMouseListener(Hero* hero)
 
 		
 				int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
-
 				if (Angle > -45 && Angle < 45) {
 					//hero->stopAllActions();
-					hero->setFlipX(false);
-					hero->move(endPos, hero,"right");//R
-					
-
+					hero->setFlipX(false);										
 				}
-
-				else if (Angle > -135 && Angle < -45)
-
-				{
-					//hero->stopAllActions();
-					
-					hero->move(endPos, hero,"down");//D
-				
-
-
-
-				}
-
-
-
 				else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
-
-				{
-
-					//hero->stopAllActions();
-					hero->setFlipX(true);
-					hero->move(endPos, hero,"left");//L
-					
-
-				}
-
-				else
-
 				{
 					//hero->stopAllActions();
-					
-					hero->move(endPos, hero,"up");//U
-		
-
+					hero->setFlipX(true);								
 				}
 
-		
 		auto distance = hero->getAtkDistance();
 		hero->attack_rect = new Rect(hero->getPositionX()-distance,hero->getPositionY()-distance,distance,distance);
 		Rect* clickRect = new Rect(endPos.x-25, endPos.y -25, 50, 50);
@@ -604,7 +754,27 @@ void Game::initMouseListener(Hero* hero)
 				}
 			}
 			//ÒÆ¶¯¶¯»­
-			//hero->move(endPos, hero);
+			if (Angle > -45 && Angle < 45) {
+				//hero->stopAllActions();
+				hero->setFlipX(false);
+				hero->move(endPos, hero, "right");//R					
+			}
+			else if (Angle > -135 && Angle < -45)
+			{
+				//hero->stopAllActions();					
+				hero->move(endPos, hero, "down");//D				
+			}
+			else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
+			{
+				//hero->stopAllActions();
+				hero->setFlipX(true);
+				hero->move(endPos, hero, "left");//L					
+			}
+			else
+			{
+				//hero->stopAllActions();					
+				hero->move(endPos, hero, "up");//U		
+			}
 
 			return true;
 		}
@@ -699,8 +869,27 @@ void Game::initMouseListener(Hero* hero)
 				}
 			}
 			//ÒÆ¶¯
-			//hero->move(endPos, hero);
-
+			if (Angle > -45 && Angle < 45) {
+				//hero->stopAllActions();
+				hero->setFlipX(false);
+				hero->move(endPos, hero, "right");//R					
+			}
+			else if (Angle > -135 && Angle < -45)
+			{
+				//hero->stopAllActions();					
+				hero->move(endPos, hero, "down");//D				
+			}
+			else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
+			{
+				//hero->stopAllActions();
+				hero->setFlipX(true);
+				hero->move(endPos, hero, "left");//L					
+			}
+			else
+			{
+				//hero->stopAllActions();					
+				hero->move(endPos, hero, "up");//U		
+			}
 			return true;
 		}
 

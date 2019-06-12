@@ -53,6 +53,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -65,6 +67,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -77,6 +81,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -89,6 +95,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(0);
 			tower->setAtkSpeeds(0);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -123,6 +131,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -135,6 +145,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -147,6 +159,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -159,6 +173,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(0);
 			tower->setAtkSpeeds(0);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -347,5 +363,5 @@ void Tower::Attack2(float)
 
 Rect* Tower::newRect()
 {
-	return new Rect(this->getPositionX() - 205, this->getPositionY() - 180, 250, 280);
+	return new Rect(this->getPositionX() - 100, this->getPositionY() - 100, 200, 200);
 }
