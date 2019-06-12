@@ -68,7 +68,8 @@ class Hero :public cocos2d::Sprite {
 	CC_SYNTHESIZE(int, movespeed, MoveSpeed);
 	CC_SYNTHESIZE(int, gold, Gold);//½ðÇ® 
 	CC_SYNTHESIZE(int, itemsNum, ItemsNum);//ÎïÆ·ÊýÁ¿
-
+	CC_SYNTHESIZE(int, rewardmoney, RewardMoney);
+	CC_SYNTHESIZE(int, rewardexp, RewardExp);
 
 	CC_SYNTHESIZE(Vec2, rebornpoint, ReBornPoint);
 
@@ -87,10 +88,10 @@ public:
 	//virtual void update(float dt);
 	Rect* attack_rect; 
 	Vec2 ReStart;
-	static Hero* creatWithHeroTypes(HeroTypes heroType);//¾²Ì¬´´ÔìÓ¢ÐÛº¯Êý
+	static Hero* creatWithHeroTypes(HeroTypes heroType,bool pending);//¾²Ì¬´´ÔìÓ¢ÐÛº¯Êý
 	bool hurt(float atk);//ÊÜÉË.
 	void die();//ËÀÍö.
-	void setNewAtkRect();
+	Rect* setNewAtkRect();
 	void hpRecover(int healthRecoverPoint);//»ØÑª
 	void mpRecover(int manaRecoverPoint);//»ØÀ¶
 	void addExp(int exp);//»ñµÃ¾­Ñé
@@ -104,7 +105,11 @@ public:
 	void moveBack();
 	void AttackAndMove(float);//单机模式的时候我方默认选择左边，所以这里采用右侧的逻辑，即otherhero
 	void move(Vec2 endPos, Hero* Hero, std::string dir);
+
+	void UpdateDeath(float);
+
 	void recreateHero(float delta);
+
 	virtual void update(float dt);
 	float x_position=0;
 	float y_position=0;
