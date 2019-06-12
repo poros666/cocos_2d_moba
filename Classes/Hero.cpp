@@ -28,8 +28,8 @@ extern std::list<Creep*> FieldCreep;
 		hero->setHeroType(heroType);
 		filename1 = Hero_test;
 		hero->setGold(1000);
-		hero->setInitHealthPointsLimit(10000);
-		hero->setHealthPoints(10000);
+		hero->setInitHealthPointsLimit(100);
+		hero->setHealthPoints(100);
 		hero->setHealthRecoverPoints(1);
 		hero->setInitManaPointsLimit(10);
 		hero->setManaPoints(10);
@@ -393,7 +393,7 @@ void Hero::move(Vec2 endPos,Hero* Hero,std::string dir)
 
 	Hero->stopAllActions();
 	Hero->runAction(Moving);
-	Hero->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+	Hero->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname))));
 }
 
 std::string Hero::getName() {

@@ -45,9 +45,9 @@ bool Game::init()
 	ani->init_elite();
 	ani->init_munra();
 	UserDefault* defualts = UserDefault::getInstance();
-	if(defualts->getBoolForKey("Execu")){ Myhero = Hero::creatWithHeroTypes(HeroTpyeExecu); }
-	if (defualts->getBoolForKey("Elite")) { Myhero = Hero::creatWithHeroTypes(HeroTpyeElite); }
-	if (defualts->getBoolForKey("Munara")) { Myhero = Hero::creatWithHeroTypes(HeroTpyeMunra); }
+	if(defualts->getBoolForKey("Execu")){ Myhero = Hero::creatWithHeroTypes(HeroTypeExecu); }
+	if (defualts->getBoolForKey("Elite")) { Myhero = Hero::creatWithHeroTypes(HeroTypeElite); }
+	if (defualts->getBoolForKey("Munara")) { Myhero = Hero::creatWithHeroTypes(HeroTypeMunra); }
 	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest);
 	Tower1 = Tower::creatWithTowerTypes(TowerTypeTest,true);
 	Tower2 = Tower::creatWithTowerTypes(TowerTypeTest,false);
@@ -68,7 +68,7 @@ bool Game::init()
 	TowerPrint();
 	ShopLayerPrint();
 	ShowPrint();
-	BackButtonPrint();
+	//BackButtonPrint();
 	return true;
 }
 void Game::onEnter()
@@ -151,7 +151,7 @@ void Game::ScoreBoardRelesed()
 {
 	this->removeChildByName("ScoreBoard");
 }
-void Game::BackButtonPrint()
+/*void Game::BackButtonPrint()
 {
 	auto BackItem = MenuItemImage::create(
 		"BackNormal.jpg",
@@ -175,13 +175,13 @@ void Game::BackButtonPrint()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 5);
 
-}
-
+}*/
+/*
 void Game::menuBackCallback(cocos2d::Ref* pSender)
 {
 	Director::getInstance()->popScene();
 }
-
+*/
 void Game::HeroPrint()
 {
 	//Éú³ÉÓ¢ÐÛµÄº¯Êý
@@ -531,7 +531,7 @@ void Game::initMouseListener(Hero* hero)
 		
 		auto distance = hero->getAtkDistance();
 		hero->attack_rect = new Rect(hero->getPositionX()-distance,hero->getPositionY()-distance,distance,distance);
-		Rect* clickRect = new Rect(endPos.x-25, endPos.y -25, 50, 50);
+		Rect* clickRect = new Rect(endPos.x-25, endPos.y -25, 100, 100);
 
 
 		if (hero == Myhero) {//Õâ¸öifµÄÅÐ¶ÏÖ÷ÒªÊÇÁô¸øÒÔºóÁª»úÕ½¶·µÄÊ±ºòÄÜ¹»¶ÁÈëheroÊÇmyhero£¨×ó±ßµÄÓ¢ÐÛ£©»¹ÊÇotherhero£¨ÓÒ±ßµÄÓ¢ÐÛ£©
@@ -543,11 +543,7 @@ void Game::initMouseListener(Hero* hero)
 				OtherHero->getHealthPoints() > 0) {
 				//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 				hero->atkF();
-				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
-				if (OtherHero->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					OtherHero->die();
-				}
+				OtherHero->hurt(hero->getAtk());
 				return true;
 			}
 
@@ -561,13 +557,10 @@ void Game::initMouseListener(Hero* hero)
 				Tower2->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
 				hero->atkF();
-				Tower2->setHealthPoints(Tower2->getHealthPoints() - hero->getAtk());
+				Tower2->hurt(hero->getAtk());
 				if (Tower2->getHealthPoints() <= 0) {
 					hero->setGold(hero->getGold() + Tower2->getRewardMoney());
 					hero->setExp(hero->getExp() + Tower2->getRewardExp());
-					//ËÀÍö¶¯»­
-					Tower2->die();
-
 				}
 				return true;
 			}
@@ -576,13 +569,11 @@ void Game::initMouseListener(Hero* hero)
 				Base2->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
 				hero->atkF();
-				Base2->setHealthPoints(Base2->getHealthPoints() - hero->getAtk());
+				Base2->hurt(hero->getAtk());
 				if (Base2->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
 					hero->setGold(hero->getGold() + Base2->getRewardMoney());
 					hero->setExp(hero->getExp() + Base2->getRewardExp());
-					Base2->die();
-
 				}
 				return true;
 			}
@@ -594,11 +585,9 @@ void Game::initMouseListener(Hero* hero)
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
 						hero->atkF();
-						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						_creep->hurt(hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
-							_creep->die();
-						
 							hero->setGold(hero->getGold() + _creep->getRewardMoney());
 							hero->setExp(hero->getExp() + _creep->getRewardExp());
 							OtherCreep.erase(iter);
@@ -615,10 +604,9 @@ void Game::initMouseListener(Hero* hero)
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
 						hero->atkF();
-						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						_creep->hurt(hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
-							_creep->die();
 							hero->setGold(hero->getGold() + _creep->getRewardMoney());
 							hero->setExp(hero->getExp() + _creep->getRewardExp());
 							FieldCreep.erase(iter);
@@ -638,11 +626,7 @@ void Game::initMouseListener(Hero* hero)
 				Myhero->getHealthPoints() > 0) {
 				//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 				hero->atkF();
-				Myhero->setHealthPoints(Myhero->getHealthPoints() - hero->getAtk());
-				if (Myhero->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					Myhero->die();
-				}
+				Myhero->hurt(hero->getAtk());
 				return true;
 			}
 
@@ -656,13 +640,11 @@ void Game::initMouseListener(Hero* hero)
 				Tower1->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
 				hero->atkF();
-				Tower1->setHealthPoints(Tower1->getHealthPoints() - hero->getAtk());
+				Tower1->hurt(hero->getAtk());
 				if (Tower1->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
 					hero->setGold(hero->getGold() + Tower1->getRewardMoney());
 					hero->setExp(hero->getExp() + Tower1->getRewardExp());
-					Tower1->die();
-
 				}
 				return true;
 			}
@@ -672,13 +654,11 @@ void Game::initMouseListener(Hero* hero)
 				Base1->getHealthPoints() > 0) {
 				//¹¥»÷¶¯»­
 				hero->atkF();
-				Base1->setHealthPoints(Base1->getHealthPoints() - hero->getAtk());
+				Base1->hurt(hero->getAtk());
 				if (Base1->getHealthPoints() <= 0) {
 					//ËÀÍö¶¯»­
 					hero->setGold(hero->getGold() + Base1->getRewardMoney());
 					hero->setExp(hero->getExp() + Base1->getRewardExp());
-					Base1->die();
-
 				}
 				return true;
 			}
@@ -690,10 +670,9 @@ void Game::initMouseListener(Hero* hero)
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
 						hero->atkF();
-						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						_creep->hurt(hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
-							_creep->die();
 							hero->setGold(hero->getGold() + _creep->getRewardMoney());
 							hero->setExp(hero->getExp() + _creep->getRewardExp());
 							targetCreep.erase(iter);
@@ -710,10 +689,9 @@ void Game::initMouseListener(Hero* hero)
 						_creep->getHealthPoints() > 0) {
 						//¹¥»÷¶¯»­
 						hero->atkF();
-						_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+						_creep->hurt(hero->getAtk());
 						if (_creep->getHealthPoints() <= 0) {
 							//ËÀÍö¶¯»­
-							_creep->die();
 							hero->setGold(hero->getGold() + _creep->getRewardMoney());
 							hero->setExp(hero->getExp() + _creep->getRewardExp());
 							FieldCreep.erase(iter);

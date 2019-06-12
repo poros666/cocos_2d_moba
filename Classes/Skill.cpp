@@ -96,7 +96,7 @@ void Skill::Click(Hero* owner) {
 			//Animate* animate_right = Animate::create(right);
 			//owner->runAction(CCRepeatForever::create(animate_right));
 
-
+			owner->stopAllActions();
 			owner->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Elite_attack")));
 
 

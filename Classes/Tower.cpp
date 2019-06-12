@@ -166,9 +166,9 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			break;
 		}
 	}
-
+	tower->scheduleUpdate();
 	const std::string& filename = filename1;
-
+	
 	if (tower && tower->initWithFile(filename)) {//ÅÐ¶Ïtower¶ÔÏóÊÇ·ñÉú³É³É¹¦
 		tower->autorelease();//¼ÓÈëÄÚ´æÊÍ·Å³ØÖÐ£¬²»»áÁ¢¼´ÊÍ·Åcreep¶ÔÏó
 		return tower;
@@ -185,7 +185,7 @@ bool Tower::hurt(float atk) {
 
 	if (hp <= 0) {
 		//die();//ËÀÍöÅÐ¶¨¿ÉÒÔÐ´µ½ÕâÀïÒ²¿ÉÒÔÍ¨¹ýhurtº¯Êý·µ»ØµÄboolÖµÔÙµ÷ÓÃdie();
-		return true;
+		hp = 0;
 	}
 	setHealthPoints(hp);
 
@@ -195,6 +195,7 @@ bool Tower::hurt(float atk) {
 void Tower::die() {
 	this->setAtk(0);
 	this->setVisible(false);
+	//this->removeFromParent();
 }
 
 
@@ -283,29 +284,14 @@ void Tower::Attack1(float)
 				bombsp1->setPosition(ocreep->getPosition());
 				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
 				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-
-
-				ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
-				if (ocreep->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					OtherCreep.erase(OtherCreep.begin());
-					ocreep->die();
-				}
+				ocreep->hurt(atk);
 				return;
 			}
 		}
 	}
 	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
-		
-		//¹¥»÷¶¯»­
-
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-
-		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
-		if (OtherHero->getHealthPoints() <= 0) {
-			//ËÀÍö¶¯»­
-			OtherHero->die();
-		}
+		OtherHero->hurt(atk);
 		return;
 	}
 }
@@ -321,12 +307,7 @@ void Tower::Attack2(float)
 				this->setFlipX(true);
 				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 
-				ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
-				if (ocreep->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					targetCreep.erase(targetCreep.begin());
-					ocreep->die();
-				}
+				ocreep->hurt(atk);
 				return;
 			}
 		}
@@ -335,12 +316,7 @@ void Tower::Attack2(float)
 		//¹¥»÷¶¯»­
 		this->setFlipX(true);
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-
-		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
-		if (Myhero->getHealthPoints() <= 0) {
-			//ËÀÍö¶¯»­
-			Myhero->die();
-		}
+		Myhero->hurt(atk);
 		return;
 	}
 }
