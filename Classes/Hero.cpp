@@ -297,6 +297,10 @@ Rect* Hero::newAttackRect()
 {
 	return new Rect(this->getPositionX() - this->getAtkDistance(), this->getPositionY() - this->getAtkDistance(), this->getAtkDistance() * 2, this->getAtkDistance() * 2);
 }
+Rect* Hero::newRect()
+{
+	return new Rect(this->getPositionX() - 60, this->getPositionY() - 150, 200, 200);
+}
 void Hero::moveBack()
 {
 	auto Moving = MoveTo::create(1, Vec2(this->getPositionX() - 50, this->getPositionY()));

@@ -97,6 +97,10 @@ public:
 	void AttackAndMove1(float delta);
 	void AttackAndMove2(float delta);
 	void FieldAttackAndMove(float delta);
+	void UpdateDeath(float);
+
+
+	Rect* newRect();
 
 	void moveForward();
 	void moveBack();
