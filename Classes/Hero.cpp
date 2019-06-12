@@ -22,6 +22,7 @@ extern std::list<Creep*> FieldCreep;
 	std::string filename1 = Hero_test;
 
 	//通过switch根据type来初始化数值
+
 	if (pending) {
 		switch (heroType)
 		{
@@ -225,10 +226,11 @@ extern std::list<Creep*> FieldCreep;
 		default:
 			break;
 		}
+
 	}
 
 	const std::string& filename = filename1;
-
+	hero->scheduleUpdate();
 	if (hero && hero->initWithFile(filename)) {//判断tower对象是否生成成功
 		hero->autorelease();//加入内存释放池中，不会立即释放creep对象
 		return hero;
@@ -339,15 +341,24 @@ void Hero::die()
 
 
 	this->stopAllActions();
-	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
-	this->runAction(Sequence::create(DelayTime::create(1), CallFunc::create([&]() {
-		this->setPosition(this->getReBornPoint());
+
+	this->runAction(Sequence::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname)),DelayTime::create(1), CallFunc::create([&]() {
+		this->setVisible(false);
+		this->setPosition(getReBornPoint());
 		this->setHealthPoints(this->getInitHealthPointsLimit());
 		}), NULL));
-
+	this->schedule(schedule_selector(Hero::recreateHero), 10);
 
 }
 
+void Hero::recreateHero(float delta)
+{
+	this->setVisible(true);
+	this->setHealthPoints(this->getInitHealthPointsLimit());
+	this->schedule(schedule_selector(Hero::UpdateHpBar));
+	this->schedule(schedule_selector(Hero::UpdateManaBar));
+	this->scheduleUpdate();
+}
 Rect* Hero::setNewAtkRect()
 {
 	this->attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
@@ -518,7 +529,7 @@ void Hero::move(Vec2 endPos,Hero* Hero,std::string dir)
 
 	Hero->stopAllActions();
 	Hero->runAction(Moving);
-	Hero->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+	Hero->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname))));
 }
 
 void Hero::UpdateDeath(float)
@@ -547,6 +558,7 @@ void Hero::update(float dt)
 {
 	if (this->getHealthPoints() <= 0) {
 		this->die();
+		this->unscheduleUpdate();
 	}
 }
 

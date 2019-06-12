@@ -71,7 +71,7 @@ class Creep :public cocos2d::Sprite {
 public:
 	//Creep(CreepTypes creepType);//构造函数
 	//void spawnCreep();//生成小兵函数
-	virtual void update(float dt);//游戏循环调用的默认函数//意义不明
+	//virtual void update(float dt);//游戏循环调用的默认函数//意义不明
 	static Creep* creatWithCreepTypes(CreepTypes creepType,bool pending);//静态创造小兵函数
 	bool isAttacking = false;
 	Rect* attack_rect;

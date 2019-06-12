@@ -83,43 +83,44 @@ void Skill::Click(Hero* owner) {
 
 		//Hero* tempHero = static_cast<Hero*> (owner);
 		//float ss = tempHero->getPositionX();
-		switch (lvl)
-		{
-			
-		case 1: 
-		{
+		if (owner->getHealthPoints() > 0) {
+			switch (lvl)
+			{
+
+			case 1:
+			{
 
 
-			//owner->stopAllActions();
-			//auto Singleton = AnimationCache::getInstance();
-			//Animation* right = Singleton->getAnimation("Elite_attack");
-			//Animate* animate_right = Animate::create(right);
-			//owner->runAction(CCRepeatForever::create(animate_right));
+				//owner->stopAllActions();
+				//auto Singleton = AnimationCache::getInstance();
+				//Animation* right = Singleton->getAnimation("Elite_attack");
+				//Animate* animate_right = Animate::create(right);
+				//owner->runAction(CCRepeatForever::create(animate_right));
+
+				owner->stopAllActions();
+				owner->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Elite_attack")));
 
 
-			owner->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Elite_attack")));
+				owner->setHealthPoints(owner->getHealthPoints() + 40);
+				ActionInterval * forward = MoveTo::create(4, Vec2(owner->getPositionX() + 40, owner->getPositionY()));
+				owner->runAction(forward);
 
+				break;
+			}
 
-			owner->setHealthPoints(owner->getHealthPoints() + 40);
-			ActionInterval * forward = MoveTo::create(4, Vec2(owner->getPositionX() + 40, owner->getPositionY()));
-			owner->runAction(forward);
-			
-			break;
-		}
+			case 2:
 
-		case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			}
+
 		
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		}
-		
-
 		cdTimer = 0;
 		schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
-
+		}
 	}
 }
 

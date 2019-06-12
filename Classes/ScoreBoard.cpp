@@ -1,9 +1,10 @@
 #include"ScoreBoard.h"
 USING_NS_CC;
-Layer* ScoreBoard::createLayer(Hero* Myhero)
+extern Hero* Myhero;
+extern Hero* OtherHero;
+Layer* ScoreBoard::createLayer()
 {
 	auto layer= ScoreBoard::create();
-	ScoreBoard::Print(Myhero);
 	return layer;
 }
 bool ScoreBoard::init()
@@ -14,11 +15,34 @@ bool ScoreBoard::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	auto sprite = Sprite::create("HelloWorld.png");
+	auto sprite = Sprite::create("Scoreboard.jpg");
 	sprite->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
 	this->addChild(sprite,1);
-}
-void ScoreBoard::Print(Hero* Myhero)
-{
-	;
+	string Myinformation="You:";
+	char temp[10];
+	sprintf(temp, "%d", Myhero->getLevel());
+	string Level = temp;
+	Myinformation +=  "  Level:"+Level;
+	sprintf(temp, "%d", Myhero->getGold());
+	string Gold = temp;
+	Myinformation += "  Gold:" + Gold;
+	auto Mylabel = Label::createWithTTF(Myinformation, "fonts/Marker Felt.ttf", 40);
+	float x = origin.x + visibleSize.width / 2;
+	float y = origin.y + visibleSize.height / 2 +Mylabel->getContentSize().height;
+	// position the label on the center of the screen
+	Mylabel->setPosition(Vec2(x, y));
+	this->addChild(Mylabel, 1);
+	string Enemyinformation = "Enemy:";
+	sprintf(temp, "%d", OtherHero->getLevel());
+	Level = temp;
+	Enemyinformation += "  Level:" + Level;
+	sprintf(temp, "%d", OtherHero->getGold());
+	Gold = temp;
+	Enemyinformation += "  Gold:" + Gold;
+	auto Enemylabel = Label::createWithTTF(Enemyinformation, "fonts/Marker Felt.ttf", 40);
+	x = origin.x + visibleSize.width / 2;
+	y = origin.y + visibleSize.height / 2 - Enemylabel->getContentSize().height;
+	// position the label on the center of the screen
+	Enemylabel->setPosition(Vec2(x, y));
+	this->addChild(Enemylabel, 1);
 }
