@@ -58,7 +58,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
 			hero->setAtk(60);
-			hero->setAtkDistance(40);
+			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
 			hero->setLevel(1);
 			hero->setExp(0);
@@ -82,7 +82,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
 			hero->setAtk(50);
-			hero->setAtkDistance(40);
+			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
 			hero->setLevel(1);
 			hero->setExp(0);
@@ -106,7 +106,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
 			hero->setAtk(30);
-			hero->setAtkDistance(140);
+			hero->setAtkDistance(150);
 			hero->setAtkSpeeds(1);
 			hero->setLevel(1);
 			hero->setExp(0);
@@ -143,7 +143,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
 			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//attack_rect = new Rect();
 			//...
@@ -159,7 +159,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
 			hero->setAtk(60);
-			hero->setAtkDistance(40);
+			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
 			hero->setLevel(1);
 			hero->setExp(0);
@@ -169,7 +169,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
 			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
@@ -184,7 +184,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
 			hero->setAtk(50);
-			hero->setAtkDistance(40);
+			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
 			hero->setLevel(1);
 			hero->setExp(0);
@@ -194,7 +194,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
 			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
@@ -209,7 +209,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
 			hero->setAtk(30);
-			hero->setAtkDistance(140);
+			hero->setAtkDistance(150);
 			hero->setAtkSpeeds(1);
 			hero->setLevel(1);
 			hero->setExp(0);
@@ -219,7 +219,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
 			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
@@ -447,21 +447,18 @@ void Hero::AttackAndMove(float)
 			iter++;
 			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
 				//攻击动画
-				//这里解释一下，一般来讲敌方英雄可能是一个个把兵线上的小兵按顺序杀掉的，所以就只搜索begin
 				this->atkF();
 				ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
 				if (ocreep->getHealthPoints() <= 0) {
 					//死亡动画
-
 					targetCreep.erase(iter);
-
 					ocreep->die();
 				}
 				return;
 			}
 		}
 	}
-	else if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
+	if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
 		//攻击动画
 		this->atkF();
 		Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
@@ -471,7 +468,7 @@ void Hero::AttackAndMove(float)
 		}
 		return;
 	}
-	else if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() >= 0) {
+	if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() > 0) {
 		//攻击动画
 		this->atkF();
 		Base1->setHealthPoints(Base1->getHealthPoints() - atk);
@@ -479,8 +476,9 @@ void Hero::AttackAndMove(float)
 			//死亡动画
 			Base1->die();
 		}
+		return;
 	}
-	else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
 		//攻击动画
 		this->atkF();
 		Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);

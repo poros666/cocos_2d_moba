@@ -59,7 +59,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 550;
 			creep->healthPoints = 550;
 			creep->atk = 15;
-			creep->atkDistance = 40;
+			creep->atkDistance = 60;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(40);
@@ -89,7 +89,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 150;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(100);
@@ -104,7 +104,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(200);
@@ -117,7 +117,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(200);
@@ -130,7 +130,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(200);
@@ -143,7 +143,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(200);
@@ -181,7 +181,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 550;
 			creep->healthPoints = 550;
 			creep->atk = 15;
-			creep->atkDistance = 40;
+			creep->atkDistance = 60;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(40);
@@ -211,7 +211,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 150;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(100);

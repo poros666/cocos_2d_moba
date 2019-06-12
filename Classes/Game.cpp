@@ -46,10 +46,10 @@ bool Game::init()
 	ani->init_munra();
 
 	UserDefault* defualts = UserDefault::getInstance();
-	if(defualts->getBoolForKey("Execu")){ Myhero = Hero::creatWithHeroTypes(HeroTypeExecu); }
-	if (defualts->getBoolForKey("Elite")) { Myhero = Hero::creatWithHeroTypes(HeroTypeElite); }
-	if (defualts->getBoolForKey("Munara")) { Myhero = Hero::creatWithHeroTypes(HeroTypeMunra); }
-	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest);
+	if(defualts->getBoolForKey("Execu")){ Myhero = Hero::creatWithHeroTypes(HeroTypeExecu,true); }
+	if (defualts->getBoolForKey("Elite")) { Myhero = Hero::creatWithHeroTypes(HeroTypeElite,true); }
+	if (defualts->getBoolForKey("Munara")) { Myhero = Hero::creatWithHeroTypes(HeroTypeMunra,true); }
+	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest,false);
 	OtherHero->setFlipX(true);
 	Tower1 = Tower::creatWithTowerTypes(TowerTypeT1,true);
 	Tower2 = Tower::creatWithTowerTypes(TowerTypeT1,false);
@@ -199,18 +199,18 @@ void Game::TowerPrint()
 {
 	//放置塔的函数
 
-	Tower1->setPosition(Vec2(visibleSize.width / 2 -50, visibleSize.height / 2 - 50));
+	Tower1->setPosition(Vec2(1600, 500));
 	this->getChildByName("MapLayer")->addChild(Tower1, 2,"Tower1");
 
 	Tower2->setFlipX(true);
-	Tower2->setPosition(Vec2(3600, 400));
+	Tower2->setPosition(Vec2(3200, 500));
 	this->getChildByName("MapLayer")->addChild(Tower2, 2, "Tower2");
 
-	Base1->setPosition(Vec2(300, 400));
+	Base1->setPosition(Vec2(1000, 500));
 	this->getChildByName("MapLayer")->addChild(Base1, 2, "Base1");
 
 	Base2->setFlipX(true);
-	Base2->setPosition(Vec2(3800, 400));
+	Base2->setPosition(Vec2(3800, 500));
 	this->getChildByName("MapLayer")->addChild(Base2, 2, "Base2");
 
 
@@ -224,28 +224,28 @@ void Game::CreepsPrint(float delta)
 {
 	//生成兵的函数	
 	auto melee1 = Creep::creatWithCreepTypes(CreepTypeMelee,true);
-	melee1->setPosition(640,400);
+	melee1->setPosition(640,500);
 	this->getChildByName("MapLayer")->addChild(melee1, 2);
 	targetCreep.push_back(melee1); 
 	auto range1 = Creep::creatWithCreepTypes(CreepTypeRange, true);
-	range1->setPosition(600, 430);
+	range1->setPosition(600, 530);
 	this->getChildByName("MapLayer")->addChild(range1, 2);
 	targetCreep.push_back(range1);
 	auto cannon1 = Creep::creatWithCreepTypes(CreepTypeCannon, true);
-	cannon1->setPosition(600, 370);
+	cannon1->setPosition(600, 470);
 	this->getChildByName("MapLayer")->addChild(cannon1, 2);
 	targetCreep.push_back(cannon1);
 
 	auto melee2 = Creep::creatWithCreepTypes(CreepTypeMelee,false);
-	melee2->setPosition(4160, 400);
+	melee2->setPosition(4160, 500);
 	this->getChildByName("MapLayer")->addChild(melee2, 2);
 	OtherCreep.push_back(melee2);
 	auto range2 = Creep::creatWithCreepTypes(CreepTypeRange, false);
-	range2->setPosition(4200, 430);
+	range2->setPosition(4200, 530);
 	this->getChildByName("MapLayer")->addChild(range2, 2);
 	OtherCreep.push_back(range2);
 	auto cannon2 = Creep::creatWithCreepTypes(CreepTypeCannon, false);
-	cannon2->setPosition(4200, 370);
+	cannon2->setPosition(4200, 470);
 	this->getChildByName("MapLayer")->addChild(cannon2, 2);
 	OtherCreep.push_back(cannon2);
 
@@ -256,19 +256,19 @@ void Game::CreepsPrint(float delta)
 void Game::FieldPrint(float delta)
 {
 	auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1, true);
-	creep1->setPosition(1800, 50);
+	creep1->setPosition(1800, 150);
 	this->getChildByName("MapLayer")->addChild(creep1, 2);
 	FieldCreep.push_back(creep1);
 	auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2, true);
-	creep2->setPosition(3000, 50);
+	creep2->setPosition(3000, 150);
 	this->getChildByName("MapLayer")->addChild(creep2, 2);
 	FieldCreep.push_back(creep2);
 	auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3, true);
-	creep3->setPosition(1800, 900);
+	creep3->setPosition(1800, 800);
 	this->getChildByName("MapLayer")->addChild(creep3, 2);
 	FieldCreep.push_back(creep3);
 	auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4, true);
-	creep4->setPosition(3000, 900);
+	creep4->setPosition(3000, 800);
 	this->getChildByName("MapLayer")->addChild(creep4, 2);
 	FieldCreep.push_back(creep4);
 }
@@ -568,6 +568,7 @@ void Game::initKeyListener(Hero* hero)
 								_creep->die();
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								hero->setAtk(hero->getAtk() + 50);
 								FieldCreep.erase(iter);
 							}
 							return true;
@@ -612,60 +613,53 @@ void Game::initMouseListener(Hero* hero)
 	Mouselistener = EventListenerTouchOneByOne::create();
 
 	Mouselistener->onTouchBegan = [this, hero](Touch* touch, Event* e) {
+		auto visiblesize = Director::getInstance()->getVisibleSize();
+		auto _tileMap = TMXTiledMap::create("temmap/filemap.tmx");
+		auto MapSizeWidth = _tileMap->getMapSize().width * 32;
+		auto MapSizeHeight = _tileMap->getMapSize().height * 32;
+		Vec2 startPos = hero->getPosition();
+		Vec2 endPos;
+		if (hero->getPositionX() <= visiblesize.width / 2) {
+			endPos.x = touch->getLocation().x;
+		}
+		else if (hero->getPositionX() <= MapSizeWidth - visiblesize.width / 2) {
+			endPos.x = hero->getPositionX() - visiblesize.width / 2 + touch->getLocation().x;
+		}
+		else {
+			endPos.x = MapSizeWidth - visiblesize.width + touch->getLocation().x;
+		}
+
+		if (hero->getPositionY() <= visiblesize.height / 2) {
+			endPos.y = touch->getLocation().y;
+		}
+		else if (hero->getPositionY() <= MapSizeHeight - visiblesize.height / 2) {
+			endPos.y = hero->getPositionY() - visiblesize.height / 2 + touch->getLocation().y;
+		}
+		else {
+			endPos.y = MapSizeHeight - visiblesize.height + touch->getLocation().y;
+		}
+
+
+
+
+
+
+		int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
+		if (Angle > -45 && Angle < 45) {
+			//hero->stopAllActions();
+			hero->setFlipX(false);
+		}
+		else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
+		{
+			//hero->stopAllActions();
+			hero->setFlipX(true);
+		}
 
 		if (hero->getHealthPoints() > 0) {
-			auto visiblesize = Director::getInstance()->getVisibleSize();
-			auto _tileMap = TMXTiledMap::create("temmap/filemap.tmx");
-			auto MapSizeWidth = _tileMap->getMapSize().width * 32;
-			auto MapSizeHeight = _tileMap->getMapSize().height * 32;
-			Vec2 startPos = hero->getPosition();
-			Vec2 endPos;
-			if (hero->getPositionX() <= visiblesize.width / 2) {
-				endPos.x = touch->getLocation().x;
-			}
-			else if (hero->getPositionX() <= MapSizeWidth - visiblesize.width / 2) {
-				endPos.x = hero->getPositionX() - visiblesize.width / 2 + touch->getLocation().x;
-			}
-			else {
-				endPos.x = MapSizeWidth - visiblesize.width + touch->getLocation().x;
-			}
-
-			if (hero->getPositionY() <= visiblesize.height / 2) {
-				endPos.y = touch->getLocation().y;
-			}
-			else if (hero->getPositionY() <= MapSizeHeight - visiblesize.height / 2) {
-				endPos.y = hero->getPositionY() - visiblesize.height / 2 + touch->getLocation().y;
-			}
-			else {
-				endPos.y = MapSizeHeight - visiblesize.height + touch->getLocation().y;
-			}
-
-
-
-
-
-
-				int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
-				if (Angle > -45 && Angle < 45) {
-					//hero->stopAllActions();
-					hero->setFlipX(false);										
-				}
-				else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
-				{
-					//hero->stopAllActions();
-					hero->setFlipX(true);								
-				}
-
-		auto distance = hero->getAtkDistance();
-		hero->attack_rect = new Rect(hero->getPositionX()-distance,hero->getPositionY()-distance,distance,distance);
-		Rect* clickRect = new Rect(endPos.x-25, endPos.y -25, 50, 50);
-
-
 
 			auto distance = hero->getAtkDistance();
 			hero->attack_rect = new Rect(hero->getPositionX() - distance, hero->getPositionY() - distance, distance, distance);
-			Rect* clickRect = new Rect(endPos.x - 25, endPos.y - 25, 100, 100);
-
+			Rect* clickRect = new Rect(endPos.x - 25, endPos.y - 25, 50, 50);
 
 			if (hero == Myhero) {//这个if的判断主要是留给以后联机战斗的时候能够读入hero是myhero（左边的英雄）还是otherhero（右边的英雄）
 				//达到操作不同英雄的目的
@@ -742,40 +736,38 @@ void Game::initMouseListener(Hero* hero)
 								//死亡动画
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								hero->setAtk(hero->getAtk() + 50);
 								FieldCreep.erase(iter);
 							}
 							return true;
 						}
 					}
 				}
+				//移动动画
+				if (Angle > -45 && Angle < 45) {
+					//hero->stopAllActions();
+					hero->setFlipX(false);
+					hero->move(endPos, hero, "right");//R					
+				}
+				else if (Angle > -135 && Angle < -45)
+				{
+					//hero->stopAllActions();					
+					hero->move(endPos, hero, "down");//D				
+				}
+				else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
+				{
+					//hero->stopAllActions();
+					hero->setFlipX(true);
+					hero->move(endPos, hero, "left");//L					
+				}
+				else
+				{
+					//hero->stopAllActions();					
+					hero->move(endPos, hero, "up");//U		
+				}
+			}
 
-			}
-			//移动动画
-			if (Angle > -45 && Angle < 45) {
-				//hero->stopAllActions();
-				hero->setFlipX(false);
-				hero->move(endPos, hero, "right");//R					
-			}
-			else if (Angle > -135 && Angle < -45)
-			{
-				//hero->stopAllActions();					
-				hero->move(endPos, hero, "down");//D				
-			}
-			else if ((Angle > -180 && Angle < -135) || (Angle > 135 && Angle < 180))
-			{
-				//hero->stopAllActions();
-				hero->setFlipX(true);
-				hero->move(endPos, hero, "left");//L					
-			}
-			else
-			{
-				//hero->stopAllActions();					
-				hero->move(endPos, hero, "up");//U		
-			}
-
-
-				return true;
-			}
+		
 			else {
 				if (Myhero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 					hero->attack_rect->containsPoint(Myhero->getPosition()) &&
@@ -831,6 +823,7 @@ void Game::initMouseListener(Hero* hero)
 								//死亡动画
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								hero->setAtk(hero->getAtk() + 50);
 								targetCreep.erase(iter);
 							}
 							return true;
@@ -884,6 +877,7 @@ void Game::initMouseListener(Hero* hero)
 
 		}
 	};
+
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(Mouselistener,1);
 
