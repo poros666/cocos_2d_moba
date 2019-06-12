@@ -39,7 +39,7 @@ extern std::list<Creep*> FieldCreep;
 		hero->setAtkDistance(100);
 		hero->setAtk(10);
 		hero->setReBornPoint(Vec2(300, 500));
-		hero->setExp(50);
+		hero->setExp(0);
 		hero->setExpLimit(100);
 		//attack_rect = new Rect();
 		//...
@@ -62,7 +62,7 @@ extern std::list<Creep*> FieldCreep;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
-		hero->setExp(50);
+		hero->setExp(0);
 		hero->setExpLimit(100);
 		//...
 		break;
@@ -84,7 +84,7 @@ extern std::list<Creep*> FieldCreep;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
-		hero->setExp(50);
+		hero->setExp(0);
 		hero->setExpLimit(100);
 		//...
 		break;
@@ -106,7 +106,8 @@ extern std::list<Creep*> FieldCreep;
 		hero->setSkillPoints(0);
 		hero->SetHpBar();
 		hero->SetManaBar();
-		
+		hero->setExp(0);
+		hero->setExpLimit(100);
 		//...
 		break;
 	default:
@@ -114,7 +115,7 @@ extern std::list<Creep*> FieldCreep;
 	}
 
 	const std::string& filename = filename1;
-
+	hero->scheduleUpdate();
 	if (hero && hero->initWithFile(filename)) {//判断tower对象是否生成成功
 		hero->autorelease();//加入内存释放池中，不会立即释放creep对象
 		return hero;
@@ -225,14 +226,21 @@ void Hero::die()
 
 
 	this->stopAllActions();
-	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
-	this->runAction(Sequence::create(DelayTime::create(1), CallFunc::create([&]() {
+	this->runAction(Sequence::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname)),DelayTime::create(1), CallFunc::create([&]() {
+		this->setVisible(false);
 		this->setPosition(getReBornPoint());
 		}), NULL));
-
+	this->schedule(schedule_selector(Hero::recreateHero), 10);
 
 }
-
+void Hero::recreateHero(float delta)
+{
+	this->setVisible(true);
+	this->setHealthPoints(this->getInitHealthPointsLimit());
+	this->schedule(schedule_selector(Hero::UpdateHpBar));
+	this->schedule(schedule_selector(Hero::UpdateManaBar));
+	this->scheduleUpdate();
+}
 void Hero::setNewAtkRect()
 {
 	attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
@@ -415,6 +423,7 @@ void Hero::update(float dt)
 {
 	if (this->getHealthPoints() <= 0) {
 		this->die();
+		this->unscheduleUpdate();
 	}
 }
 

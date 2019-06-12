@@ -25,17 +25,12 @@ public:
 	void ShowPrint();
 	void menuShowCallback(cocos2d::Ref* pSender);
 	void HeroPrint();
-	void recreateHero(float delta);
 	void CreepsPrint(float delta);
 	void FieldPrint(float delta);
 	void StatusLayerPrint();
 	void TowerPrint();
 	void ScoreBoardPrint();
 	void ScoreBoardRelesed();
-	void BackButtonPrint();
-	void menuBackCallback(cocos2d::Ref* pSender);
-	virtual void update(float delta);
-	void HeroDie();
 	void SetHpBar();
 	void UpdateHpBar(float delta);
 	void SetManaBar();
