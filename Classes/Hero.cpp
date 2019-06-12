@@ -223,7 +223,7 @@ void Hero::die()
 		actname = "Munra_death";
 		break;
 	}
-
+	this->death++;
 
 	this->stopAllActions();
 	this->runAction(Sequence::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname)),DelayTime::create(1), CallFunc::create([&]() {
