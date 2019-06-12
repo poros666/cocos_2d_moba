@@ -294,7 +294,6 @@ void Game::UpdateHpBar(float delta)
 	if (percentage <= 0)
 	{
 		percentage = 0;
-		this->unschedule(schedule_selector(Game::UpdateHpBar));
 	}
 	HpBarProgress->setPercentage(percentage);
 }
@@ -320,7 +319,6 @@ void Game::UpdateManaBar(float delta)
 	if (percentage <= 0)
 	{
 		percentage = 0;
-		this->unschedule(schedule_selector(Game::UpdateManaBar));
 	}
 	ManaBarProgress->setPercentage(percentage);
 }
@@ -376,7 +374,7 @@ void Game::initKeyListener(Hero* hero)
 		}
 		case EventKeyboard::KeyCode::KEY_Q:
 		{
-			if (hero->getHealthPoints() >= 0)
+			if (hero->getHealthPoints() > 0)
 			{
 				skillQ->Click(hero);
 			}break;
@@ -395,12 +393,7 @@ void Game::initKeyListener(Hero* hero)
 					OtherHero->getHealthPoints() > 0) {
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
-					OtherHero->setHealthPoints(OtherHero->getHealthPoints() - hero->getAtk());
-					if (OtherHero->getHealthPoints() <= 0) {
-						//ËÀÍö¶¯»­
-						OtherHero->die();
-					}
-					return true;
+					OtherHero->hurt(hero->getAtk());
 				}
 
 				//	auto a = clickRect->containsPoint(Tower1->getPosition());
@@ -413,14 +406,11 @@ void Game::initKeyListener(Hero* hero)
 					Tower2->getHealthPoints() > 0) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
-					Tower2->setHealthPoints(Tower2->getHealthPoints() - hero->getAtk());
+					Tower2->hurt(hero->getAtk());
 					if (Tower2->getHealthPoints() <= 0) {
 						hero->setGold(hero->getGold() + Tower2->getRewardMoney());
 						hero->setExp(hero->getExp() + Tower2->getRewardExp());
-						//ËÀÍö¶¯»­
-						Tower2->die();
-
-					}
+						}
 					return true;
 				}
 				if (
@@ -428,13 +418,11 @@ void Game::initKeyListener(Hero* hero)
 					Base2->getHealthPoints() > 0) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
-					Base2->setHealthPoints(Base2->getHealthPoints() - hero->getAtk());
+					Base2->hurt(hero->getAtk());
 					if (Base2->getHealthPoints() <= 0) {
 						//ËÀÍö¶¯»­
 						hero->setGold(hero->getGold() + Base2->getRewardMoney());
 						hero->setExp(hero->getExp() + Base2->getRewardExp());
-						Base2->die();
-
 					}
 					return true;
 				}
@@ -446,11 +434,9 @@ void Game::initKeyListener(Hero* hero)
 							_creep->getHealthPoints() > 0) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
-							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							_creep->hurt(hero->getAtk());
 							if (_creep->getHealthPoints() <= 0) {
-								//ËÀÍö¶¯»­
-								_creep->die();
-
+							
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								OtherCreep.erase(iter);
@@ -467,10 +453,9 @@ void Game::initKeyListener(Hero* hero)
 							_creep->getHealthPoints() > 0) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
-							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							_creep->hurt(hero->getAtk());
 							if (_creep->getHealthPoints() <= 0) {
-								//ËÀÍö¶¯»­
-								_creep->die();
+								
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								FieldCreep.erase(iter);
@@ -490,11 +475,7 @@ void Game::initKeyListener(Hero* hero)
 					Myhero->getHealthPoints() > 0) {
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
-					Myhero->setHealthPoints(Myhero->getHealthPoints() - hero->getAtk());
-					if (Myhero->getHealthPoints() <= 0) {
-						//ËÀÍö¶¯»­
-						Myhero->die();
-					}
+					Myhero->hurt(hero->getAtk());
 					return true;
 				}
 
@@ -508,13 +489,12 @@ void Game::initKeyListener(Hero* hero)
 					Tower1->getHealthPoints() > 0) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
-					Tower1->setHealthPoints(Tower1->getHealthPoints() - hero->getAtk());
+					Tower1->hurt(hero->getAtk());
 					if (Tower1->getHealthPoints() <= 0) {
 						//ËÀÍö¶¯»­
 						hero->setGold(hero->getGold() + Tower1->getRewardMoney());
 						hero->setExp(hero->getExp() + Tower1->getRewardExp());
-						Tower1->die();
-
+					
 					}
 					return true;
 				}
@@ -524,13 +504,12 @@ void Game::initKeyListener(Hero* hero)
 					Base1->getHealthPoints() > 0) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
-					Base1->setHealthPoints(Base1->getHealthPoints() - hero->getAtk());
+					Base1->hurt(hero->getAtk());
 					if (Base1->getHealthPoints() <= 0) {
 						//ËÀÍö¶¯»­
 						hero->setGold(hero->getGold() + Base1->getRewardMoney());
 						hero->setExp(hero->getExp() + Base1->getRewardExp());
-						Base1->die();
-
+					
 					}
 					return true;
 				}
@@ -542,10 +521,8 @@ void Game::initKeyListener(Hero* hero)
 							_creep->getHealthPoints() > 0) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
-							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							_creep->hurt(hero->getAtk());
 							if (_creep->getHealthPoints() <= 0) {
-								//ËÀÍö¶¯»­
-								_creep->die();
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								targetCreep.erase(iter);
@@ -562,10 +539,9 @@ void Game::initKeyListener(Hero* hero)
 							_creep->getHealthPoints() > 0) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
-							_creep->setHealthPoints(_creep->getHealthPoints() - hero->getAtk());
+							_creep->hurt(hero->getAtk());
 							if (_creep->getHealthPoints() <= 0) {
-								//ËÀÍö¶¯»­
-								_creep->die();
+							
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								hero->setAtk(hero->getAtk() + 50);

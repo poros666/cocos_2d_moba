@@ -43,7 +43,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -68,7 +67,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
 		case HeroTypeElite:
@@ -92,7 +90,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
 		case HeroTypeMunra:
@@ -116,7 +113,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
 		default:
@@ -144,7 +140,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -170,7 +165,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
 		case HeroTypeElite:
@@ -195,7 +189,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
 		case HeroTypeMunra:
@@ -220,7 +213,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
-			hero->schedule(schedule_selector(Hero::UpdateDeath));
 			//...
 			break;
 		default:
@@ -345,7 +337,6 @@ void Hero::die()
 	this->runAction(Sequence::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname)),DelayTime::create(1), CallFunc::create([&]() {
 		this->setVisible(false);
 		this->setPosition(getReBornPoint());
-		this->setHealthPoints(this->getInitHealthPointsLimit());
 		}), NULL));
 	this->schedule(schedule_selector(Hero::recreateHero), 10);
 
@@ -530,12 +521,7 @@ void Hero::move(Vec2 endPos,Hero* Hero,std::string dir)
 	Hero->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname))));
 }
 
-void Hero::UpdateDeath(float)
-{
-	if (this->getHealthPoints() <= 0) {
-		this->die();
-	}
-}
+
 
 std::string Hero::getName() {
 	switch (heroType)
