@@ -9,7 +9,7 @@ ver2
 #include"Creeps.h"
 #include"Game.h"
 using namespace cocos2d;
-extern Hero* Myhero;
+extern Hero* MyHero;
 extern Hero* OtherHero;
 extern Tower* Tower1;
 extern Tower* Tower2;
@@ -17,7 +17,7 @@ extern Tower* Base1;
 extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
-extern std::list<Creep*> FieldCreep;
+extern std::list<Creep*> JungleCreep;
 extern Sprite* bombsp1;
 
 Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
@@ -328,11 +328,11 @@ void Tower::Attack2(float)
 			}
 		}
 	}
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+	if (this->newAttackRect()->containsPoint(MyHero->getPosition()) && MyHero->getHealthPoints() > 0) {
 		//¹¥»÷¶¯»­
 		this->setFlipX(true);
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-		Myhero->hurt(atk);
+		MyHero->hurt(atk);
 		return;
 	}
 }

@@ -1,6 +1,6 @@
 #include"ScoreBoard.h"
 USING_NS_CC;
-extern Hero* Myhero;
+extern Hero* MyHero;
 extern Hero* OtherHero;
 Layer* ScoreBoard::createLayer()
 {
@@ -20,10 +20,10 @@ bool ScoreBoard::init()
 	this->addChild(sprite,1);
 	string Myinformation="You:";
 	char temp[10];
-	sprintf(temp, "%d", Myhero->getLevel());
+	sprintf(temp, "%d", MyHero->getLevel());
 	string Level = temp;
 	Myinformation +=  "  Level:"+Level;
-	sprintf(temp, "%d", Myhero->getGold());
+	sprintf(temp, "%d", MyHero->getGold());
 	string Gold = temp;
 	Myinformation += "  Gold:" + Gold;
 	auto Mylabel = Label::createWithTTF(Myinformation, "fonts/Marker Felt.ttf", 40);

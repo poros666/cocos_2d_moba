@@ -6,7 +6,7 @@ ver1
 */
 #include"Hero.h"
 using namespace cocos2d;
-extern Hero* Myhero;
+extern Hero* MyHero;
 extern Hero* OtherHero;
 extern Tower* Tower1;
 extern Tower* Tower2;
@@ -14,7 +14,7 @@ extern Tower* Base1;
 extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
-extern std::list<Creep*> FieldCreep;
+extern std::list<Creep*> JungleCreep;
 
  Hero* Hero::creatWithHeroTypes(HeroTypes heroType,bool pending) {
 	Hero* hero = new (std::nothrow)Hero();
@@ -478,13 +478,13 @@ void Hero::AttackAndMove(float)
 		}
 		return;
 	}
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+	if (this->newAttackRect()->containsPoint(MyHero->getPosition()) && MyHero->getHealthPoints() > 0) {
 		//¹¥»÷¶¯»­
 		this->atkF();
-		Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
-		if (Myhero->getHealthPoints() <= 0) {
+		MyHero->setHealthPoints(MyHero->getHealthPoints() - atk);
+		if (MyHero->getHealthPoints() <= 0) {
 			//ËÀÍö¶¯»­
-			Myhero->die();
+			MyHero->die();
 		}
 		return;
 	}
