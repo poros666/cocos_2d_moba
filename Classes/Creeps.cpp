@@ -9,7 +9,7 @@ ver4
 #include"Tower.h"
 #include"Game.h"
 using namespace cocos2d;
-extern Hero* MyHero;
+extern Hero* Myhero;
 extern Hero* OtherHero;
 extern Tower* Tower1;
 extern Tower* Tower2;
@@ -17,7 +17,7 @@ extern Tower* Base1;
 extern Tower* Base2;
 extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
-extern std::list<Creep*> JungleCreep;
+extern std::list<Creep*> FieldCreep;
 
 
 /*
@@ -588,11 +588,11 @@ void Creep::AttackAndMove2(float delta)
 				Base1->hurt(atk);
 				return;
 			}
-			else if (this->newAttackRect()->containsPoint(MyHero->getPosition()) && MyHero->getHealthPoints()>0) {
+			else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints()>0) {
 				//¹¥»÷¶¯»­
 				this->atkB();
 		//		auto a = Myhero->getHealthPoints() - atk;
-				MyHero->hurt(atk);
+				Myhero->hurt(atk);
 				return;
 			}
 			else {
@@ -604,8 +604,8 @@ void Creep::AttackAndMove2(float delta)
 
 void Creep::FieldAttackAndMove(float delta)
 {
-	if (this->newAttackRect()->containsPoint(MyHero->getPosition())) {
-		MyHero->hurt(atk);
+	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
+		Myhero->hurt(atk);
 		//¹¥»÷¶¯»­
 	}
 	else if(this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
@@ -660,7 +660,7 @@ Rect* Creep::newAttackRect()
 
 bool Creep::chechMyheroInRect()
 {
-	if (this->newAttackRect()->containsPoint(MyHero->getPosition())) {
+	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
 		this->isAttacking = true;
 		return true;
 	}

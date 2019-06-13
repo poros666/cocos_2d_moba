@@ -57,6 +57,7 @@ class Hero :public cocos2d::Sprite {
 
 	CC_SYNTHESIZE(int, level, Level);//µÈ¼¶
 	CC_SYNTHESIZE(int, exp, Exp);
+	CC_SYNTHESIZE(int, death, Death);
 	CC_SYNTHESIZE(int, expLimit, ExpLimit);//µ±Ç°¾­ÑéÖµ
 	CC_SYNTHESIZE(int, skillPoints, SkillPoints);//¼¼ÄÜµã
 	CC_SYNTHESIZE(int, skillLevel_1, SkillLevel_1);//Ò»¼¼ÄÜµÈ¼¶
@@ -104,8 +105,7 @@ public:
 	void moveBack();
 	void AttackAndMove(float);//单机模式的时候我方默认选择左边，所以这里采用右侧的逻辑，即otherhero
 	void move(Vec2 endPos, Hero* Hero, std::string dir);
-
-	void UpdateDeath(float);
+	void unSkill3(float);
 
 	void recreateHero(float delta);
 

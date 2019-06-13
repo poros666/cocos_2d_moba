@@ -8,8 +8,10 @@ using namespace cocos2d;
 class Skill :public cocos2d::ui::Button {
 public:
 	//std::function<void(void)> onClick;
-	void Click(Hero* owner);
-
+	void PressQ(Hero* owner);
+	void PressW(Hero* owner);
+	void PressE(Hero* owner);
+	void PressR(Hero* owner);
 	//通过技能名称、cd时间、技能图片生成技能button 
 	static Skill* createWithNameCdPicOwner(const std::string& skillName, float cd, const std::string& skillPic,Hero* owner);
 	virtual bool init(const std::string& skillName, float Cd, const std::string& skillPic,Hero* owner);

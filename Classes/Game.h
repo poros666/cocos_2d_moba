@@ -57,5 +57,8 @@ private:
 	EventListenerTouchOneByOne *Mouselistener;
 	EventListenerKeyboard* keylistener;
 	Skill* skillQ;
+	Skill* skillW;
+	Skill* skillE;
+	Skill* skillR;
 	Vec2 offset();
 };
