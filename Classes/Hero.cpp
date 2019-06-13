@@ -237,21 +237,21 @@ extern std::list<Creep*> FieldCreep;
 		 Hero* tempHero = static_cast<Hero*>(target);
 		 if (owner->attack_rect->containsPoint(tempHero->getPosition()) && tempHero->getHealthPoints()>0) {
 			 //ÕâÀïÁô¸ø¹¥»÷¶¯»­
-			 tempHero->setHealthPoints(tempHero->getHealthPoints() -owner->getAtk() );
+			 tempHero->hurt(owner->atk);
 		 }
 	 }
 	 else if (target == this->EnemyTower) {
 		 Tower* tempTower = static_cast<Tower*>(target);
 		 if (owner->attack_rect->containsPoint(tempTower->getPosition()) && tempTower->getHealthPoints() > 0) {
 			 //ready for ani
-			 tempTower->setHealthPoints(tempTower->getHealthPoints() - owner->getAtk());
+			 tempTower->hurt(owner->atk);
 		 }
 	 }
 	 else if (target==this->EnemyCreep) {
 		 Creep* tempCreep = static_cast<Creep*>(target);
 		 if (owner->attack_rect->containsPoint(tempCreep->getPosition()) && tempCreep->getHealthPoints() > 0) {
 			 //ready for ani
-			 tempCreep->setHealthPoints(getHealthPoints() - owner->getAtk());
+			 tempCreep->hurt(owner->atk);
 		 }
 	 }
  }
@@ -432,57 +432,45 @@ void Hero::AttackAndMove(float)
 	//Ä¬ÈÏaiÓ¢ÐÛÊÇÓÒ±ßµÄ
 	auto atk= this->getAtk();
 
-
-	if (targetCreep.size() > 0) {//¹¥»÷target
-		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
-			auto ocreep = *iter;
-			iter++;
-			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
-				//¹¥»÷¶¯»­
-				this->atkF();
-				ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
-				if (ocreep->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					targetCreep.erase(iter);
-					ocreep->die();
+	if (this->healthPoints > 0) {
+		if (targetCreep.size() > 0) {//¹¥»÷target
+			for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+				auto ocreep = *iter;
+				iter++;
+				if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+					//¹¥»÷¶¯»­
+					this->atkF();
+					ocreep->hurt(atk);
+					if (ocreep->getHealthPoints() <= 0) {
+						//ËÀÍö¶¯»­
+						targetCreep.erase(iter);
+					}
+					return;
 				}
-				return;
 			}
 		}
-	}
-	if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
-		//¹¥»÷¶¯»­
-		this->atkF();
-		Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
-		if (Tower1->getHealthPoints() <= 0) {
-			//ËÀÍö¶¯»­
-			Tower1->die();
+		if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
+			//¹¥»÷¶¯»­
+			this->atkF();
+			Tower1->hurt(atk);
+			return;
 		}
-		return;
-	}
-	if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() > 0) {
-		//¹¥»÷¶¯»­
-		this->atkF();
-		Base1->setHealthPoints(Base1->getHealthPoints() - atk);
-		if (Base1->getHealthPoints() >= 0) {
-			//ËÀÍö¶¯»­
-			Base1->die();
+		if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() > 0) {
+			//¹¥»÷¶¯»­
+			this->atkF();
+			Base1->hurt(atk);
+			return;
 		}
-		return;
-	}
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
-		//¹¥»÷¶¯»­
-		this->atkF();
-		Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
-		if (Myhero->getHealthPoints() <= 0) {
-			//ËÀÍö¶¯»­
-			Myhero->die();
+		if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+			//¹¥»÷¶¯»­
+			this->atkF();
+			Myhero->hurt(atk);
+			return;
 		}
-		return;
-	}
-	else {
-		//ÒÆ¶¯¶¯»­
-		this->move(Vec2(this->getPositionX()-50,this->getPositionY()), this, "left");
+		else {
+			//ÒÆ¶¯¶¯»­
+			this->move(Vec2(this->getPositionX() - 50, this->getPositionY()), this, "left");
+		}
 	}
 }
 void Hero::move(Vec2 endPos,Hero* Hero,std::string dir)
