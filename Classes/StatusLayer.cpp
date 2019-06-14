@@ -1,6 +1,6 @@
 #include"StatusLayer.h"
 USING_NS_CC;
-
+extern Hero* Myhero;
 Layer* StatusLayer::createLayer()
 {
 	auto layer = StatusLayer::create();
@@ -109,6 +109,7 @@ bool StatusLayer::init()
 		Manabar->setPosition(Vec2(x, y));
 	};
 	this->addChild(Manabar, 2);*/
+	Myhero->getGold();
 	return true;
 }
 void StatusLayer::update(float dt)

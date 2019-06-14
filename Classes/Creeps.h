@@ -107,7 +107,7 @@ public:
 	std::string getName();
 
 	void attackOtherHero();
-
+	bool self;
 	float x_position = 0;
 	float y_position = 0;
 private:

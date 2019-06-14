@@ -207,7 +207,7 @@ void Game::HeroPrint()
 	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
 	SetHpBar();
 	SetManaBar();
-
+	SetExpBar();
 	OtherHero->setPosition(OtherHero->getReBornPoint());
 
 	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
