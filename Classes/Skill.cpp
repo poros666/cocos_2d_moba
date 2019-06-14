@@ -44,7 +44,7 @@ bool Skill::init(const std::string& skillName, float Cd, const std::string& skil
 	
 	this->addTouchEventListener([=](Ref * sender, ui::Widget::TouchEventType type) {
 		if (type == ui::Widget::TouchEventType::ENDED)
-			this->Click(owner);
+			this->PressQ(owner);
 		});
 	/*¼üÅÌ¼àÌýÔÝÊ±²»ÖªµÀÔõÃ´×ö£¬buttonÃ»ÓÐ¼üÅÌlistenerËÆºõ
 	auto listenerKeyPad = EventListenerKeyboard::create();
@@ -70,7 +70,8 @@ void Skill::setOk(bool isOk) {
 	progress->setPercentage(0.0f);
 }
 
-void Skill::Click(Hero* owner) {
+void Skill::PressQ(Hero* owner) {
+
 	if (_isOk) {
 		setOk(false);
 		//onClick();
@@ -83,43 +84,248 @@ void Skill::Click(Hero* owner) {
 
 		//Hero* tempHero = static_cast<Hero*> (owner);
 		//float ss = tempHero->getPositionX();
-		switch (lvl)
-		{
-			
-		case 1: 
-		{
+		if (owner->getHealthPoints() > 0) {
+			switch (lvl)
+			{
+
+			case 1:
+			{
 
 
-			//owner->stopAllActions();
-			//auto Singleton = AnimationCache::getInstance();
-			//Animation* right = Singleton->getAnimation("Elite_attack");
-			//Animate* animate_right = Animate::create(right);
-			//owner->runAction(CCRepeatForever::create(animate_right));
+				//owner->stopAllActions();
+				//auto Singleton = AnimationCache::getInstance();
+				//Animation* right = Singleton->getAnimation("Elite_attack");
+				//Animate* animate_right = Animate::create(right);
+				//owner->runAction(CCRepeatForever::create(animate_right));
+				if (owner->getManaPoints() >= 10) {
+					owner->setPosition(Vec2(owner->getPositionX() + 100, owner->getPositionY()));
+					owner->setManaPoints(owner->getManaPoints() - 10);
+				}
+				break;
+			}
 
+			case 2:
+	//			if (owner->getManaPoints() >= 10) {
+	//				owner->setPosition(Vec2(owner->getPositionX() - 100, owner->getPositionY()));
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//			}
+				break;
+			case 3:
+	//			if (owner->getManaPoints() >= 10) {
+	//				owner->setAtk(owner->getAtk() * 2);
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//				owner->scheduleOnce(schedule_selector(Hero::unSkill3), 5);
+	//			}
+				break;
+			case 4:
+	//			if (owner->getManaPoints() >= 10) {
+	//				if (owner->getHealthPoints() + 100 > owner->getInitHealthPointsLimit()) {
+	//					owner->setHealthPoints(owner->getInitHealthPointsLimit());
+	//				}
+	//				else {
+	//					owner->setHealthPoints(owner->getHealthPoints() + 100);
+	//				}
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//			}
+				break;
+			}
 
-			owner->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Elite_attack")));
-
-
-			owner->setHealthPoints(owner->getHealthPoints() + 40);
-			ActionInterval * forward = MoveTo::create(4, Vec2(owner->getPositionX() + 40, owner->getPositionY()));
-			owner->runAction(forward);
-			
-			break;
-		}
-
-		case 2:
 		
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		}
-		
-
 		cdTimer = 0;
 		schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+		}
+	}
+}
 
+void Skill::PressW(Hero* owner)
+{
+	if (_isOk) {
+		setOk(false);
+		//onClick();
+
+		/*//////////////////////////////
+		ActionInterval* forwardBy = MoveBy::create(2, Vec2(100, 100));
+		ActionInterval* backBy = forwardBy->reverse();
+		Action* action = Repeat::create(dynamic_cast<FiniteTimeAction*>(Sequence::create(forwardBy, backBy, NULL)), 4);
+		owner->runAction(action);*/
+
+		//Hero* tempHero = static_cast<Hero*> (owner);
+		//float ss = tempHero->getPositionX();
+		if (owner->getHealthPoints() > 0) {
+			switch (lvl)
+			{
+
+			case 1:
+			{
+
+
+				//owner->stopAllActions();
+				//auto Singleton = AnimationCache::getInstance();
+				//Animation* right = Singleton->getAnimation("Elite_attack");
+				//Animate* animate_right = Animate::create(right);
+				//owner->runAction(CCRepeatForever::create(animate_right));
+				if (owner->getManaPoints() >= 10) {
+					owner->setPosition(Vec2(owner->getPositionX() - 100, owner->getPositionY()));
+					owner->setManaPoints(owner->getManaPoints() - 10);
+				}
+				break;
+			}
+
+			case 2:
+				
+				break;
+			case 3:
+				
+				break;
+			case 4:
+				
+				break;
+			}
+
+
+			cdTimer = 0;
+			schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+		}
+	}
+}
+
+void Skill::PressE(Hero* owner)
+{
+	if (_isOk) {
+		setOk(false);
+		//onClick();
+
+		/*//////////////////////////////
+		ActionInterval* forwardBy = MoveBy::create(2, Vec2(100, 100));
+		ActionInterval* backBy = forwardBy->reverse();
+		Action* action = Repeat::create(dynamic_cast<FiniteTimeAction*>(Sequence::create(forwardBy, backBy, NULL)), 4);
+		owner->runAction(action);*/
+
+		//Hero* tempHero = static_cast<Hero*> (owner);
+		//float ss = tempHero->getPositionX();
+		if (owner->getHealthPoints() > 0) {
+			switch (lvl)
+			{
+
+			case 1:
+			{
+
+
+				//owner->stopAllActions();
+				//auto Singleton = AnimationCache::getInstance();
+				//Animation* right = Singleton->getAnimation("Elite_attack");
+				//Animate* animate_right = Animate::create(right);
+				//owner->runAction(CCRepeatForever::create(animate_right));
+			if (owner->getManaPoints() >= 10) {
+					owner->setAtk(owner->getAtk() * 2);
+					owner->setManaPoints(owner->getManaPoints() - 10);
+					owner->scheduleOnce(schedule_selector(Hero::unSkill3), 5);
+			}
+				break;
+			}
+
+			case 2:
+	//			if (owner->getManaPoints() >= 10) {
+	//				owner->setPosition(Vec2(owner->getPositionX() - 100, owner->getPositionY()));
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//			}
+				break;
+			case 3:
+	//			if (owner->getManaPoints() >= 10) {
+	//				owner->setAtk(owner->getAtk() * 2);
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//				owner->scheduleOnce(schedule_selector(Hero::unSkill3), 5);
+	//			}
+				break;
+			case 4:
+	//			if (owner->getManaPoints() >= 10) {
+	//				if (owner->getHealthPoints() + 100 > owner->getInitHealthPointsLimit()) {
+	//					owner->setHealthPoints(owner->getInitHealthPointsLimit());
+	//				}
+	//				else {
+	//					owner->setHealthPoints(owner->getHealthPoints() + 100);
+	//				}
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//			}
+				break;
+			}
+
+
+			cdTimer = 0;
+			schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+		}
+	}
+}
+
+void Skill::PressR(Hero* owner)
+{
+	if (_isOk) {
+		setOk(false);
+		//onClick();
+
+		/*//////////////////////////////
+		ActionInterval* forwardBy = MoveBy::create(2, Vec2(100, 100));
+		ActionInterval* backBy = forwardBy->reverse();
+		Action* action = Repeat::create(dynamic_cast<FiniteTimeAction*>(Sequence::create(forwardBy, backBy, NULL)), 4);
+		owner->runAction(action);*/
+
+		//Hero* tempHero = static_cast<Hero*> (owner);
+		//float ss = tempHero->getPositionX();
+		if (owner->getHealthPoints() > 0) {
+			switch (lvl)
+			{
+
+			case 1:
+			{
+
+
+				//owner->stopAllActions();
+				//auto Singleton = AnimationCache::getInstance();
+				//Animation* right = Singleton->getAnimation("Elite_attack");
+				//Animate* animate_right = Animate::create(right);
+				//owner->runAction(CCRepeatForever::create(animate_right));
+				if (owner->getManaPoints() >= 10) {
+					if (owner->getHealthPoints() + 100 > owner->getInitHealthPointsLimit()) {
+						owner->setHealthPoints(owner->getInitHealthPointsLimit());
+						}
+						else {
+							owner->setHealthPoints(owner->getHealthPoints() + 100);
+						}
+						owner->setManaPoints(owner->getManaPoints() - 10);
+					}
+				break;
+			}
+
+			case 2:
+	//			if (owner->getManaPoints() >= 10) {
+	//				owner->setPosition(Vec2(owner->getPositionX() - 100, owner->getPositionY()));
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//			}
+				break;
+			case 3:
+	//			if (owner->getManaPoints() >= 10) {
+	//				owner->setAtk(owner->getAtk() * 2);
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//				owner->scheduleOnce(schedule_selector(Hero::unSkill3), 5);
+	//			}
+				break;
+			case 4:
+	//			if (owner->getManaPoints() >= 10) {
+	//				if (owner->getHealthPoints() + 100 > owner->getInitHealthPointsLimit()) {
+	//					owner->setHealthPoints(owner->getInitHealthPointsLimit());
+	//				}
+	//				else {
+	//					owner->setHealthPoints(owner->getHealthPoints() + 100);
+	//				}
+	//				owner->setManaPoints(owner->getManaPoints() - 10);
+	//			}
+				break;
+			}
+
+
+			cdTimer = 0;
+			schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+		}
 	}
 }
 

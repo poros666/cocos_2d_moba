@@ -52,7 +52,7 @@ bool OneMapScene::init()
 	this->addChild(menu, 100);
 
 	//´´½¨ÍßÆ¬µØÍ¼
-	_tileMap=TMXTiledMap::create("temmap/filemap.tmx");
+	_tileMap=TMXTiledMap::create("temmap/filemaptmx");
 	_tileMap->setAnchorPoint(Vec2(0,0));
 	_tileMap -> setPosition(Vec2(0, 0));
 	_tileMap->setTag(1000);

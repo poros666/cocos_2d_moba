@@ -25,21 +25,18 @@ public:
 	void ShowPrint();
 	void menuShowCallback(cocos2d::Ref* pSender);
 	void HeroPrint();
-	void recreateHero(float delta);
 	void CreepsPrint(float delta);
 	void FieldPrint(float delta);
 	void StatusLayerPrint();
 	void TowerPrint();
 	void ScoreBoardPrint();
 	void ScoreBoardRelesed();
-	void BackButtonPrint();
-	void menuBackCallback(cocos2d::Ref* pSender);
-	virtual void update(float delta);
-	void HeroDie();
 	void SetHpBar();
 	void UpdateHpBar(float delta);
 	void SetManaBar();
 	void UpdateManaBar(float delta);
+	void SetExpBar();
+	void UpdateExpBar(float delta);
 	virtual void onEnter();
 	void initKeyListener(Hero* hero);
 	void initMouseListener(Hero* hero);
@@ -56,8 +53,12 @@ private:
 
 	ProgressTimer* HpBarProgress;
 	ProgressTimer* ManaBarProgress;
+	ProgressTimer* ExpBarProgress;
 	EventListenerTouchOneByOne *Mouselistener;
 	EventListenerKeyboard* keylistener;
 	Skill* skillQ;
+	Skill* skillW;
+	Skill* skillE;
+	Skill* skillR;
 	Vec2 offset();
 };

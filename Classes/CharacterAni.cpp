@@ -113,6 +113,8 @@ void CharaAni::init_mechsTower(){//tower
 	//AnimationCache::getInstance()->addAnimation(createAnimation("Mecha_Shitting_0%03d.png", 122, 143, 0.03f, "Mecha_Shitting_0001.png"), "Mecha_shitting");
 	AnimationCache::getInstance()->addAnimation(createAnimation("mech_missile_0%03d.png", 106, 143, 0.03f), "Mecha_missile");
 	AnimationCache::getInstance()->addAnimation(createAnimation("explosion_air_00%02d.png", 1, 17, 0.04f), "bomb");
+	AnimationCache::getInstance()->addAnimation(createAnimation("fireball_explosion_00%02d.png", 1, 15, 0.06f), "fireBall_explosion");
+	
 }
 
 void CharaAni::init_scorpion(){//jungle creep1
@@ -159,4 +161,10 @@ void CharaAni::init_fallen(){//jungle creep5
 	AnimationCache::getInstance()->addAnimation(createAnimation("fallen_0%03d.png", 1, 16, 0.04f), "Fallen_runleft");
 	AnimationCache::getInstance()->addAnimation(createAnimation("fallen_0%03d.png", 1, 16, 0.04f), "Fallen_runright");
 	AnimationCache::getInstance()->addAnimation(createAnimation("fallen_0%03d.png", 114, 146, 0.04f), "Fallen_birth");
+}
+void CharaAni::init_skill() {
+	AnimationCache::getInstance()->addAnimation(createAnimation("ArchMageTwister_00%02d.png", 1, 9, 0.04f), "Strom_create");
+	AnimationCache::getInstance()->addAnimation(createAnimation("ArchMageTwister_00%02d.png", 9, 15, 0.04f), "Strom_twist");
+	AnimationCache::getInstance()->addAnimation(createAnimation("ArchMageTwister_00%02d.png", 16, 24, 0.04f), "Strom_end");
+	AnimationCache::getInstance()->addAnimation(createAnimation("effect_sellSmoke_00%02d.png", 1, 11, 0.04f), "blink_smoke");//shanxianyong yanwu
 }

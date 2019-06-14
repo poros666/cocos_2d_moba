@@ -19,6 +19,7 @@ extern std::list<Creep*> targetCreep;
 extern std::list<Creep*> OtherCreep;
 extern std::list<Creep*> FieldCreep;
 
+
 /*
 Creep::Creep(CreepTypes creepType) {
 	this->creepType = creepType;
@@ -48,6 +49,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->setRewardMoney(30);
 			creep->setRewardExp(50);
 			creep->UpdateAttack1();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 
@@ -57,10 +59,13 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 550;
 			creep->healthPoints = 550;
 			creep->atk = 15;
-			creep->atkDistance = 40;
+			creep->atkDistance = 60;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(40);
+			creep->setRewardExp(50);
 			creep->UpdateAttack1();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 		case CreepTypeRange:
@@ -72,7 +77,10 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 130;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(60);
+			creep->setRewardExp(75);
 			creep->UpdateAttack1();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 		case CreepTypeCannon:
@@ -81,10 +89,13 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 150;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(100);
+			creep->setRewardExp(90);
 			creep->UpdateAttack1();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 		case CreepTypeJ1:
@@ -93,40 +104,52 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		case CreepTypeJ2:
 			creep->setCreepType(creepType);
 			filename1 = Creep_j2;
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		case CreepTypeJ3:
 			creep->setCreepType(creepType);
 			filename1 = Creep_j3;
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		case CreepTypeJ4:
 			creep->setCreepType(creepType);
 			filename1 = Creep_j4;
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 100;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
 			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		default:
 			break;
 		}
@@ -148,6 +171,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->setRewardMoney(30);
 			creep->setRewardExp(50);
 			creep->UpdateAttack2();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 
@@ -157,10 +181,13 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 550;
 			creep->healthPoints = 550;
 			creep->atk = 15;
-			creep->atkDistance = 40;
+			creep->atkDistance = 60;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(40);
+			creep->setRewardExp(50);
 			creep->UpdateAttack2();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 		case CreepTypeRange:
@@ -172,7 +199,10 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->atkDistance = 130;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(60);
+			creep->setRewardExp(75);
 			creep->UpdateAttack2();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 		case CreepTypeCannon:
@@ -181,10 +211,13 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-			creep->atkDistance = 145;
+			creep->atkDistance = 150;
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
+			creep->setRewardMoney(100);
+			creep->setRewardExp(90);
 			creep->UpdateAttack2();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
 
@@ -228,14 +261,14 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 	return nullptr;
 }
 
-void Creep::update(float dt) {
+/*void Creep::update(float dt) {
 	if (this->healthPoints == 0)
 	{
 		this->die();
 	}
 	;
 }
-
+*/
 /*
 void Creep::spawnCreep() {
 	Size screenSize = Director::getInstance()->getVisibleSize();
@@ -262,7 +295,7 @@ bool Creep::hurt(float atk){
 
 	if (hp <= 0){
 		//die();//ËÀÍöÅÐ¶¨¿ÉÒÔÐ´µ½ÕâÀïÒ²¿ÉÒÔÍ¨¹ýhurtº¯Êý·µ»ØµÄboolÖµÔÙµ÷ÓÃdie();
-		return true;
+		hp = 0;
 	}
 	setHealthPoints(hp);
 
@@ -305,10 +338,11 @@ void Creep::die() {
 
 
 	this->stopAllActions();
-	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
-	this->runAction(Sequence::create(DelayTime::create(1), CallFunc::create([&]() {
+	
+	auto dieact= Sequence::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname)), DelayTime::create(1), CallFunc::create([&]() {
 		this->setVisible(false);
-		}), NULL));
+	}),NULL);
+	this->runAction(dieact);
 	this->setAtk(0);
 
 
@@ -385,6 +419,21 @@ void Creep::atkF() {
 	case CreepTypeCannon:
 		actname = "Quetzal_attack";
 		break;
+	case CreepTypeJ1:
+		actname = "Scorpion_attack";
+		break;
+	case CreepTypeJ2:
+		actname = "Immortal_attack";
+		break;
+	case CreepTypeJ3:
+		actname = "Raider_attack";
+		break;
+	case CreepTypeJ4:
+		actname = "Thug_attack";
+		break;
+	case CreepTypeJ5:
+		actname = "Fallen_attack";
+		break;
 	}
 
 
@@ -407,6 +456,21 @@ void Creep::atkB() {
 		break;
 	case CreepTypeCannon:
 		actname = "Quetzal_attack";
+		break;
+	case CreepTypeJ1:
+		actname = "Scorpion_attack";
+		break;
+	case CreepTypeJ2:
+		actname = "Immortal_attack";
+		break;
+	case CreepTypeJ3:
+		actname = "Raider_attack";
+		break;
+	case CreepTypeJ4:
+		actname = "Thug_attack";
+		break;
+	case CreepTypeJ5:
+		actname = "Fallen_attack";
 		break;
 	}
 
@@ -443,8 +507,8 @@ void Creep::SetHpBar()
 	HpBarProgress = ProgressTimer::create(Healthbar);
 	HpBarProgress->setScale(0.08, 0.3);
 	auto size = HpBarProgress->getContentSize();
-	float x = this->x_position + 30;
-	float y = this->y_position + 60;
+	float x = this->x_position + 40;
+	float y = this->y_position + 80;
 	HpBarProgress->setPosition(Vec2(x, y));
 	HpBarProgress->setType(ProgressTimer::Type::BAR);
 	HpBarProgress->setMidpoint(Vec2(0, 0));
@@ -466,154 +530,123 @@ void Creep::UpdateHpBar(float delta)
 
 void Creep::UpdateAttack1()
 {
-	this->schedule(schedule_selector(Creep::AttackAndMove1), 1, -1, 0);
+	this->schedule(schedule_selector(Creep::AttackAndMove1),1,-1,0);
 }
 
 void Creep::UpdateAttack2()
 {
-	this->schedule(schedule_selector(Creep::AttackAndMove2), 1, -1, 0);
+	this->schedule(schedule_selector(Creep::AttackAndMove2), 1,-1,0);
 }
 
 void Creep::UpdateFAttack()
 {
-	this->schedule(schedule_selector(Creep::FieldAttackAndMove), 1, -1, 0);
+	this->schedule(schedule_selector(Creep::FieldAttackAndMove), 1,-1,0);
 }
 
 
 
 void Creep::AttackAndMove1(float delta)
 {
+
 	if (targetCreep.size() > 0) {
-		for (auto iter = targetCreep.begin(); iter!= targetCreep.end();) {
-			auto i = *iter;
-			auto atk = i->getAtk();
-			iter++;
+		
 			if (OtherCreep.size() > 0 ) {//¹¥»÷othercreep
-				auto ocreep = *OtherCreep.begin();
-				if (i->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
-					//¹¥»÷¶¯»­
-					i->atkF();
-					ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
-					if (ocreep->getHealthPoints() <= 0) {
-						OtherCreep.erase(OtherCreep.begin());
-						ocreep->die();
+				for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
+					auto ocreep = *iter;
+					iter++;
+					if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+						//¹¥»÷¶¯»­
+						this->atkF();
+						ocreep->hurt(atk);
+						return;
 					}
-					continue;
 				}
 			}
-			if (i->newAttackRect()->containsPoint(Tower2->getPosition()) && Tower2->getHealthPoints()>0) {//·ÀÓùËþ2ºÅ
+			if (this->newAttackRect()->containsPoint(Tower2->getPosition()) && Tower2->getHealthPoints()>0) {//·ÀÓùËþ2ºÅ
 				//¹¥»÷¶¯»­
-				i->atkF();
-				Tower2->setHealthPoints(Tower2->getHealthPoints() - atk);
-				if (Tower2->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					Tower2->die();
-				}
-				continue;
+				this->atkF();
+				Tower2->hurt(atk);
+				return;
 			}
-			else if (i->newAttackRect()->containsPoint(Base2->getPosition()) && Base2->getHealthPoints()>0) {//base 2
+			else if (this->newAttackRect()->containsPoint(Base2->getPosition()) && Base2->getHealthPoints()>0) {//base 2
 				//¹¥»÷¶¯»­
-				i->atkF();
-				Base2->setHealthPoints(Base2->getHealthPoints() - atk);
-				if (Base2->getHealthPoints() >= 0) {
-					//ËÀÍö¶¯»­
-					Base2->die();
-				}
-				continue;
+				this->atkF();
+				Base2->hurt(atk);
+				return;
+				
 			}
-			else if (i->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints()>0) {
+			else if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints()>0) {
 				//¹¥»÷¶¯»­
-				i->atkF();
-				OtherHero->setHealthPoints(OtherHero->getHealthPoints() - atk);
-				if(OtherHero->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					OtherHero->die();
-				}continue;
+				this->atkF();
+				OtherHero->hurt(atk);
+				return;
 			}
 			else {
 				
-				i->runF();
+				this->runF();
 			}			
 		}
-	}
+	
 }
 
 void Creep::AttackAndMove2(float delta)
 {
-	if (OtherCreep.size() > 0) {
-		for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
-			auto i = *iter;
-			auto atk = i->getAtk();
-			iter++;
-			if (targetCreep.size() > 0) {//¹¥»÷target
-				auto ocreep = *targetCreep.begin();
-				if (i->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+
+	if (OtherCreep.size() > 0 ) {
+		
+		if (targetCreep.size() > 0) {//¹¥»÷target
+			for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+				auto ocreep = *iter;
+				iter++;
+				if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
 					//¹¥»÷¶¯»­
-					i->atkB();
-					ocreep->setHealthPoints(ocreep->getHealthPoints() - atk);
-					if (ocreep->getHealthPoints() <= 0) {
-						//ËÀÍö¶¯»­
-						targetCreep.erase(targetCreep.begin());
-						ocreep->die();
-					}
-					continue;
+					this->atkB();
+					ocreep->hurt(atk);
+					return;
 				}
-			}
-			if (i->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints()>0) {
-				//¹¥»÷¶¯»­
-				i->atkB();
-				Tower1->setHealthPoints(Tower1->getHealthPoints() - atk);
-				if (Tower1->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					Tower1->die();
-				}
-				continue;
-			}
-			else if (i->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() >= 0) {
-				//¹¥»÷¶¯»­
-				i->atkB();
-				Base1->setHealthPoints(Base1->getHealthPoints() - atk);
-				if (Base1->getHealthPoints() >= 0) {
-					//ËÀÍö¶¯»­
-					Base1->die();
-				}
-				continue;
-			}
-			else if (i->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints()>0) {
-				//¹¥»÷¶¯»­
-				i->atkB();
-				Myhero->setHealthPoints(Myhero->getHealthPoints() - atk);
-				if (Myhero->getHealthPoints() <= 0) {
-					//ËÀÍö¶¯»­
-					Myhero->die();
-				}continue;
-			}
-			else {
-				i->runB();
 			}
 		}
-	}
+			if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints()>0) {
+				//¹¥»÷¶¯»­
+				this->atkB();
+				Tower1->hurt(atk);
+				return;
+			}
+			else if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() >= 0) {
+				//¹¥»÷¶¯»­
+				this->atkB();
+				Base1->hurt(atk);
+				return;
+			}
+			else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints()>0) {
+				//¹¥»÷¶¯»­
+				this->atkB();
+		//		auto a = Myhero->getHealthPoints() - atk;
+				Myhero->hurt(atk);
+				return;
+			}
+			else {
+				this->runB();
+			}
+		}
+	
 }
 
 void Creep::FieldAttackAndMove(float delta)
 {
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
-		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
+		Myhero->hurt(atk);
 		//¹¥»÷¶¯»­
-		if (Myhero->getHealthPoints() <= 0) {
-			//ËÀÍö¶¯»­
-			Myhero->die();
-		}
-		
 	}
 	else if(this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
 		//¹¥»÷¶¯»­
-		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
-		if (OtherHero->getHealthPoints() <= 0) {
-			//ËÀÍö¶¯»­
-			OtherHero->die();
-		}
+		OtherHero->hurt(atk);
 	}
+}
+
+Rect* Creep::newRect()
+{
+	return new Rect(this->getPositionX()-40,this->getPositionY()-40,80,80);
 }
 
 void Creep::moveForward()
@@ -692,8 +725,16 @@ void Creep::attackOtherHero()
 		this->isAttacking = false;
 		this->stopAllActions();
 		//²¥·Å¶¯»­
-
-		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
+		OtherHero->hurt(atk);
 	}
 }
 
+void Creep::UpdateDeath(float) {
+	if (this->getHealthPoints() <= 0) {
+
+		this->die();
+		this->unscheduleAllSelectors();
+		//removeFromParentAndCleanup(this);
+
+	}
+}

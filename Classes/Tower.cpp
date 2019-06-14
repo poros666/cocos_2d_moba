@@ -1,6 +1,6 @@
 //////////////////
 /*
-徐炳昌
+脨矛卤镁虏媒
 5.27
 ver2
 */
@@ -25,7 +25,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 	
 	std::string filename1 = Tower_test;
 
-	//通过switch根据type来初始化数值
+	//脥篓鹿媒switch赂霉戮脻type脌麓鲁玫脢录禄炉脢媒脰碌
 	if (pending) {
 		switch (towerType)
 		{
@@ -53,6 +53,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -65,6 +67,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -77,6 +81,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -89,6 +95,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(0);
 			tower->setAtkSpeeds(0);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
 			//...
 			break;
@@ -123,6 +131,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(150);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -132,9 +142,11 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setInitHealthPointsLimit(1200);
 			tower->setHealthPoints(1200);
 			tower->setAtk(120);
-			tower->setAtkDistance(150);
+			tower->setAtkDistance(1500);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -144,9 +156,11 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setInitHealthPointsLimit(1400);
 			tower->setHealthPoints(1400);
 			tower->setAtk(140);
-			tower->setAtkDistance(150);
+			tower->setAtkDistance(1500);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -159,6 +173,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(0);
 			tower->setAtkSpeeds(0);
 			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			//...
 			break;
@@ -166,11 +182,11 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			break;
 		}
 	}
-
+	tower->scheduleUpdate();
 	const std::string& filename = filename1;
-
-	if (tower && tower->initWithFile(filename)) {//判断tower对象是否生成成功
-		tower->autorelease();//加入内存释放池中，不会立即释放creep对象
+	
+	if (tower && tower->initWithFile(filename)) {//脜脨露脧tower露脭脧贸脢脟路帽脡煤鲁脡鲁脡鹿娄
+		tower->autorelease();//录脫脠毛脛脷麓忙脢脥路脜鲁脴脰脨拢卢虏禄禄谩脕垄录麓脢脥路脜creep露脭脧贸
 		return tower;
 	}
 	CC_SAFE_DELETE(tower);
@@ -184,8 +200,8 @@ bool Tower::hurt(float atk) {
 
 
 	if (hp <= 0) {
-		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
-		return true;
+		//die();//脣脌脥枚脜脨露篓驴脡脪脭脨麓碌陆脮芒脌茂脪虏驴脡脪脭脥篓鹿媒hurt潞炉脢媒路碌禄脴碌脛bool脰碌脭脵碌梅脫脙die();
+		hp = 0;
 	}
 	setHealthPoints(hp);
 
@@ -193,8 +209,11 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
+	bombsp1->setPosition(this->getPosition());
+	bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
 	this->setAtk(0);
 	this->setVisible(false);
+	//this->removeFromParent();
 }
 
 
@@ -274,35 +293,25 @@ void Tower::UpdateAttack2()
 void Tower::Attack1(float)
 {
 	if (OtherCreep.size() > 0) {
-		auto ocreep = *OtherCreep.begin();
-		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+		for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
+			auto ocreep = *iter;
+			iter++;
+			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
 
-			//这里加攻击动画
-			bombsp1->setPosition(ocreep->getPosition());
-			bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
-			this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-
-
-			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
-			if (ocreep->getHealthPoints() <= 0) {
-				//死亡动画
-				OtherCreep.erase(OtherCreep.begin());
-				ocreep->die();
+				//脮芒脌茂录脫鹿楼禄梅露炉禄颅
+				bombsp1->setPosition(ocreep->getPosition());
+				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
+				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+				ocreep->hurt(atk);
+				return;
 			}
-			return;
 		}
 	}
 	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
-		
-		//攻击动画
-
+		bombsp1->setPosition(OtherHero->getPosition());
+		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-
-		OtherHero->setHealthPoints(OtherHero->getHealthPoints() - this->getAtk());
-		if (OtherHero->getHealthPoints() <= 0) {
-			//死亡动画
-			OtherHero->die();
-		}
+		OtherHero->hurt(atk);
 		return;
 	}
 }
@@ -310,31 +319,33 @@ void Tower::Attack1(float)
 void Tower::Attack2(float)
 {
 	if (targetCreep.size() > 0) {
-		auto ocreep = *targetCreep.begin();
-		if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
-			//攻击动画
-			this->setFlipX(true);
-			this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+			auto ocreep = *iter;
+			iter++;
+			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+				//鹿楼禄梅露炉禄颅
+				this->setFlipX(true);
+				bombsp1->setPosition(ocreep->getPosition());
+				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
+				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 
-			ocreep->setHealthPoints(ocreep->getHealthPoints() - this->getAtk());
-			if (ocreep->getHealthPoints() <= 0) {
-				//死亡动画
-				targetCreep.erase(targetCreep.begin());
-				ocreep->die();
+				ocreep->hurt(atk);
+				return;
 			}
-			return;
 		}
 	}
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
-		//攻击动画
+		//鹿楼禄梅露炉禄颅
 		this->setFlipX(true);
+		bombsp1->setPosition(Myhero->getPosition());
+		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-
-		Myhero->setHealthPoints(Myhero->getHealthPoints() - this->getAtk());
-		if (Myhero->getHealthPoints() <= 0) {
-			//死亡动画
-			Myhero->die();
-		}
+		Myhero->hurt(atk);
 		return;
 	}
+}
+
+Rect* Tower::newRect()
+{
+	return new Rect(this->getPositionX() - 100, this->getPositionY() - 100, 200, 200);
 }

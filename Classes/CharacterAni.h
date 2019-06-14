@@ -21,6 +21,7 @@ public:
 	void init_raider();//jungle creep3
 	void init_thug();//jungle creep4
 	void init_fallen();//jungle creep5
+	void init_skill();//skill
 
 
 	Animation* createAnimation(const char* prefixName, int start, int end, float delay);
