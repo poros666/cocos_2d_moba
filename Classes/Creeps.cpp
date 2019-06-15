@@ -556,7 +556,9 @@ void Creep::UpdateFAttack()
 
 void Creep::AttackAndMove1(float delta)
 {
+
 	if (targetCreep.size() > 0) {	
+		
 			if (OtherCreep.size() > 0 ) {//¹¥»÷othercreep
 				for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
 					auto ocreep = *iter;
