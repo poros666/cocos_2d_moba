@@ -129,29 +129,47 @@ void Game::menuShowCallback(cocos2d::Ref* pSender)
 
 void Game::StatusLayerPrint()
 {
-	skillQ = Skill::createWithNameCdPicOwner("ski_right",5,"Ski_right.png",Myhero);
-	skillQ->setPosition(Vec2(visibleSize.width /2-200,visibleSize.height/2-200));
+	skillQ = Skill::createWithNameCdPicOwner("ski_right",5, "Character Model  res/skill_blink.png",Myhero);
+	skillQ->setPosition(Vec2(visibleSize.width /2-200,visibleSize.height/2-320));
 	auto Statuslayer = StatusLayer::createLayer();
 	this->addChild(Statuslayer,3,"StatusLayer");
 	Statuslayer->addChild(skillQ,1);
 
-	skillW = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", Myhero);
-	skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 200));
+	UserDefault* defualts = UserDefault::getInstance();
+	if (defualts->getBoolForKey("Execu")) {
+		skillW = Skill::createWithNameCdPicOwner("ExecuSkill", 5, "Character Model  res/skill_strong.png", Myhero);
+		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 320));
 
-	Statuslayer->addChild(skillW, 1);
+		Statuslayer->addChild(skillW, 1);
+	}
+	if (defualts->getBoolForKey("Elite")) {
+		skillW = Skill::createWithNameCdPicOwner("EliteSkill", 5, "Character Model  res/skill_gold.png", Myhero);
+		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 320));
+
+		Statuslayer->addChild(skillW, 1);
+	}
+	if (defualts->getBoolForKey("Munara")) {
+		skillW = Skill::createWithNameCdPicOwner("MunaraSkill", 5, "Character Model  res/skill_book.png", Myhero);
+		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 320));
+
+		Statuslayer->addChild(skillW, 1);
+	}
 
 
-	skillE = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", Myhero);
-	skillE->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
+
+	skillE = Skill::createWithNameCdPicOwner("ski_right", 5, "Character Model  res/skill_double.png", Myhero);
+	skillE->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 320));
 
 	Statuslayer->addChild(skillE, 1);
 
 
-	skillR = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", Myhero);
-	skillR->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 - 200));
+	skillR = Skill::createWithNameCdPicOwner("ski_right", 5, "Character Model  res/skill_recover.png", Myhero);
+	skillR->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 - 320));
 
 	Statuslayer->addChild(skillR, 1);
-		
+	
+
+
 	
 }
 void Game::ScoreBoardPrint()
