@@ -7,6 +7,7 @@ ver2
 #pragma once
 #include<cocos2d.h>
 #include"Creeps.h"
+#include"WinLayer.h"
 using namespace cocos2d;
 
 /*
@@ -75,6 +76,7 @@ public:
 	void UpdateAttack2();
 	void Attack1(float);
 	void Attack2(float);
+	void WinPending(float);
 	Rect* newRect();
 	float x_position = 0;
 	float y_position = 0;

@@ -330,8 +330,6 @@ void Hero::die()
 {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画,挪回初始位置？
-
-
 	const auto typ = this->getHeroType();
 	std::string actname = "Executioner_death";
 	switch (typ)

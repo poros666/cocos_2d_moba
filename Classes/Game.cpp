@@ -73,6 +73,7 @@ void Game::onEnter()
 	Game::initKeyListener(Myhero);
 	this->schedule(schedule_selector(Game::CreepsPrint), 30, -1, 0);
 	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
+	this->schedule(schedule_selector(Game::win));
 //	this->schedule(schedule_selector(), 1, -1, 1);
 }
 void Game::MapLayerPrint()
@@ -932,6 +933,15 @@ bool Game::clickToAttack(Hero* owner)
 	return false;
 
 }
+
+void Game::win(float)
+{
+	if (Base1->getHealthPoints() <= 0 || Base2->getHealthPoints() <= 0) {
+		auto winning = WinLayer::createLayer();
+		this->addChild(winning, 10);
+	}
+}
+
 
 
 

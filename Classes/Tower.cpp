@@ -41,6 +41,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(1000);
 			tower->setAtk(10);
 			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
 			//...
 			break;
 
@@ -56,6 +57,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		case TowerTypeT2:
@@ -70,6 +73,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		case TowerTypeT3:
@@ -84,6 +89,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		case TowerTypeBase:
@@ -98,6 +105,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		default:
@@ -119,6 +128,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(1000);
 			tower->setAtk(10);
 			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 
@@ -134,6 +145,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		case TowerTypeT2:
@@ -148,6 +161,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		case TowerTypeT3:
@@ -162,6 +177,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		case TowerTypeBase:
@@ -176,6 +193,8 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
 			//...
 			break;
 		default:
@@ -209,6 +228,7 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
+	
 	bombsp1->setPosition(this->getPosition());
 	bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
 	this->setAtk(0);
@@ -217,9 +237,7 @@ void Tower::die() {
 }
 
 
-void Tower::win() {
-	//
-}
+
 void Tower::SetHpBar()
 {
 	auto Healthbar = Sprite::create("healthbar.dds");
@@ -345,7 +363,11 @@ void Tower::Attack2(float)
 	}
 }
 
+
+
 Rect* Tower::newRect()
 {
 	return new Rect(this->getPositionX() - 100, this->getPositionY() - 100, 200, 200);
 }
+
+
