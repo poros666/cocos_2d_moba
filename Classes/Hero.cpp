@@ -43,6 +43,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -67,6 +70,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeElite:
@@ -90,6 +96,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeMunra:
@@ -113,6 +122,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//...
 			break;
 		default:
@@ -140,6 +152,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -165,6 +178,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeElite:
@@ -189,6 +203,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeMunra:
@@ -213,6 +228,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			//...
 			break;
 		default:
@@ -306,7 +322,10 @@ void Hero::addExp(int exp) {
 		setSkillPoints(getSkillPoints() + 1);
 	}
 }
-
+void Hero::addGold(int gold)
+{
+	this->gold += gold;
+}
 void Hero::die() 
 {
 	//不知道涉及什么先不写
@@ -340,6 +359,11 @@ void Hero::die()
 		}), NULL));
 	this->scheduleOnce(schedule_selector(Hero::recreateHero), 10);
 
+}
+
+void Hero::setAttackInterval(float)
+{
+	this->attackInterval = true;
 }
 
 void Hero::recreateHero(float delta)
@@ -541,6 +565,7 @@ void Hero::update(float dt)
 }
 
 void Hero::atkF() {
+	this->attackInterval = false;
 	const auto typ = this->getHeroType();
 	std::string actname = "Executioner_death";
 	switch (typ)

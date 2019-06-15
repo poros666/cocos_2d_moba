@@ -207,7 +207,7 @@ void Game::HeroPrint()
 	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
 	SetHpBar();
 	SetManaBar();
-
+	SetExpBar();
 	OtherHero->setPosition(OtherHero->getReBornPoint());
 
 	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
@@ -424,7 +424,8 @@ void Game::initKeyListener(Hero* hero)
 			if (hero == Myhero) {
 				if (
 					hero->setNewAtkRect()->containsPoint(OtherHero->getPosition()) &&
-					OtherHero->getHealthPoints() > 0) {
+					OtherHero->getHealthPoints() > 0 &&
+					hero->attackInterval==true) {
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
 					OtherHero->hurt(hero->getAtk());
@@ -442,7 +443,8 @@ void Game::initKeyListener(Hero* hero)
 				//	auto c = Tower1->getHealthPoints();
 				if (
 					hero->setNewAtkRect()->containsPoint(Tower2->getPosition()) &&
-					Tower2->getHealthPoints() > 0) {
+					Tower2->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Tower2->hurt(hero->getAtk());
@@ -454,7 +456,8 @@ void Game::initKeyListener(Hero* hero)
 				}
 				if (
 					hero->setNewAtkRect()->containsPoint(Base2->getPosition()) &&
-					Base2->getHealthPoints() > 0) {
+					Base2->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Base2->hurt(hero->getAtk());
@@ -470,7 +473,8 @@ void Game::initKeyListener(Hero* hero)
 						auto _creep = *iter;
 						if (
 							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -489,7 +493,8 @@ void Game::initKeyListener(Hero* hero)
 						auto _creep = *iter;
 						if (
 							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -511,7 +516,8 @@ void Game::initKeyListener(Hero* hero)
 			else {
 				if (
 					hero->setNewAtkRect()->containsPoint(Myhero->getPosition()) &&
-					Myhero->getHealthPoints() > 0) {
+					Myhero->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
 					Myhero->hurt(hero->getAtk());
@@ -525,7 +531,8 @@ void Game::initKeyListener(Hero* hero)
 				//	auto c = Tower1->getHealthPoints();
 				if (
 					hero->setNewAtkRect()->containsPoint(Tower1->getPosition()) &&
-					Tower1->getHealthPoints() > 0) {
+					Tower1->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Tower1->hurt(hero->getAtk());
@@ -540,7 +547,8 @@ void Game::initKeyListener(Hero* hero)
 
 				if (
 					hero->setNewAtkRect()->containsPoint(Base1->getPosition()) &&
-					Base1->getHealthPoints() > 0) {
+					Base1->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Base1->hurt(hero->getAtk());
@@ -557,7 +565,8 @@ void Game::initKeyListener(Hero* hero)
 						auto _creep = *iter;
 						if (
 							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -575,7 +584,8 @@ void Game::initKeyListener(Hero* hero)
 						auto _creep = *iter;
 						if (
 							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -684,7 +694,8 @@ void Game::initMouseListener(Hero* hero)
 
 				if (OtherHero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 					hero->attack_rect->containsPoint(OtherHero->getPosition()) &&
-					OtherHero->getHealthPoints() > 0) {
+					OtherHero->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
 					OtherHero->hurt(hero->getAtk());
@@ -698,7 +709,8 @@ void Game::initMouseListener(Hero* hero)
 				//	auto c = Tower1->getHealthPoints();
 				if (Tower2->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 					hero->attack_rect->containsPoint(Tower2->getPosition()) &&
-					Tower2->getHealthPoints() > 0) {
+					Tower2->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Tower2->hurt(hero->getAtk());
@@ -710,7 +722,8 @@ void Game::initMouseListener(Hero* hero)
 				}
 				if (Base2->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 					hero->attack_rect->containsPoint(Base2->getPosition()) &&
-					Base2->getHealthPoints() > 0) {
+					Base2->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Base2->hurt(hero->getAtk());
@@ -726,7 +739,8 @@ void Game::initMouseListener(Hero* hero)
 						auto _creep = *iter;
 						if (_creep->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 							hero->attack_rect->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -745,7 +759,8 @@ void Game::initMouseListener(Hero* hero)
 						auto _creep = *iter;
 						if (_creep->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 							hero->attack_rect->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -788,7 +803,8 @@ void Game::initMouseListener(Hero* hero)
 			else {
 				if (Myhero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 					hero->attack_rect->containsPoint(Myhero->getPosition()) &&
-					Myhero->getHealthPoints() > 0) {
+					Myhero->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
 					Myhero->hurt(hero->getAtk());
@@ -802,7 +818,8 @@ void Game::initMouseListener(Hero* hero)
 				//	auto c = Tower1->getHealthPoints();
 				if (Tower1->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 					hero->attack_rect->containsPoint(Tower1->getPosition()) &&
-					Tower1->getHealthPoints() > 0) {
+					Tower1->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Tower1->hurt(hero->getAtk());
@@ -816,7 +833,8 @@ void Game::initMouseListener(Hero* hero)
 
 				if (Base1->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 					hero->attack_rect->containsPoint(Base1->getPosition()) &&
-					Base1->getHealthPoints() > 0) {
+					Base1->getHealthPoints() > 0 &&
+					hero->attackInterval == true) {
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Base1->hurt(hero->getAtk());
@@ -832,7 +850,8 @@ void Game::initMouseListener(Hero* hero)
 						auto _creep = *iter;
 						if (_creep->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 							hero->attack_rect->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -852,7 +871,8 @@ void Game::initMouseListener(Hero* hero)
 						auto _creep = *iter;
 						if (_creep->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
 							hero->attack_rect->containsPoint(_creep->getPosition()) &&
-							_creep->getHealthPoints() > 0) {
+							_creep->getHealthPoints() > 0 &&
+							hero->attackInterval == true) {
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());

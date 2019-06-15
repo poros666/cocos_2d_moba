@@ -55,13 +55,13 @@ bool ChooseModeScene::init()
 		backItem->setPosition(Vec2(x, y));
 	}
 	//生成开始键
-	auto startItem = MenuItemImage::create(
+	auto joinItem = MenuItemImage::create(
 		"Bottom/StartNormal.jpg",
 		"Bottom/StartSelected.jpg",
 		CC_CALLBACK_1(ChooseModeScene::startGameCallback, this));
-	if (startItem == nullptr ||
-		startItem->getContentSize().width <= 0 ||
-		startItem->getContentSize().height <= 0)
+	if (joinItem == nullptr ||
+		joinItem->getContentSize().width <= 0 ||
+		joinItem->getContentSize().height <= 0)
 	{
 		problemLoading("'StartNormal.png' and 'StartSelected.png'");
 	}
@@ -69,9 +69,9 @@ bool ChooseModeScene::init()
 	{
 		float x = origin.x + visibleSize.width / 2;
 		float y = origin.y + visibleSize.height / 2 - 240;
-		startItem->setPosition(Vec2(x, y));
+		joinItem->setPosition(Vec2(x, y));
 	}
-	auto menu = Menu::create(mapItem,mapToggleMenuItem,modeItem,modeToggleMenuItem,startItem,backItem,NULL);
+	auto menu = Menu::create(mapItem,mapToggleMenuItem,modeItem,modeToggleMenuItem,joinItem,backItem,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 	auto sprite = Sprite::create("ChooseModeBackGround.jpg");
@@ -123,7 +123,60 @@ void ChooseModeScene::startGameCallback(Ref* pSender)
 {
 	auto scene = ChooseHeroScene::createScene();
 	auto reScene = TransitionFadeUp::create(0.8f, scene);
-	Director::getInstance()->pushScene(reScene);
+	if (UserDefault::getInstance()->getBoolForKey(OFF_LINE)==false)
+	{
+	/*	auto server=SocketServer::create();
+		server->startServer();
+		auto client = new SocketClient;
+		client->connectServer("127.0.0.1", short(8000));
+	*/
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Vec2 origin = Director::getInstance()->getVisibleOrigin();
+		auto sprite = Sprite::create("Scoreboard.jpg");
+		sprite->setScaleX(1.3);
+		sprite->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+		this->addChild(sprite, 3,"Room");
+		auto createItem = MenuItemImage::create(
+			"Bottom/create.jpg",
+			"Bottom/create.jpg",
+			CC_CALLBACK_1(ChooseModeScene::createCallback, this));
+		if (createItem == nullptr ||
+			createItem->getContentSize().width <= 0 ||
+			createItem->getContentSize().height <= 0)
+		{
+			problemLoading("'SettingsNormal.png' and 'SettingsSelected.png'");
+		}
+		else
+		{
+			float x = origin.x + visibleSize.width / 2;
+			float y = visibleSize.height / 2+60;
+			createItem->setPosition(Vec2(x, y));
+		}
+		auto joinItem = MenuItemImage::create(
+			"Bottom/join.jpg",
+			"Bottom/join.jpg",
+			CC_CALLBACK_1(ChooseModeScene::joinCallback, this));
+		if (joinItem == nullptr ||
+			joinItem->getContentSize().width <= 0 ||
+			joinItem->getContentSize().height <= 0)
+		{
+			problemLoading("'StartNormal.png' and 'StartSelected.png'");
+		}
+		else
+		{
+			float x = origin.x + visibleSize.width / 2;
+			float y = origin.y + visibleSize.height / 2 -60;
+			joinItem->setPosition(Vec2(x, y));
+		}
+		// create menu, it's an autorelease object
+		auto menu = Menu::create(joinItem, createItem, NULL);
+		menu->setPosition(Vec2::ZERO);
+		this->addChild(menu, 4);
+	}
+	else 
+	{
+		Director::getInstance()->pushScene(reScene);
+	}
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
 	{
 		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
@@ -163,4 +216,20 @@ void ChooseModeScene::mapSetCallback(Ref* pSender)
 	{
 		SimpleAudioEngine::getInstance()->playEffect("Botton.wav");
 	}
+}
+void ChooseModeScene::createCallback(Ref* pSender)
+{
+	server = SocketServer::create();
+	server->startServer();
+	auto scene = ChooseHeroScene::createScene();
+	auto reScene = TransitionFadeUp::create(0.8f, scene);
+	Director::getInstance()->pushScene(reScene);
+}
+void ChooseModeScene::joinCallback(Ref* pSender)
+{
+	client = new SocketClient;
+	client->connectServer("127.0.0.1", short(8000));
+	auto scene = ChooseHeroScene::createScene();
+	auto reScene = TransitionFadeUp::create(0.8f, scene);
+	Director::getInstance()->pushScene(reScene);
 }
