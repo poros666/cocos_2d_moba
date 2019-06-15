@@ -268,10 +268,6 @@ void Game::CreepsPrint(float delta)
 	cannon2->setPosition(4200, 470);
 	this->getChildByName("MapLayer")->addChild(cannon2, 2);
 	OtherCreep.push_back(cannon2);
-
-
-
-
 }
 void Game::FieldPrint(float delta)
 {
@@ -279,14 +275,17 @@ void Game::FieldPrint(float delta)
 	creep1->setPosition(1800, 150);
 	this->getChildByName("MapLayer")->addChild(creep1, 2);
 	FieldCreep.push_back(creep1);
+
 	auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2, true);
 	creep2->setPosition(3000, 150);
 	this->getChildByName("MapLayer")->addChild(creep2, 2);
 	FieldCreep.push_back(creep2);
+
 	auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3, true);
 	creep3->setPosition(1800, 800);
 	this->getChildByName("MapLayer")->addChild(creep3, 2);
 	FieldCreep.push_back(creep3);
+	
 	auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4, true);
 	creep4->setPosition(3000, 800);
 	this->getChildByName("MapLayer")->addChild(creep4, 2);
@@ -503,6 +502,9 @@ void Game::initKeyListener(Hero* hero)
 								
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								auto mysprite = Sprite::create("redbuff.png");
+								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								this->addChild(mysprite, 9);
 								FieldCreep.erase(iter);
 							}
 							return true;
@@ -595,6 +597,9 @@ void Game::initKeyListener(Hero* hero)
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								hero->setAtk(hero->getAtk() + 50);
+								auto mysprite = Sprite::create("redbuff.png");
+								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								this->addChild(mysprite, 9);
 								FieldCreep.erase(iter);
 							}
 							return true;
@@ -770,6 +775,9 @@ void Game::initMouseListener(Hero* hero)
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								hero->setAtk(hero->getAtk() + 50);
+								auto mysprite = Sprite::create("redbuff.png");
+								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								this->addChild(mysprite, 9);
 								FieldCreep.erase(iter);
 							}
 							return true;
@@ -861,6 +869,7 @@ void Game::initMouseListener(Hero* hero)
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								hero->setAtk(hero->getAtk() + 50);
+
 								targetCreep.erase(iter);
 							}
 							return true;
@@ -881,6 +890,9 @@ void Game::initMouseListener(Hero* hero)
 								//ËÀÍö¶¯»­
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
+								auto mysprite = Sprite::create("redbuff.png");
+								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								this->addChild(mysprite, 9);
 								FieldCreep.erase(iter);
 							}
 							return true;
