@@ -43,6 +43,8 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -67,6 +69,8 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
 			//...
 			break;
 		case HeroTypeElite:
@@ -90,6 +94,8 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
 			//...
 			break;
 		case HeroTypeMunra:
@@ -113,6 +119,8 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
 			//...
 			break;
 		default:
@@ -306,7 +314,10 @@ void Hero::addExp(int exp) {
 		setSkillPoints(getSkillPoints() + 1);
 	}
 }
-
+void Hero::addGold(int gold)
+{
+	this->gold += gold;
+}
 void Hero::die() 
 {
 	//不知道涉及什么先不写

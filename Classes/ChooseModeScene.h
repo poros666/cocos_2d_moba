@@ -3,6 +3,8 @@
 #include "StartScene.h"
 #include "Music.h"
 #include "ChooseHeroScene.h"
+#include"SocketClient.h"
+#include"SocketServer.h"
 #define OFF_LINE "offline"
 #define SINGLE "1v1"
 
@@ -15,5 +17,9 @@ public:
 	void startGameCallback(Ref* pSender);
 	void modeSetCallback(Ref* pSender);
 	void mapSetCallback(Ref* pSender);
+	void createCallback(Ref* pSender);
+	void joinCallback(Ref* pSender);
 	CREATE_FUNC(ChooseModeScene);
+	SocketClient* client;
+	SocketServer* server;
 };

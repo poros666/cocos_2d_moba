@@ -30,7 +30,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 	Creep* creep = new (std::nothrow)Creep();
 
 	std::string filename1 = Creep_test;
-
+	creep->self = pending;
 	//通过switch根据type来初始化数值
 	if (pending) {
 		switch (creepType)
@@ -344,7 +344,16 @@ void Creep::die() {
 	}),NULL);
 	this->runAction(dieact);
 	this->setAtk(0);
-
+	if (self)
+	{
+		OtherHero->addGold(this->getRewardMoney());
+		OtherHero->addExp(this->getRewardExp());
+	}
+	else
+	{
+		Myhero->addGold(this->getRewardMoney());
+		Myhero->addExp(this->getRewardExp());
+	}
 
 //	this->release();
 }
@@ -548,7 +557,7 @@ void Creep::UpdateFAttack()
 void Creep::AttackAndMove1(float delta)
 {
 
-	if (targetCreep.size() > 0) {
+	if (targetCreep.size() > 0) {	
 		
 			if (OtherCreep.size() > 0 ) {//攻击othercreep
 				for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
@@ -591,9 +600,7 @@ void Creep::AttackAndMove1(float delta)
 
 void Creep::AttackAndMove2(float delta)
 {
-
-	if (OtherCreep.size() > 0 ) {
-		
+	if (OtherCreep.size() > 0 ) {	
 		if (targetCreep.size() > 0) {//攻击target
 			for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
 				auto ocreep = *iter;

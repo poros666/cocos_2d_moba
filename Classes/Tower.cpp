@@ -209,6 +209,7 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
+
 	bombsp1->setPosition(this->getPosition());
 	bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
 	this->setAtk(0);

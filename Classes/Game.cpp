@@ -204,13 +204,13 @@ void Game::HeroPrint()
 	Myhero->setPosition(Myhero->getReBornPoint());
 
 	Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance,Myhero->getPositionY() - _atkDistance,2* _atkDistance,2* _atkDistance);
-	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
+	this->getChildByName("MapLayer")->addChild(Myhero, 4,"Myhero");
 	SetHpBar();
 	SetManaBar();
-
+	SetExpBar();
 	OtherHero->setPosition(OtherHero->getReBornPoint());
 
-	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
+	this->getChildByName("MapLayer")->addChild(OtherHero, 4, "OtherHero");
 }
 
 
@@ -219,22 +219,22 @@ void Game::TowerPrint()
 	//·ÅÖÃËþµÄº¯Êý
 
 	Tower1->setPosition(Vec2(1600, 500));
-	this->getChildByName("MapLayer")->addChild(Tower1, 2,"Tower1");
+	this->getChildByName("MapLayer")->addChild(Tower1, 3,"Tower1");
 
 	Tower2->setFlipX(true);
 	Tower2->setPosition(Vec2(3200, 500));
-	this->getChildByName("MapLayer")->addChild(Tower2, 2, "Tower2");
+	this->getChildByName("MapLayer")->addChild(Tower2, 3, "Tower2");
 
 	Base1->setPosition(Vec2(1000, 500));
-	this->getChildByName("MapLayer")->addChild(Base1, 2, "Base1");
+	this->getChildByName("MapLayer")->addChild(Base1, 3, "Base1");
 
 	Base2->setFlipX(true);
 	Base2->setPosition(Vec2(3800, 500));
-	this->getChildByName("MapLayer")->addChild(Base2, 2, "Base2");
+	this->getChildByName("MapLayer")->addChild(Base2,3, "Base2");
 
 
 	bombsp1->setPosition(Vec2(1,1));
-	this->getChildByName("MapLayer")->addChild(bombsp1, 2, "bombsp1");
+	this->getChildByName("MapLayer")->addChild(bombsp1, 3, "bombsp1");
 
 }
 
@@ -655,11 +655,12 @@ void Game::initMouseListener(Hero* hero)
 			endPos.y = MapSizeHeight - visiblesize.height + touch->getLocation().y;
 		}
 
+		if (endPos.y >= 736 && endPos.x >= 960 && endPos.x <= 3840) {
+			return false;
+		}
 
-
-
-
-
+		
+		
 		int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
 		if (Angle > -45 && Angle < 45) {
 			//hero->stopAllActions();
