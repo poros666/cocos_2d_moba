@@ -142,7 +142,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setInitHealthPointsLimit(1200);
 			tower->setHealthPoints(1200);
 			tower->setAtk(120);
-			tower->setAtkDistance(150);
+			tower->setAtkDistance(1500);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
 			tower->setRewardExp(300);
@@ -156,7 +156,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setInitHealthPointsLimit(1400);
 			tower->setHealthPoints(1400);
 			tower->setAtk(140);
-			tower->setAtkDistance(150);
+			tower->setAtkDistance(1500);
 			tower->setAtkSpeeds(1);
 			tower->SetHpBar();
 			tower->setRewardExp(300);
@@ -209,6 +209,8 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
+	bombsp1->setPosition(this->getPosition());
+	bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
 	this->setAtk(0);
 	this->setVisible(false);
 	//this->removeFromParent();
@@ -298,7 +300,7 @@ void Tower::Attack1(float)
 
 				//ÕâÀï¼Ó¹¥»÷¶¯»­
 				bombsp1->setPosition(ocreep->getPosition());
-				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
+				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 				ocreep->hurt(atk);
 				return;
@@ -306,6 +308,8 @@ void Tower::Attack1(float)
 		}
 	}
 	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
+		bombsp1->setPosition(OtherHero->getPosition());
+		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 		OtherHero->hurt(atk);
 		return;
@@ -321,6 +325,8 @@ void Tower::Attack2(float)
 			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
 				//¹¥»÷¶¯»­
 				this->setFlipX(true);
+				bombsp1->setPosition(ocreep->getPosition());
+				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 
 				ocreep->hurt(atk);
@@ -331,6 +337,8 @@ void Tower::Attack2(float)
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
 		//¹¥»÷¶¯»­
 		this->setFlipX(true);
+		bombsp1->setPosition(Myhero->getPosition());
+		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
 		Myhero->hurt(atk);
 		return;

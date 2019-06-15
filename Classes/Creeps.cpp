@@ -428,6 +428,21 @@ void Creep::atkF() {
 	case CreepTypeCannon:
 		actname = "Quetzal_attack";
 		break;
+	case CreepTypeJ1:
+		actname = "Scorpion_attack";
+		break;
+	case CreepTypeJ2:
+		actname = "Immortal_attack";
+		break;
+	case CreepTypeJ3:
+		actname = "Raider_attack";
+		break;
+	case CreepTypeJ4:
+		actname = "Thug_attack";
+		break;
+	case CreepTypeJ5:
+		actname = "Fallen_attack";
+		break;
 	}
 
 
@@ -450,6 +465,21 @@ void Creep::atkB() {
 		break;
 	case CreepTypeCannon:
 		actname = "Quetzal_attack";
+		break;
+	case CreepTypeJ1:
+		actname = "Scorpion_attack";
+		break;
+	case CreepTypeJ2:
+		actname = "Immortal_attack";
+		break;
+	case CreepTypeJ3:
+		actname = "Raider_attack";
+		break;
+	case CreepTypeJ4:
+		actname = "Thug_attack";
+		break;
+	case CreepTypeJ5:
+		actname = "Fallen_attack";
 		break;
 	}
 
@@ -526,9 +556,7 @@ void Creep::UpdateFAttack()
 
 void Creep::AttackAndMove1(float delta)
 {
-
-	if (targetCreep.size() > 0) {
-		
+	if (targetCreep.size() > 0) {	
 			if (OtherCreep.size() > 0 ) {//¹¥»÷othercreep
 				for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
 					auto ocreep = *iter;
@@ -570,9 +598,7 @@ void Creep::AttackAndMove1(float delta)
 
 void Creep::AttackAndMove2(float delta)
 {
-
-	if (OtherCreep.size() > 0 ) {
-		
+	if (OtherCreep.size() > 0 ) {	
 		if (targetCreep.size() > 0) {//¹¥»÷target
 			for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
 				auto ocreep = *iter;

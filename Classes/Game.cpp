@@ -655,11 +655,12 @@ void Game::initMouseListener(Hero* hero)
 			endPos.y = MapSizeHeight - visiblesize.height + touch->getLocation().y;
 		}
 
+		if (endPos.y >= 736 && endPos.x >= 960 && endPos.x <= 3840) {
+			return false;
+		}
 
-
-
-
-
+		
+		
 		int Angle = CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
 		if (Angle > -45 && Angle < 45) {
 			//hero->stopAllActions();
