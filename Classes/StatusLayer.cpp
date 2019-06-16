@@ -1,6 +1,6 @@
 #include"StatusLayer.h"
 USING_NS_CC;
-
+extern Hero* Myhero;
 Layer* StatusLayer::createLayer()
 {
 	auto layer = StatusLayer::create();
@@ -43,7 +43,7 @@ bool StatusLayer::init()
 		float y =visibleSize.height-size.height/4;
 		timeItem->setPosition(Vec2(x, y));
 	};
-	this->addChild(timeItem, 1);
+	//this->addChild(timeItem, 1);
 	auto skillLable= Sprite::create("skillLable.dds");
 	if (skillLable == nullptr ||
 		skillLable->getContentSize().width <= 0 ||
@@ -109,6 +109,7 @@ bool StatusLayer::init()
 		Manabar->setPosition(Vec2(x, y));
 	};
 	this->addChild(Manabar, 2);*/
+	Myhero->getGold();
 	return true;
 }
 void StatusLayer::update(float dt)

@@ -6,42 +6,251 @@ ver1
 */
 #include"Hero.h"
 using namespace cocos2d;
+extern Hero* Myhero;
+extern Hero* OtherHero;
+extern Tower* Tower1;
+extern Tower* Tower2;
+extern Tower* Base1;
+extern Tower* Base2;
+extern std::list<Creep*> targetCreep;
+extern std::list<Creep*> OtherCreep;
+extern std::list<Creep*> FieldCreep;
 
-
- Hero* Hero::creatWithHeroTypes(HeroTypes heroType) {
+ Hero* Hero::creatWithHeroTypes(HeroTypes heroType,bool pending) {
 	Hero* hero = new (std::nothrow)Hero();
 	
 	std::string filename1 = Hero_test;
 
 	//通过switch根据type来初始化数值
-	switch (heroType)
-	{
-	case HeroTypeTest:
-		filename1 = Hero_test;
-		hero->setGold(1000);
-		hero->setInitHealthPointsLimit(100);
-		hero->setHealthPoints(100);
-		hero->setHealthRecoverPoints(1);
-		hero->setInitManaPointsLimit(10);
-		hero->setManaPoints(10);
-		hero->setMoveSpeed(200);
-		hero->SetHpBar();
-		hero->SetManaBar();
-		//...
-		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
+
+	if (pending) {
+		switch (heroType)
+		{
+		case HeroTypeTest:
+			hero->setHeroType(heroType);
+			filename1 = Hero_test;
+			hero->setGold(1000);
+			hero->setInitHealthPointsLimit(10000);
+			hero->setHealthPoints(10000);
+			hero->setHealthRecoverPoints(1);
+			hero->setInitManaPointsLimit(10);
+			hero->setManaPoints(10);
+			hero->setMoveSpeed(200);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setAtkDistance(100);
+			hero->setAtk(10);
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//attack_rect = new Rect();
 			//...
 			break;
-		*/
-	default:
-		break;
+		case HeroTypeExecu:
+			hero->setHeroType(heroType);
+			filename1 = Hero_execu;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(500);
+			hero->setHealthPoints(500);
+			hero->setInitManaPointsLimit(100);
+			hero->setManaPoints(100);
+			hero->setMoveSpeed(200);
+			hero->setArmorPoints(0);
+			hero->setAtk(60);
+			hero->setAtkDistance(60);
+			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
+			hero->setSkillPoints(0);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//...
+			break;
+		case HeroTypeElite:
+			hero->setHeroType(heroType);
+			filename1 = Hero_elite;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(450);
+			hero->setHealthPoints(450);
+			hero->setInitManaPointsLimit(120);
+			hero->setManaPoints(120);
+			hero->setMoveSpeed(200);
+			hero->setArmorPoints(0);
+			hero->setAtk(50);
+			hero->setAtkDistance(60);
+			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
+			hero->setSkillPoints(0);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//...
+			break;
+		case HeroTypeMunra:
+			hero->setHeroType(heroType);
+			filename1 = Hero_munra;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(400);
+			hero->setHealthPoints(400);
+			hero->setInitManaPointsLimit(160);
+			hero->setManaPoints(160);
+			hero->setMoveSpeed(200);
+			hero->setArmorPoints(0);
+			hero->setAtk(30);
+			hero->setAtkDistance(150);
+			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
+			hero->setSkillPoints(0);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//...
+			break;
+		default:
+			break;
+		}
+	}
+	else {
+		switch (heroType)
+		{
+		case HeroTypeTest:
+			hero->setHeroType(heroType);
+			filename1 = Hero_test;
+			hero->setGold(1000);
+			hero->setInitHealthPointsLimit(10000);
+			hero->setHealthPoints(10000);
+			hero->setHealthRecoverPoints(1);
+			hero->setInitManaPointsLimit(10);
+			hero->setManaPoints(10);
+			hero->setMoveSpeed(200);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setAtkDistance(100);
+			hero->setAtk(10);
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(4500, 500));
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//attack_rect = new Rect();
+			//...
+			break;
+		case HeroTypeExecu:
+			hero->setHeroType(heroType);
+			filename1 = Hero_execu;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(500);
+			hero->setHealthPoints(500);
+			hero->setInitManaPointsLimit(100);
+			hero->setManaPoints(100);
+			hero->setMoveSpeed(200);
+			hero->setArmorPoints(0);
+			hero->setAtk(60);
+			hero->setAtkDistance(60);
+			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
+			hero->setSkillPoints(0);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(4500, 500));
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//...
+			break;
+		case HeroTypeElite:
+			hero->setHeroType(heroType);
+			filename1 = Hero_elite;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(450);
+			hero->setHealthPoints(450);
+			hero->setInitManaPointsLimit(120);
+			hero->setManaPoints(120);
+			hero->setMoveSpeed(200);
+			hero->setArmorPoints(0);
+			hero->setAtk(50);
+			hero->setAtkDistance(60);
+			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
+			hero->setSkillPoints(0);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(4500, 500));
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//...
+			break;
+		case HeroTypeMunra:
+			hero->setHeroType(heroType);
+			filename1 = Hero_munra;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(400);
+			hero->setHealthPoints(400);
+			hero->setInitManaPointsLimit(160);
+			hero->setManaPoints(160);
+			hero->setMoveSpeed(200);
+			hero->setArmorPoints(0);
+			hero->setAtk(30);
+			hero->setAtkDistance(150);
+			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
+			hero->setSkillPoints(0);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(4500, 500));
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//...
+			break;
+		default:
+			break;
+		}
+
+
 	}
 
-	const std::string& filename = filename1;
 
+	const std::string& filename = filename1;
+	hero->scheduleUpdate();
 	if (hero && hero->initWithFile(filename)) {//判断tower对象是否生成成功
 		hero->autorelease();//加入内存释放池中，不会立即释放creep对象
 		return hero;
@@ -50,6 +259,33 @@ using namespace cocos2d;
 	
 	return nullptr;
 }
+
+ void Hero::clickAttack(Node* target,Hero* owner) {
+	 if (target == this->EnemyHero) {
+		 Hero* tempHero = static_cast<Hero*>(target);
+		 if (owner->attack_rect->containsPoint(tempHero->getPosition()) && tempHero->getHealthPoints()>0) {
+			 //这里留给攻击动画
+			 tempHero->hurt(owner->atk);
+		 }
+	 }
+	 else if (target == this->EnemyTower) {
+		 Tower* tempTower = static_cast<Tower*>(target);
+		 if (owner->attack_rect->containsPoint(tempTower->getPosition()) && tempTower->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempTower->hurt(owner->atk);
+		 }
+	 }
+	 else if (target==this->EnemyCreep) {
+		 Creep* tempCreep = static_cast<Creep*>(target);
+		 if (owner->attack_rect->containsPoint(tempCreep->getPosition()) && tempCreep->getHealthPoints() > 0) {
+			 //ready for ani
+			 tempCreep->hurt(owner->atk);
+		 }
+	 }
+ }
+
+ 
+
 
 bool Hero::hurt(float atk) {
 
@@ -78,17 +314,87 @@ void Hero::addExp(int exp) {
 	}
 
 	if (lvlup) {
+		switch (heroType)
+		{
+		case HeroTypeExecu:
+			setHealthPoints(getHealthPoints() + 70);
+			setAtk(getAtk() + 24);
+			break;
+		case HeroTypeElite:
+			setHealthPoints(getHealthPoints() + 60);
+			setAtk(getAtk() + 10);
+			break;
+		case HeroTypeMunra:
+			setHealthPoints(getHealthPoints() + 50);
+			setAtk(getAtk() + 10);
+			break;
+		}
 		lvl++;
 		setLevel(lvl);
+		setSkillPoints(getSkillPoints() + 1);
 	}
 }
-
+void Hero::addGold(int gold)
+{
+	this->gold += gold;
+}
 void Hero::die() 
 {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画,挪回初始位置？
+	const auto typ = this->getHeroType();
+	std::string actname = "Executioner_death";
+	switch (typ)
+	{
+	case HeroTypeTest:
+		actname = "Executioner_death";
+		break;
+	case HeroTypeExecu:
+		actname = "Executioner_death";
+		break;
+	case HeroTypeElite:
+		actname = "Elite_death";
+		break;
+	case HeroTypeMunra:
+		actname = "Munra_death";
+		break;
+	}
+	this->death++;
+
+	this->stopAllActions();
+
+	this->runAction(Sequence::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname)),DelayTime::create(1), CallFunc::create([&]() {
+		this->setVisible(false);
+		this->setPosition(getReBornPoint());
+		}), NULL));
+	this->scheduleOnce(schedule_selector(Hero::recreateHero), 10);
 
 }
+
+
+void Hero::setAttackInterval(float)
+{
+	this->attackInterval = true;
+}
+
+void Hero::recreateHero(float delta)
+{
+	this->setVisible(true);
+	this->setHealthPoints(this->getInitHealthPointsLimit());
+	this->setManaPoints(this->getInitManaPointsLimit());
+	this->schedule(schedule_selector(Hero::UpdateHpBar));
+	this->schedule(schedule_selector(Hero::UpdateManaBar));
+	this->scheduleUpdate();
+}
+Rect* Hero::setNewAtkRect()
+{
+
+	this->attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
+	return attack_rect;
+}
+
+
+
 
 void Hero::SetHpBar()
 {
@@ -142,12 +448,160 @@ void Hero::UpdateManaBar(float delta)
 	}
 	ManaBarProgress->setPercentage(percentage);
 }
-void Hero::move(Vec2 endPos,Hero* Hero)
+Rect* Hero::newAttackRect()
+{
+	return new Rect(this->getPositionX() - this->getAtkDistance(), this->getPositionY() - this->getAtkDistance(), this->getAtkDistance() * 2, this->getAtkDistance() * 2);
+}
+Rect* Hero::newRect()
+{
+	return new Rect(this->getPositionX() - 50, this->getPositionY() - 50, 100, 100);
+}
+void Hero::moveBack()
+{
+	auto Moving = MoveTo::create(1, Vec2(this->getPositionX() - 50, this->getPositionY()));
+	this->stopAllActions();
+	this->runAction(Moving);
+}
+void Hero::AttackAndMove(float)
+{
+	//英雄的逻辑比较复杂，暂时初始化的时候不加入ai
+	//默认ai英雄是右边的
+	auto atk= this->getAtk();
+
+	if (this->healthPoints > 0) {
+		if (targetCreep.size() > 0) {//攻击target
+			for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+				auto ocreep = *iter;
+				iter++;
+				if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints() > 0) {
+					//攻击动画
+					this->atkF();
+					ocreep->hurt(atk);
+					if (ocreep->getHealthPoints() <= 0) {
+						//死亡动画
+						targetCreep.erase(iter);
+					}
+					return;
+				}
+			}
+		}
+		if (this->newAttackRect()->containsPoint(Tower1->getPosition()) && Tower1->getHealthPoints() > 0) {
+			//攻击动画
+			this->atkF();
+			Tower1->hurt(atk);
+			return;
+		}
+		if (this->newAttackRect()->containsPoint(Base1->getPosition()) && Base1->getHealthPoints() > 0) {
+			//攻击动画
+			this->atkF();
+			Base1->hurt(atk);
+			return;
+		}
+		if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+			//攻击动画
+			this->atkF();
+			Myhero->hurt(atk);
+			return;
+		}
+		else {
+			//移动动画
+			this->move(Vec2(this->getPositionX() - 50, this->getPositionY()), this, "left");
+		}
+	}
+}
+void Hero::move(Vec2 endPos,Hero* Hero,std::string dir)
 {
 	Vec2 route = Hero->getPosition() - endPos;
 	float Distance = route.length();
 	double Speed = this->getMoveSpeed();
 	auto Moving = MoveTo::create(Distance / Speed, endPos);
+	const auto typ = this->getHeroType();
+	std::string actname = "Executioner_death";
+	switch (typ)
+	{
+	case HeroTypeTest:
+		actname = "Executioner_run"+dir;
+		break;
+	case HeroTypeExecu:
+		actname = "Executioner_run" + dir;
+		break;
+	case HeroTypeElite:
+		actname = "Elite_run" + dir;
+		break;
+	case HeroTypeMunra:
+		actname = "Munra_run" + dir;
+		break;
+	}
+
+
+	//this->stopAllActions();
+	//this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+
+
+
+
+
 	Hero->stopAllActions();
 	Hero->runAction(Moving);
+	Hero->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation(actname))));
+}
+
+void Hero::unSkill3(float)
+{
+	this->setAtk(this->getAtk()/2);
+}
+
+void Hero::updateMoeny(float)
+{
+	this->setGold(this->getGold() + 1);
+}
+
+
+
+std::string Hero::getName() {
+	switch (heroType)
+	{
+	case HeroTypeExecu:
+		return "Executioner";
+		break;
+	case HeroTypeElite:
+		return "Elite";
+		break;
+	case HeroTypeMunra:
+		return "Munra";
+		break;
+	}
+}
+
+void Hero::update(float dt)
+{
+	if (this->getHealthPoints() <= 0) {
+		this->die();
+		this->unscheduleUpdate();
+	}
+}
+
+void Hero::atkF() {
+	this->attackInterval = false;
+	const auto typ = this->getHeroType();
+	std::string actname = "Executioner_death";
+	switch (typ)
+	{
+	case HeroTypeTest:
+		actname = "Executioner_attack";
+		break;
+	case HeroTypeExecu:
+		actname = "Executioner_attack";
+		break;
+	case HeroTypeElite:
+		actname = "Elite_attack";
+		break;
+	case HeroTypeMunra:
+		actname = "Munra_attack";
+		break;
+	}
+
+
+	this->stopAllActions();
+	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
 }

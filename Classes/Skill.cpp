@@ -44,7 +44,7 @@ bool Skill::init(const std::string& skillName, float Cd, const std::string& skil
 	
 	this->addTouchEventListener([=](Ref * sender, ui::Widget::TouchEventType type) {
 		if (type == ui::Widget::TouchEventType::ENDED)
-			this->Click(owner);
+			this->PressQ(owner);
 		});
 	/*¼üÅÌ¼àÌýÔÝÊ±²»ÖªµÀÔõÃ´×ö£¬buttonÃ»ÓÐ¼üÅÌlistenerËÆºõ
 	auto listenerKeyPad = EventListenerKeyboard::create();
@@ -70,54 +70,201 @@ void Skill::setOk(bool isOk) {
 	progress->setPercentage(0.0f);
 }
 
-void Skill::Click(Hero* owner) {
+void Skill::PressQ(Hero* owner) {
+
 	if (_isOk) {
 		setOk(false);
-		//onClick();
-
-		/*//////////////////////////////
-		ActionInterval* forwardBy = MoveBy::create(2, Vec2(100, 100));
-		ActionInterval* backBy = forwardBy->reverse();
-		Action* action = Repeat::create(dynamic_cast<FiniteTimeAction*>(Sequence::create(forwardBy, backBy, NULL)), 4);
-		owner->runAction(action);*/
-
-		//Hero* tempHero = static_cast<Hero*> (owner);
-		//float ss = tempHero->getPositionX();
-		switch (lvl)
-		{
-			
-		case 1: 
-		{
-
-
-			owner->stopAllActions();
-			auto Singleton = AnimationCache::getInstance();
-			Animation* right = Singleton->getAnimation("Executioner_attack");
-			Animate* animate_right = Animate::create(right);
-			owner->runAction(CCRepeatForever::create(animate_right));
-
-
-
-			owner->setHealthPoints(owner->getHealthPoints() + 40);
-			ActionInterval * forward = MoveTo::create(4, Vec2(owner->getPositionX() + 40, owner->getPositionY()));
-			owner->runAction(forward);
-			
-			break;
-		}
-
-		case 2:
 		
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		}
-		
+		if (owner->getHealthPoints() > 0) {
+				if (owner->getManaPoints() >= 10) {
+					owner->setPosition(Vec2(owner->getPositionX() + 100, owner->getPositionY()));
+					owner->setManaPoints(owner->getManaPoints() - 10);
+				}
 
+			}
+
+		
 		cdTimer = 0;
 		schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+		}
+	
+}
 
+void Skill::PressW(Hero* owner)
+{
+	if (_isOk) {
+		setOk(false);
+		
+		auto typ = owner->getHeroType();
+
+		if (owner->getHealthPoints() > 0) {
+			switch (owner->getLevel())
+			{
+			case 1:
+			{
+				switch (typ)
+				{
+				case HeroTypeExecu: {
+					if (owner->getManaPoints() >= 10) {
+						owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 50);
+						owner->setManaPoints(owner->getManaPoints() - 10);
+					}
+					break;
+				}
+				case HeroTypeElite: {
+					if (owner->getManaPoints() >= 10) {
+						owner->setGold(owner->getGold() + 50);
+						owner->setManaPoints(owner->getManaPoints() - 10);
+					}
+					break;
+				}
+				case HeroTypeMunra: {
+					if (owner->getManaPoints() >= 10) {
+						owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 50);
+						owner->setManaPoints(owner->getManaPoints()+50);
+						owner->setManaPoints(owner->getManaPoints() - 10);
+					}
+					break;
+				}
+				}
+				break;
+			}
+			case 2:
+			{
+				switch (typ)
+				{
+				case HeroTypeExecu: {
+					if (owner->getManaPoints() >= 20) {
+						owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 100);
+						owner->setManaPoints(owner->getManaPoints() - 20);
+					}
+					break;
+				}
+				case HeroTypeElite: {
+					if (owner->getManaPoints() >= 20) {
+						owner->setGold(owner->getGold() + 100);
+						owner->setManaPoints(owner->getManaPoints() - 20);
+					}
+					break;
+				}
+				case HeroTypeMunra: {
+					if (owner->getManaPoints() >= 20) {
+						owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 100);
+						owner->setManaPoints(owner->getManaPoints() + 50);
+						owner->setManaPoints(owner->getManaPoints() - 20);
+					}
+					break;
+				}
+				}
+				break;
+				break;
+			}
+			case 3:
+			{
+				switch (typ)
+				{
+				case HeroTypeExecu: {
+					if (owner->getManaPoints() >= 30) {
+						owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 150);
+						owner->setManaPoints(owner->getManaPoints() - 30);
+					}
+					break;
+				}
+				case HeroTypeElite: {
+					if (owner->getManaPoints() >= 30) {
+						owner->setGold(owner->getGold() + 150);
+						owner->setManaPoints(owner->getManaPoints() - 30);
+					}
+					break;
+				}
+				case HeroTypeMunra: {
+					if (owner->getManaPoints() >= 30) {
+						owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 150);
+						owner->setManaPoints(owner->getManaPoints() + 150);
+						owner->setManaPoints(owner->getManaPoints() - 30);
+					}
+					break;
+				}
+				}
+				break;
+				break;
+			}
+			case 4:
+			{
+				switch (typ)
+				{
+				case HeroTypeExecu: {
+					if (owner->getManaPoints() >= 40) {
+						owner->setInitHealthPointsLimit(owner->getInitHealthPointsLimit() + 200);
+						owner->setManaPoints(owner->getManaPoints() - 40);
+					}
+					break;
+				}
+				case HeroTypeElite: {
+					if (owner->getManaPoints() >= 40) {
+						owner->setGold(owner->getGold() + 200);
+						owner->setManaPoints(owner->getManaPoints() - 40);
+					}
+					break;
+				}
+				case HeroTypeMunra: {
+					if (owner->getManaPoints() >= 40) {
+						owner->setInitManaPointsLimit(owner->getInitManaPointsLimit() + 200);
+						owner->setManaPoints(owner->getManaPoints() + 50);
+						owner->setManaPoints(owner->getManaPoints() - 40);
+					}
+					break;
+				}
+				}
+				break;
+				break;
+			}
+			}
+
+
+			cdTimer = 0;
+			schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+		}
+	}
+}
+
+void Skill::PressE(Hero* owner)
+{
+	if (_isOk) {
+		setOk(false);
+		
+		if (owner->getHealthPoints() > 0) {
+			if (owner->getManaPoints() >= 10) {
+					owner->setAtk(owner->getAtk() * 2);
+					owner->setManaPoints(owner->getManaPoints() - 10);
+					owner->scheduleOnce(schedule_selector(Hero::unSkill3), 5);
+			}
+
+
+			cdTimer = 0;
+			schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+		}
+	}
+}
+
+void Skill::PressR(Hero* owner)
+{
+	if (_isOk) {
+		setOk(false);
+
+		if (owner->getHealthPoints() > 0) {
+			if (owner->getManaPoints() >= 10) {
+				if (owner->getHealthPoints() + 100 > owner->getInitHealthPointsLimit()) {
+					owner->setHealthPoints(owner->getInitHealthPointsLimit());
+				}
+				else {
+					owner->setHealthPoints(owner->getHealthPoints() + 100);
+				}
+				owner->setManaPoints(owner->getManaPoints() - 10);
+			cdTimer = 0;
+			schedule(CC_CALLBACK_0(Skill::cdProcess, this), 0.1f, "cdProcess");
+			}
+		}
 	}
 }
 

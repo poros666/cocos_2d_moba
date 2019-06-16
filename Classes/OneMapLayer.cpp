@@ -1,19 +1,16 @@
 //1v1³¡¾°ÖÆ×÷
 //Ò¦¿­éª
 //v0.1
-
+#include "StartScene.h"
 #include "OneMapLayer.h"
-
+#include "Creeps.h"
+#include "Tower.h"
+#include "StatusLayer.h"
 USING_NS_CC;
-Layer* OneMapLayer::CreateLayer(Hero* owner)
+extern UserDefault* defualts;
+Layer* OneMapLayer::CreateLayer()
 {
-	auto layer = new(std::nothrow)OneMapLayer();
-	if (layer && layer->init(owner)) {
-		layer->autorelease();
-		return layer;
-	}
-	CC_SAFE_DELETE(layer);
-	return nullptr;
+	return OneMapLayer::create();
 }
 
 static void problemLoading(const char* filename)
@@ -21,7 +18,7 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
-bool OneMapLayer::init(Hero* owner)
+bool OneMapLayer::init()
 {
 	if (!Layer::init())//ÅÐ¶Ï³õÊ¼»¯ÊÇ·ñ³É¹¦
 	{
@@ -32,36 +29,24 @@ bool OneMapLayer::init(Hero* owner)
 
 	
 	//Éú³É°´Å¥ ·µ»ØÖ÷½çÃæ
-	auto BackItem = MenuItemImage::create(
-		"BackNormal.jpg",
-		"BackSelected.jpg",
-		CC_CALLBACK_1(OneMapLayer::menuBackCallback, this)
-	);
-	if (BackItem == nullptr ||
-		BackItem->getContentSize().width <= 0 ||
-		BackItem->getContentSize().height <= 0)
-	{
-		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width / 2 - 520;
-		float y = origin.y + visibleSize.height / 2 + 360;
-		BackItem->setPosition(Vec2(x, y));
-	}
-	
-	auto menu = Menu::create(BackItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 100);
 
 	//´´½¨ÍßÆ¬µØÍ¼
-	_tileMap=TMXTiledMap::create("temmap/filemap.tmx");
+	if (defualts->getBoolForKey("1v1")) {
+		_tileMap = TMXTiledMap::create("mapresource/1v1map.tmx");
+	}
+	else {
+		_tileMap = TMXTiledMap::create("mapresource/5v5map.tmx");
+	}
+	MapSizeWidth = _tileMap->getMapSize().width;
+	MapSizeHeight = _tileMap->getMapSize().height;
 	_tileMap->setAnchorPoint(Vec2(0,0));
 	_tileMap -> setPosition(Vec2(0, 0));
-	_tileMap->setTag(1000);
+
+
 	this->addChild(_tileMap,-1);
 	_collidable = _tileMap->getLayer("collidable");
-	setViewPointCenter(Vec2(100000000,100000000));
+	
+
 	///success1
 	/*
 	auto creep1 = Creep::create("creep_test.png");
@@ -69,7 +54,7 @@ bool OneMapLayer::init(Hero* owner)
 	this->addChild(creep1, 500);
 	*/
 	//success2
-
+	this->schedule(schedule_selector(OneMapLayer::UpdateViewPointCenter));
 
 	return true;
 }
@@ -115,7 +100,7 @@ cocos2d::Vec2 OneMapLayer::tileCoordFromPosition(cocos2d::Vec2 position)
 
 
 //将视角与人物锁定，并且不超过地图显示范围
-void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
+cocos2d::Vec2 OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);
@@ -128,8 +113,13 @@ void OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	Vec2 pointB = Vec2(x, y);
 	Vec2 offSet = pointA - pointB;
-	this->setPosition(offSet);
 
+	this->setPosition(offSet);
+	return offSet;
+}
+void OneMapLayer::UpdateViewPointCenter(float delat)
+{
+	setViewPointCenter(this->getChildByName("Myhero")->getPosition());
 }
 
 

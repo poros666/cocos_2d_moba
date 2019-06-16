@@ -1,43 +1,211 @@
 //////////////////
 /*
-徐炳昌
+脨矛卤镁虏媒
 5.27
 ver2
 */
 #include<Tower.h>
+#include"Hero.h"
+#include"Creeps.h"
+#include"Game.h"
 using namespace cocos2d;
+extern Hero* Myhero;
+extern Hero* OtherHero;
+extern Tower* Tower1;
+extern Tower* Tower2;
+extern Tower* Base1;
+extern Tower* Base2;
+extern std::list<Creep*> targetCreep;
+extern std::list<Creep*> OtherCreep;
+extern std::list<Creep*> FieldCreep;
+extern Sprite* bombsp1;
 
-Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
+Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 	Tower* tower = new (std::nothrow)Tower();
 	
 	std::string filename1 = Tower_test;
 
-	//通过switch根据type来初始化数值
-	switch (towerType)
-	{
-	case TowerTypeTest:
-		filename1 = Tower_test;
-		tower->setInitHealthPointsLimit(10);
-		tower->setHealthPoints(10);
-		tower->SetHpBar();
+	//脥篓鹿媒switch赂霉戮脻type脌麓鲁玫脢录禄炉脢媒脰碌
+	if (pending) {
+		switch (towerType)
+		{
 
-		//...
-		break;
-		/*
-		case CreepTypeMelee:
-			creepFramName = Creep_melee;
-			creep->initHealthPointsLimit = 10;
+		case TowerTypeTest:
+			tower->setTowerType(towerType);
+			filename1 = Tower_test;
+			tower->setInitHealthPointsLimit(100);
+			tower->setHealthPoints(100);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->setAtkDistance(1000);
+			tower->setAtk(10);
+			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
 			//...
 			break;
-		*/
-	default:
-		break;
+
+		case TowerTypeT1:
+			tower->setTowerType(towerType);
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1000);
+			tower->setHealthPoints(1000);
+			tower->setAtk(100);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		case TowerTypeT2:
+			tower->setTowerType(towerType);
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1200);
+			tower->setHealthPoints(1200);
+			tower->setAtk(120);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		case TowerTypeT3:
+			tower->setTowerType(towerType);
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1400);
+			tower->setHealthPoints(1400);
+			tower->setAtk(140);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		case TowerTypeBase:
+			tower->setTowerType(towerType);
+			filename1 = Base_1;
+			tower->setInitHealthPointsLimit(1500);
+			tower->setHealthPoints(1500);
+			tower->setAtk(0);
+			tower->setAtkDistance(0);
+			tower->setAtkSpeeds(0);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack1();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		default:
+			break;
+		}
 	}
+	else {
+		switch (towerType)
+		{
 
+		case TowerTypeTest:
+			tower->setTowerType(towerType);
+			filename1 = Tower_test;
+			tower->setInitHealthPointsLimit(100);
+			tower->setHealthPoints(100);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->setAtkDistance(1000);
+			tower->setAtk(10);
+			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+
+		case TowerTypeT1:
+			tower->setTowerType(towerType);
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1000);
+			tower->setHealthPoints(1000);
+			tower->setAtk(100);
+			tower->setAtkDistance(150);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		case TowerTypeT2:
+			tower->setTowerType(towerType);
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1200);
+			tower->setHealthPoints(1200);
+			tower->setAtk(120);
+			tower->setAtkDistance(1500);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		case TowerTypeT3:
+			tower->setTowerType(towerType);
+			filename1 = Tower_1;
+			tower->setInitHealthPointsLimit(1400);
+			tower->setHealthPoints(1400);
+			tower->setAtk(140);
+			tower->setAtkDistance(1500);
+			tower->setAtkSpeeds(1);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		case TowerTypeBase:
+			tower->setTowerType(towerType);
+			filename1 = Base_1;
+			tower->setInitHealthPointsLimit(1500);
+			tower->setHealthPoints(1500);
+			tower->setAtk(0);
+			tower->setAtkDistance(0);
+			tower->setAtkSpeeds(0);
+			tower->SetHpBar();
+			tower->setRewardExp(300);
+			tower->setRewardMoney(200);
+			tower->UpdateAttack2();
+			tower->schedule(schedule_selector(Tower::update));
+
+			//...
+			break;
+		default:
+			break;
+		}
+	}
+	tower->scheduleUpdate();
 	const std::string& filename = filename1;
-
-	if (tower && tower->initWithFile(filename)) {//判断tower对象是否生成成功
-		tower->autorelease();//加入内存释放池中，不会立即释放creep对象
+	
+	if (tower && tower->initWithFile(filename)) {//脜脨露脧tower露脭脧贸脢脟路帽脡煤鲁脡鲁脡鹿娄
+		tower->autorelease();//录脫脠毛脛脷麓忙脢脥路脜鲁脴脰脨拢卢虏禄禄谩脕垄录麓脢脥路脜creep露脭脧贸
 		return tower;
 	}
 	CC_SAFE_DELETE(tower);
@@ -46,12 +214,13 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType) {
 
 bool Tower::hurt(float atk) {
 
-	int hp;
-	hp -= (int)(atk * armorPoints);//护甲计算公式在这里调整
+	int hp = getHealthPoints();
+	hp -= atk;
+
 
 	if (hp <= 0) {
-		//die();//死亡判定可以写到这里也可以通过hurt函数返回的bool值再调用die();
-		return true;
+		//die();//脣脌脥枚脜脨露篓驴脡脪脭脨麓碌陆脮芒脌茂脪虏驴脡脪脭脥篓鹿媒hurt潞炉脢媒路碌禄脴碌脛bool脰碌脭脵碌梅脫脙die();
+		hp = 0;
 	}
 	setHealthPoints(hp);
 
@@ -59,12 +228,16 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
-	//不知道涉及什么先不写
+
+	bombsp1->setPosition(this->getPosition());
+	bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
+	this->setAtk(0);
+	this->setVisible(false);
+	//this->removeFromParent();
 }
 
-void Tower::win() {
-	//
-}
+
+
 void Tower::SetHpBar()
 {
 	auto Healthbar = Sprite::create("healthbar.dds");
@@ -81,6 +254,12 @@ void Tower::SetHpBar()
 	this->addChild(HpBarProgress, 4, "HpBarProgress");
 	this->schedule(schedule_selector(Tower::UpdateHpBar));
 }
+void Tower::update(float dt)
+{
+	if (this->getHealthPoints() <= 0) {
+		die();
+	}
+}
 void Tower::UpdateHpBar(float delta)
 {
 	float percentage = 100 * this->getHealthPoints() / this->getInitHealthPointsLimit();
@@ -91,3 +270,102 @@ void Tower::UpdateHpBar(float delta)
 	}
 	HpBarProgress->setPercentage(percentage);
 }
+
+Rect* Tower::newAttackRect()
+{
+	return	new Rect(this->getPositionX() - this->getAtkDistance(), this->getPositionY() - this->getAtkDistance(), 2*this->getAtkDistance(), 2*this->getAtkDistance());
+}
+
+bool Tower::checkHeroInRect()
+{
+	if (this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+
+		return true;
+	}
+	return false;
+}
+
+bool Tower::checkCreepInRect(std::list<Creep*>::iterator iter)
+{
+	auto a = *iter;
+	auto x = this->newAttackRect();
+	auto y = a->getPosition();
+	if (this->newAttackRect()->containsPoint(a->getPosition())) {
+
+		return true;
+	}
+	
+	return false;
+}
+
+void Tower::UpdateAttack1()
+{
+	this->schedule(schedule_selector(Tower::Attack1), 1, -1, 0);
+}
+
+void Tower::UpdateAttack2()
+{
+	this->schedule(schedule_selector(Tower::Attack2), 1, -1, 0);
+}
+
+void Tower::Attack1(float)
+{
+	if (OtherCreep.size() > 0) {
+		for (auto iter = OtherCreep.begin(); iter != OtherCreep.end();) {
+			auto ocreep = *iter;
+			iter++;
+			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+
+				//脮芒脌茂录脫鹿楼禄梅露炉禄颅
+				bombsp1->setPosition(ocreep->getPosition());
+				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
+				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+				ocreep->hurt(atk);
+				return;
+			}
+		}
+	}
+	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
+		bombsp1->setPosition(OtherHero->getPosition());
+		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
+		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+		OtherHero->hurt(atk);
+		return;
+	}
+}
+
+void Tower::Attack2(float)
+{
+	if (targetCreep.size() > 0) {
+		for (auto iter = targetCreep.begin(); iter != targetCreep.end();) {
+			auto ocreep = *iter;
+			iter++;
+			if (this->newAttackRect()->containsPoint(ocreep->getPosition()) && ocreep->getHealthPoints()) {
+				//鹿楼禄梅露炉禄颅
+				this->setFlipX(true);
+				bombsp1->setPosition(ocreep->getPosition());
+				bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
+				this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+
+				ocreep->hurt(atk);
+				return;
+			}
+		}
+	}
+	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		//鹿楼禄梅露炉禄颅
+		this->setFlipX(true);
+		bombsp1->setPosition(Myhero->getPosition());
+		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
+		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
+		Myhero->hurt(atk);
+		return;
+	}
+}
+
+
+Rect* Tower::newRect()
+{
+	return new Rect(this->getPositionX() - 100, this->getPositionY() - 100, 200, 200);
+}
+
