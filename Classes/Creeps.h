@@ -83,8 +83,8 @@ public:
 	void atkB();
 	//void hpRecover(int healthRecoverPoint);//»ØÑª
 	Rect* newAttackRect();
-	bool chechMyheroInRect();
-	bool checkOtherHeroInRect();
+	bool chechLeftHeroInRect();
+	bool checkRightHeroInRect();
 	bool checkTargetCreepInRect();
 	bool checkOtherCreepInRect();
 	bool checkTower1InRect();
@@ -106,7 +106,7 @@ public:
 	void moveBack();
 	std::string getName();
 
-	void attackOtherHero();
+	//void attackOtherHero();
 	bool self;
 	float x_position = 0;
 	float y_position = 0;

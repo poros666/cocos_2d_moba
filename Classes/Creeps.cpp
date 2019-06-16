@@ -9,8 +9,8 @@ ver4
 #include"Tower.h"
 #include"Game.h"
 using namespace cocos2d;
-extern Hero* Myhero;
-extern Hero* OtherHero;
+extern Hero* LeftHero;
+extern Hero* RightHero;
 extern Tower* Tower1;
 extern Tower* Tower2;
 extern Tower* Base1;
@@ -346,13 +346,13 @@ void Creep::die() {
 	this->setAtk(0);
 	if (self)
 	{
-		OtherHero->addGold(this->getRewardMoney());
-		OtherHero->addExp(this->getRewardExp());
+		RightHero->addGold(this->getRewardMoney());
+		RightHero->addExp(this->getRewardExp());
 	}
 	else
 	{
-		Myhero->addGold(this->getRewardMoney());
-		Myhero->addExp(this->getRewardExp());
+		LeftHero->addGold(this->getRewardMoney());
+		LeftHero->addExp(this->getRewardExp());
 	}
 
 //	this->release();
@@ -584,10 +584,10 @@ void Creep::AttackAndMove1(float delta)
 				return;
 				
 			}
-			else if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints()>0) {
+			else if (this->newAttackRect()->containsPoint(RightHero->getPosition()) && RightHero->getHealthPoints()>0) {
 				//¹¥»÷¶¯»­
 				this->atkF();
-				OtherHero->hurt(atk);
+				RightHero->hurt(atk);
 				return;
 			}
 			else {
@@ -625,11 +625,11 @@ void Creep::AttackAndMove2(float delta)
 				Base1->hurt(atk);
 				return;
 			}
-			else if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints()>0) {
+			else if (this->newAttackRect()->containsPoint(LeftHero->getPosition()) && LeftHero->getHealthPoints()>0) {
 				//¹¥»÷¶¯»­
 				this->atkB();
-		//		auto a = Myhero->getHealthPoints() - atk;
-				Myhero->hurt(atk);
+		//		auto a = LeftHero->getHealthPoints() - atk;
+				LeftHero->hurt(atk);
 				return;
 			}
 			else {
@@ -641,13 +641,13 @@ void Creep::AttackAndMove2(float delta)
 
 void Creep::FieldAttackAndMove(float delta)
 {
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
-		Myhero->hurt(atk);
+	if (this->newAttackRect()->containsPoint(LeftHero->getPosition())) {
+		LeftHero->hurt(atk);
 		//¹¥»÷¶¯»­
 	}
-	else if(this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+	else if(this->newAttackRect()->containsPoint(RightHero->getPosition())) {
 		//¹¥»÷¶¯»­
-		OtherHero->hurt(atk);
+		RightHero->hurt(atk);
 	}
 }
 
@@ -695,18 +695,18 @@ Rect* Creep::newAttackRect()
 	return new Rect(this->getPositionX() - this->getAtkDistance(),this->getPositionY() - this->getAtkDistance(),this->getAtkDistance() *2,this->getAtkDistance() *2);
 }
 
-bool Creep::chechMyheroInRect()
+bool Creep::chechLeftHeroInRect()
 {
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
+	if (this->newAttackRect()->containsPoint(LeftHero->getPosition())) {
 		this->isAttacking = true;
 		return true;
 	}
 	return false;
 }
 
-bool Creep::checkOtherHeroInRect()
+bool Creep::checkRightHeroInRect()
 {
-	if (this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+	if (this->newAttackRect()->containsPoint(RightHero->getPosition())) {
 		this->isAttacking = true;
 		return true;
 	}
@@ -725,17 +725,17 @@ bool Creep::checkOtherCreepInRect()
 
 
 
-void Creep::attackOtherHero()
+/*void Creep::attackRightHero()
 {
 
 	if (this->isAttacking == true) {
 		this->isAttacking = false;
 		this->stopAllActions();
 		//²¥·Å¶¯»­
-		OtherHero->hurt(atk);
+		RightHero->hurt(atk);
 	}
 }
-
+*/
 void Creep::UpdateDeath(float) {
 	if (this->getHealthPoints() <= 0) {
 

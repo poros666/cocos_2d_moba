@@ -121,15 +121,8 @@ void ChooseModeScene::menuBackCallback(Ref* pSender)//按返回键返回主菜单
 
 void ChooseModeScene::startGameCallback(Ref* pSender)
 {
-	auto scene = ChooseHeroScene::createScene();
-	auto reScene = TransitionFadeUp::create(0.8f, scene);
 	if (UserDefault::getInstance()->getBoolForKey(OFF_LINE)==false)
 	{
-	/*	auto server=SocketServer::create();
-		server->startServer();
-		auto client = new SocketClient;
-		client->connectServer("127.0.0.1", short(8000));
-	*/
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 		auto sprite = Sprite::create("Scoreboard.jpg");
@@ -175,6 +168,8 @@ void ChooseModeScene::startGameCallback(Ref* pSender)
 	}
 	else 
 	{
+		auto scene = ChooseHeroScene::createScene(server,client);
+		auto reScene = TransitionFadeUp::create(0.8f, scene);
 		Director::getInstance()->pushScene(reScene);
 	}
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
@@ -219,17 +214,30 @@ void ChooseModeScene::mapSetCallback(Ref* pSender)
 }
 void ChooseModeScene::createCallback(Ref* pSender)
 {
+	UserDefault::getInstance()->setBoolForKey("Server", true);
+	UserDefault::getInstance()->setBoolForKey("Client",false);
 	server = SocketServer::create();
 	server->startServer();
-	auto scene = ChooseHeroScene::createScene();
-	auto reScene = TransitionFadeUp::create(0.8f, scene);
-	Director::getInstance()->pushScene(reScene);
+	char buf[1024];
+	memset(buf, 0, sizeof(buf));
+	recv(server->_clientSockets, buf, sizeof(buf), 0);
+	start(server, client);
 }
 void ChooseModeScene::joinCallback(Ref* pSender)
 {
+	UserDefault::getInstance()->setBoolForKey("Server", false);
+	UserDefault::getInstance()->setBoolForKey("Client", true);
 	client = new SocketClient;
 	client->connectServer("127.0.0.1", short(8000));
-	auto scene = ChooseHeroScene::createScene();
+	char buf[1024];
+	memset(buf, 0, sizeof(buf));
+	recv(client->_socektClient, buf, sizeof(buf), 0);
+	send(client->_socektClient, "Connect", sizeof("Connect"), 0);
+	start(server, client);
+}
+void ChooseModeScene::start(SocketServer* server, SocketClient* client)
+{
+	auto scene = ChooseHeroScene::createScene(server, client);
 	auto reScene = TransitionFadeUp::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 }

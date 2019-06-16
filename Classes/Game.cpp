@@ -1,9 +1,8 @@
 #include"Game.h"
 #include"CharacterAni.h"
-int a = 0;
 USING_NS_CC;
-Hero* OtherHero;
-Hero* Myhero;
+Hero* RightHero;
+Hero* LeftHero;
 Tower* Tower1;
 Tower* Tower2;
 Tower* Base1;
@@ -13,16 +12,18 @@ std::list<Creep*> targetCreep;
 std::list<Creep*> OtherCreep;
 std::list<Creep*> FieldCreep;
 
-Scene* Game::createScene()
+Scene* Game::createScene(SocketServer* server, SocketClient* client,char buf[1024])
 {
-	return Game::create();
+	auto scene = new Game;
+	scene->init(server,client,buf);
+	return scene;
 }
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in StartSceneScene.cpp\n");
 }
-bool Game::init()
+bool Game::init(SocketServer* server, SocketClient* client,char buf[1024])
 {
 	if (!Scene::init())
 	{
@@ -44,16 +45,65 @@ bool Game::init()
 	ani->init_mechsTower();
 	ani->init_elite();
 	ani->init_munra();
-
+	Socketclient = client;
+	Socketserver = server;
 	UserDefault* defualts = UserDefault::getInstance();
-	if(defualts->getBoolForKey("Execu")){ Myhero = Hero::creatWithHeroTypes(HeroTypeExecu,true); }
-	if (defualts->getBoolForKey("Elite")) { Myhero = Hero::creatWithHeroTypes(HeroTypeElite,true); }
-	if (defualts->getBoolForKey("Munara")) { Myhero = Hero::creatWithHeroTypes(HeroTypeMunra,true); }
-	OtherHero = Hero::creatWithHeroTypes(HeroTypeTest,false);
-	OtherHero->setFlipX(true);
+	if (!defualts->getBoolForKey(OFF_LINE))
+	{
+		if (UserDefault::getInstance()->getBoolForKey("Server"))
+		{
+			if (defualts->getBoolForKey("Execu")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, true); }
+			if (defualts->getBoolForKey("Elite")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, true); }
+			if (defualts->getBoolForKey("Munara")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, true); }
+			switch (buf[1])
+			{
+			case '0':
+				RightHero = Hero::creatWithHeroTypes(HeroTypeTest, false);
+				RightHero->setFlipX(true);
+				break;
+			case 'x':
+				RightHero = Hero::creatWithHeroTypes(HeroTypeExecu, false);
+				break;
+			case 'l':
+				RightHero = Hero::creatWithHeroTypes(HeroTypeElite, false);
+				break;
+			case 'u':
+				RightHero = Hero::creatWithHeroTypes(HeroTypeMunra, false);
+				break;
+			}
+		}
+		else
+		{
+			if (defualts->getBoolForKey("Execu")) {RightHero = Hero::creatWithHeroTypes(HeroTypeExecu, true); }
+			if (defualts->getBoolForKey("Elite")) { RightHero = Hero::creatWithHeroTypes(HeroTypeElite, true); }
+			if (defualts->getBoolForKey("Munara")) { RightHero = Hero::creatWithHeroTypes(HeroTypeMunra, true); }
+			switch (buf[1])
+			{
+			case '0':
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeTest, false);
+				break;
+			case 'x':
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, false);
+				break;
+			case 'l':
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, false);
+				break;
+			case 'u':
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, false);
+				break;
+			}
+		}
+	}
+	else
+	{
+		if (defualts->getBoolForKey("Execu")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, true); }
+		if (defualts->getBoolForKey("Elite")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, true); }
+		if (defualts->getBoolForKey("Munara")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, true); }
+		RightHero = Hero::creatWithHeroTypes(HeroTypeTest, false);
+		RightHero->setFlipX(true);
+	}
 	Tower1 = Tower::creatWithTowerTypes(TowerTypeT1,true);
 	Tower2 = Tower::creatWithTowerTypes(TowerTypeT1,false);
-
 	Base1 = Tower::creatWithTowerTypes(TowerTypeBase,true);
 	Base2 = Tower::creatWithTowerTypes(TowerTypeBase,false);
 	bombsp1 = Sprite::create();
@@ -69,10 +119,18 @@ bool Game::init()
 void Game::onEnter()
 {
 	Scene::onEnter();
-	Game::initMouseListener(Myhero);
-	Game::initKeyListener(Myhero);
 	this->schedule(schedule_selector(Game::CreepsPrint), 30, -1, 0);
 	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	{
+		Game::initMouseListener(RightHero);
+		Game::initKeyListener(RightHero);
+	}
+	else
+	{
+		Game::initMouseListener(LeftHero);
+		Game::initKeyListener(LeftHero);
+	}
 //	this->schedule(schedule_selector(), 1, -1, 1);
 }
 void Game::MapLayerPrint()
@@ -97,9 +155,9 @@ void Game::ShopLayerPrint()
 
 void Game::menuShopCallback(cocos2d::Ref* pSender)
 {
-	Myhero->stopAllActions();
+	LeftHero->stopAllActions();
 	//Mouselistener->setEnabled(false);
-	auto ShopLayer = ShopLayer::createLayer(Myhero);
+	auto ShopLayer = ShopLayer::createLayer(LeftHero);
 	this->addChild(ShopLayer, 6,"Shop");
 }
 
@@ -120,7 +178,7 @@ void Game::ShowPrint()
 
 void Game::menuShowCallback(cocos2d::Ref* pSender)
 {
-	auto ShowLayer = EquipmentShowLayer::createLayer(Myhero);
+	auto ShowLayer = EquipmentShowLayer::createLayer(LeftHero);
 	this->addChild(ShowLayer, 6);
 }
 
@@ -129,29 +187,56 @@ void Game::menuShowCallback(cocos2d::Ref* pSender)
 
 void Game::StatusLayerPrint()
 {
-	skillQ = Skill::createWithNameCdPicOwner("ski_right",5,"Ski_right.png",Myhero);
-	skillQ->setPosition(Vec2(visibleSize.width /2-200,visibleSize.height/2-200));
-	auto Statuslayer = StatusLayer::createLayer();
-	this->addChild(Statuslayer,3,"StatusLayer");
-	Statuslayer->addChild(skillQ,1);
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	{
+		skillQ = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", RightHero);
+		skillQ->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2 - 200));
+		auto Statuslayer = StatusLayer::createLayer();
+		this->addChild(Statuslayer, 3, "StatusLayer");
+		Statuslayer->addChild(skillQ, 1);
 
-	skillW = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", Myhero);
-	skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 200));
+		skillW = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", RightHero);
+		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 200));
 
-	Statuslayer->addChild(skillW, 1);
-
-
-	skillE = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", Myhero);
-	skillE->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
-
-	Statuslayer->addChild(skillE, 1);
+		Statuslayer->addChild(skillW, 1);
 
 
-	skillR = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", Myhero);
-	skillR->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 - 200));
+		skillE = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", RightHero);
+		skillE->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
 
-	Statuslayer->addChild(skillR, 1);
-		
+		Statuslayer->addChild(skillE, 1);
+
+
+		skillR = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", RightHero);
+		skillR->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 - 200));
+
+		Statuslayer->addChild(skillR, 1);
+	}
+	else 
+	{
+		skillQ = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", LeftHero);
+		skillQ->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2 - 200));
+		auto Statuslayer = StatusLayer::createLayer();
+		this->addChild(Statuslayer, 3, "StatusLayer");
+		Statuslayer->addChild(skillQ, 1);
+
+		skillW = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", LeftHero);
+		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 200));
+
+		Statuslayer->addChild(skillW, 1);
+
+
+		skillE = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", LeftHero);
+		skillE->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
+
+		Statuslayer->addChild(skillE, 1);
+
+
+		skillR = Skill::createWithNameCdPicOwner("ski_right", 5, "Ski_right.png", LeftHero);
+		skillR->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 - 200));
+
+		Statuslayer->addChild(skillR, 1);
+	}
 	
 }
 void Game::ScoreBoardPrint()
@@ -164,53 +249,20 @@ void Game::ScoreBoardRelesed()
 {
 	this->removeChildByName("ScoreBoard");
 }
-/*void Game::BackButtonPrint()
-{
-	auto BackItem = MenuItemImage::create(
-		"BackNormal.jpg",
-		"BackSelected.jpg",
-		CC_CALLBACK_1(Game::menuBackCallback, this)
-	);
-	if (BackItem == nullptr ||
-		BackItem->getContentSize().width <= 0 ||
-		BackItem->getContentSize().height <= 0)
-	{
-		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width / 2 - 520;
-		float y = origin.y + visibleSize.height / 2 + 360;
-		BackItem->setPosition(Vec2(x, y));
-	}
-
-	auto menu = Menu::create(BackItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 5);
-
-}*/
-/*
-void Game::menuBackCallback(cocos2d::Ref* pSender)
-{
-	Director::getInstance()->popScene();
-}
-*/
 void Game::HeroPrint()
 {
 	//生成英雄的函数
-
-	int _atkDistance=Myhero->getAtkDistance();
-
-	Myhero->setPosition(Myhero->getReBornPoint());
-
-	Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance,Myhero->getPositionY() - _atkDistance,2* _atkDistance,2* _atkDistance);
-	this->getChildByName("MapLayer")->addChild(Myhero, 2,"Myhero");
+	int _atkDistance=LeftHero->getAtkDistance();
+	LeftHero->setReBornPoint(Vec2(300, 500));
+	LeftHero->setPosition(LeftHero->getReBornPoint());
+	LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+	this->getChildByName("MapLayer")->addChild(LeftHero, 2, "LeftHero");
 	SetHpBar();
 	SetManaBar();
 	SetExpBar();
-	OtherHero->setPosition(OtherHero->getReBornPoint());
-
-	this->getChildByName("MapLayer")->addChild(OtherHero, 2, "OtherHero");
+	RightHero->setReBornPoint(Vec2(4500, 500));
+	RightHero->setPosition(RightHero->getReBornPoint());
+	this->getChildByName("MapLayer")->addChild(RightHero, 2, "RightHero");
 }
 
 
@@ -303,13 +355,28 @@ void Game::SetHpBar()
 	HpBarProgress->setType(ProgressTimer::Type::BAR);
 	HpBarProgress->setMidpoint(Vec2(0, 0));
 	HpBarProgress->setBarChangeRate(Vec2(1, 0));
-	HpBarProgress->setPercentage(100*Myhero->getHealthPoints()/Myhero->getInitHealthPointsLimit());
-	this->addChild(HpBarProgress,4,"HpBarProgress");
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	{
+		HpBarProgress->setPercentage(100 * RightHero->getHealthPoints() / RightHero->getInitHealthPointsLimit());
+	}
+	else 
+	{
+		HpBarProgress->setPercentage(100 * LeftHero->getHealthPoints() / LeftHero->getInitHealthPointsLimit());
+	}
+	this->addChild(HpBarProgress, 4, "HpBarProgress");
 	this->schedule(schedule_selector(Game::UpdateHpBar));
 }
 void Game::UpdateHpBar(float delta)
 {
-	float percentage = 100*Myhero->getHealthPoints() / Myhero->getInitHealthPointsLimit();
+	float percentage;
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	{
+		percentage = 100 * RightHero->getHealthPoints() / RightHero->getInitHealthPointsLimit();
+	}
+	else
+	{
+		percentage = 100 * LeftHero->getHealthPoints() / LeftHero->getInitHealthPointsLimit();
+	}
 	if (percentage <= 0)
 	{
 		percentage = 0;
@@ -328,13 +395,28 @@ void Game::SetManaBar()
 	ManaBarProgress->setType(ProgressTimer::Type::BAR);
 	ManaBarProgress->setMidpoint(Vec2(0, 0));
 	ManaBarProgress->setBarChangeRate(Vec2(1, 0));
-	ManaBarProgress->setPercentage(100*Myhero->getManaPoints()/Myhero->getInitManaPointsLimit());
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	{
+		ManaBarProgress->setPercentage(100 * RightHero->getManaPoints() / RightHero->getInitManaPointsLimit());
+	}
+	else
+	{
+		ManaBarProgress->setPercentage(100 * LeftHero->getManaPoints() / LeftHero->getInitManaPointsLimit());
+	}
 	this->addChild(ManaBarProgress, 4, "ManaBarProgress");
 	this->schedule(schedule_selector(Game::UpdateManaBar));
 }
 void Game::UpdateManaBar(float delta)
 {
-	float percentage = 100 * Myhero->getManaPoints() / Myhero->getInitManaPointsLimit();
+	float percentage;
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	{
+		percentage = 100 * RightHero->getManaPoints() / RightHero->getInitManaPointsLimit();
+	}
+	else
+	{
+		percentage = 100 * LeftHero->getManaPoints() / LeftHero->getInitManaPointsLimit();
+	}
 	if (percentage <= 0)
 	{
 		percentage = 0;
@@ -354,13 +436,20 @@ void Game::SetExpBar()
 	ExpBarProgress->setType(ProgressTimer::Type::BAR);
 	ExpBarProgress->setMidpoint(Vec2(0, 0));
 	ExpBarProgress->setBarChangeRate(Vec2(1, 0));
-	ExpBarProgress->setPercentage(100 * Myhero->getExp() / Myhero->getExpLimit());
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	{
+		ExpBarProgress->setPercentage(100 * RightHero->getExp() / 100 * RightHero->getLevel());
+	}
+	else
+	{
+		ExpBarProgress->setPercentage(100 * LeftHero->getExp() / 100 * LeftHero->getLevel());
+	}
 	this->addChild(ExpBarProgress, 4, "ExpBarProgress");
 	this->schedule(schedule_selector(Game::UpdateExpBar));
 }
 void Game::UpdateExpBar(float delta)
 {
-	float percentage = 100 * Myhero->getExp() / Myhero->getExpLimit();
+	float percentage = 100 * LeftHero->getExp() /100* LeftHero->getLevel();
 	while (percentage >= 100)
 	{
 		percentage -= 100;
@@ -421,16 +510,16 @@ void Game::initKeyListener(Hero* hero)
 		}
 		case EventKeyboard::KeyCode::KEY_A:
 		{
-			if (hero == Myhero) {
+			if (hero == LeftHero) {
 				if (
-					hero->setNewAtkRect()->containsPoint(OtherHero->getPosition()) &&
-					OtherHero->getHealthPoints() > 0) {
+					hero->setNewAtkRect()->containsPoint(RightHero->getPosition()) &&
+					RightHero->getHealthPoints() > 0) {
 					//这里留给攻击动画
 					hero->atkF();
-					OtherHero->hurt(hero->getAtk());
-					if (OtherHero->getHealthPoints() <= 0) {
-						hero->setGold(hero->getGold() + OtherHero->getRewardMoney());
-						hero->setExp(hero->getExp() + OtherHero->getRewardExp());
+					RightHero->hurt(hero->getAtk());
+					if (RightHero->getHealthPoints() <= 0) {
+						hero->setGold(hero->getGold() + RightHero->getRewardMoney());
+						hero->setExp(hero->getExp() + RightHero->getRewardExp());
 					}
 			
 				}
@@ -510,11 +599,11 @@ void Game::initKeyListener(Hero* hero)
 			}
 			else {
 				if (
-					hero->setNewAtkRect()->containsPoint(Myhero->getPosition()) &&
-					Myhero->getHealthPoints() > 0) {
+					hero->setNewAtkRect()->containsPoint(LeftHero->getPosition()) &&
+					LeftHero->getHealthPoints() > 0) {
 					//这里留给攻击动画
 					hero->atkF();
-					Myhero->hurt(hero->getAtk());
+					LeftHero->hurt(hero->getAtk());
 					return true;
 				}
 
@@ -678,16 +767,16 @@ void Game::initMouseListener(Hero* hero)
 			hero->attack_rect = new Rect(hero->getPositionX() - distance, hero->getPositionY() - distance, distance, distance);
 			Rect* clickRect = new Rect(endPos.x - 25, endPos.y - 25, 50, 50);
 
-			if (hero == Myhero) {//这个if的判断主要是留给以后联机战斗的时候能够读入hero是myhero（左边的英雄）还是otherhero（右边的英雄）
+			if (hero == LeftHero) {//这个if的判断主要是留给以后联机战斗的时候能够读入hero是myhero（左边的英雄）还是otherhero（右边的英雄）
 				//达到操作不同英雄的目的
 
 
-				if (OtherHero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
-					hero->attack_rect->containsPoint(OtherHero->getPosition()) &&
-					OtherHero->getHealthPoints() > 0) {
+				if (RightHero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
+					hero->attack_rect->containsPoint(RightHero->getPosition()) &&
+					RightHero->getHealthPoints() > 0) {
 					//这里留给攻击动画
 					hero->atkF();
-					OtherHero->hurt(hero->getAtk());
+					RightHero->hurt(hero->getAtk());
 					return true;
 				}
 
@@ -786,12 +875,12 @@ void Game::initMouseListener(Hero* hero)
 
 		
 			else {
-				if (Myhero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
-					hero->attack_rect->containsPoint(Myhero->getPosition()) &&
-					Myhero->getHealthPoints() > 0) {
+				if (LeftHero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
+					hero->attack_rect->containsPoint(LeftHero->getPosition()) &&
+					LeftHero->getHealthPoints() > 0) {
 					//这里留给攻击动画
 					hero->atkF();
-					Myhero->hurt(hero->getAtk());
+					LeftHero->hurt(hero->getAtk());
 					return true;
 				}
 

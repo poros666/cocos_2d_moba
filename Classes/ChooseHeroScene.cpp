@@ -1,16 +1,18 @@
 #include"ChooseHeroScene.h"
 USING_NS_CC;
 using namespace CocosDenshion;
-Scene* ChooseHeroScene::createScene()
+Scene* ChooseHeroScene::createScene(SocketServer* server, SocketClient* client)
 {
-	return ChooseHeroScene::create();
+	auto scene = new ChooseHeroScene;
+	scene->init(server,client);
+	return scene;
 }
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
-bool ChooseHeroScene::init()
+bool ChooseHeroScene::init(SocketServer* server, SocketClient* client)
 {
 	if (!Scene::init())
 	{
@@ -18,7 +20,8 @@ bool ChooseHeroScene::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
+	Socketclient = client;
+	Socketserver = server;
 	//Éú³ÉºóÒáµÄÍ¼±ê
 	auto EliteItem = MenuItemImage::create(
 		"Character Model  res/SaurianElite_0001.png",
@@ -158,7 +161,22 @@ void ChooseHeroScene::menuEliteChoosedCallBack(cocos2d::Ref* pSender)
 	UserDefault::getInstance()->setBoolForKey("Elite", true);
 	UserDefault::getInstance()->setBoolForKey("Execu", false);
 	UserDefault::getInstance()->setBoolForKey("Munara", false);
-	auto scene = Game::createScene();
+	char buf[1024];
+	memset(buf, 0, sizeof(buf));
+	if (!UserDefault::getInstance()->getBoolForKey(OFF_LINE))
+	{
+		if (UserDefault::getInstance()->getBoolForKey("Server"))
+		{
+			send(Socketserver->_clientSockets, "Elite", sizeof("Elite"), 0);
+			recv(Socketserver->_clientSockets, buf, sizeof(buf), 0);
+		}
+		else
+		{
+			recv(Socketclient->_socektClient, buf, sizeof(buf), 0);
+			send(Socketclient->_socektClient, "Hero Elite", sizeof("Hero Elite"), 0);
+		}
+	}
+	auto scene = Game::createScene(Socketserver, Socketclient,buf);
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
@@ -171,7 +189,22 @@ void ChooseHeroScene::menuExecuChoosedCallBack(cocos2d::Ref* pSender)
 	UserDefault::getInstance()->setBoolForKey("Elite", false);
 	UserDefault::getInstance()->setBoolForKey("Execu", true);
 	UserDefault::getInstance()->setBoolForKey("Munara", false);
-	auto scene = Game::createScene();
+	char buf[1024];
+	memset(buf, 0, sizeof(buf));
+	if (!UserDefault::getInstance()->getBoolForKey(OFF_LINE)) 
+	{
+		if (UserDefault::getInstance()->getBoolForKey("Server"))
+		{
+			send(Socketserver->_clientSockets, "Execu", sizeof("Execu"), 0);
+			recv(Socketserver->_clientSockets, buf, sizeof(buf), 0);
+		}
+		else
+		{
+			recv(Socketclient->_socektClient, buf, sizeof(buf), 0);
+			send(Socketclient->_socektClient, "Execu", sizeof("Execu"), 0);			
+		}
+	}
+	auto scene = Game::createScene(Socketserver, Socketclient,buf);
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))
@@ -184,7 +217,23 @@ void ChooseHeroScene::menuMunaraChoosedCallBack(cocos2d::Ref* pSender)
 	UserDefault::getInstance()->setBoolForKey("Elite", false);
 	UserDefault::getInstance()->setBoolForKey("Execu", false);
 	UserDefault::getInstance()->setBoolForKey("Munara", true);
-	auto scene = Game::createScene();
+	char buf[1024];
+	memset(buf, 0, sizeof(buf));
+	if (!UserDefault::getInstance()->getBoolForKey(OFF_LINE)) 
+	{
+		if (UserDefault::getInstance()->getBoolForKey("Server"))
+		{
+			send(Socketserver->_clientSockets, "Munara", sizeof("Munara"), 0);
+			recv(Socketserver->_clientSockets, buf, sizeof(buf), 0);
+		}
+		else
+		{
+			int ret = 0;
+			recv(Socketclient->_socektClient, buf, sizeof(buf), 0);
+			send(Socketclient->_socektClient, "Munara", sizeof("Munara"), 0);
+		}
+	}
+	auto scene = Game::createScene(Socketserver,Socketclient,buf);
 	auto reScene = TransitionFadeDown::create(0.8f, scene);
 	Director::getInstance()->pushScene(reScene);
 	if (UserDefault::getInstance()->getBoolForKey(SOUND_KEY, true))

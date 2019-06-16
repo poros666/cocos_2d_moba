@@ -61,8 +61,6 @@ bool SocketClient::connectServer(const char* serverIP, unsigned short port)
 		_socektClient = 0;
 		return false;
 	}
-	std::thread recvThread(&SocketClient::recvMessage, this);
-	recvThread.detach();
 	return true;
 }
 
@@ -72,27 +70,17 @@ void SocketClient::recvMessage()
 {
 	char recvBuf[1024];
 	int ret = 0;
-	while (true)
+
+	ret = recv(_socektClient, recvBuf, sizeof(recvBuf), 0);
+	if (ret < 0)
 	{
-		ret = recv(_socektClient, recvBuf, sizeof(recvBuf), 0);
-		if (ret < 0)
-		{
-			log("recv error");
-			break;
-		}
-		if (ret > 0 && onRecv != nullptr)
-		{
-			onRecv(recvBuf, ret);
-		}
+		log("recv error");
+		return;
 	}
-	_mutex.lock();
-	this->closeConnect(_socektClient);
-	if (onDisconnect != nullptr)
+	if (ret > 0 && onRecv != nullptr)
 	{
-		onDisconnect();
+		onRecv(recvBuf, ret);
 	}
-	_socektClient = 0;
-	_mutex.unlock();
 }
 
 

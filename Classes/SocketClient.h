@@ -11,10 +11,10 @@ public:
 	void sendMessage(const char* data, int count);
 	std::function<void(const char* data, int count)> onRecv;
 	std::function<void()> onDisconnect;
-private:
-	bool initClient();
 	void recvMessage();
 private:
+	bool initClient();
+public:
 	HSocket _socketServer;
 	HSocket _socektClient;
 };

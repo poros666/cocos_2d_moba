@@ -6,7 +6,7 @@ ver1
 */
 #include"Hero.h"
 using namespace cocos2d;
-extern Hero* Myhero;
+extern Hero* LeftHero;
 extern Hero* OtherHero;
 extern Tower* Tower1;
 extern Tower* Tower2;
@@ -29,7 +29,6 @@ extern std::list<Creep*> FieldCreep;
 		case HeroTypeTest:
 			hero->setHeroType(heroType);
 			filename1 = Hero_test;
-			hero->setGold(1000);
 			hero->setInitHealthPointsLimit(10000);
 			hero->setHealthPoints(10000);
 			hero->setHealthRecoverPoints(1);
@@ -43,15 +42,13 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->setExp(0);
-			hero->setExpLimit(100);
+			
 			//attack_rect = new Rect();
 			//...
 			break;
 		case HeroTypeExecu:
 			hero->setHeroType(heroType);
 			filename1 = Hero_execu;
-			hero->setGold(0);
 			hero->setInitHealthPointsLimit(500);
 			hero->setHealthPoints(500);
 			hero->setInitManaPointsLimit(100);
@@ -61,22 +58,18 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(60);
 			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
-			hero->setLevel(1);
-			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
 			hero->SetManaBar();
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->setExp(0);
-			hero->setExpLimit(100);
+			
 			//...
 			break;
 		case HeroTypeElite:
 			hero->setHeroType(heroType);
 			filename1 = Hero_elite;
-			hero->setGold(0);
 			hero->setInitHealthPointsLimit(450);
 			hero->setHealthPoints(450);
 			hero->setInitManaPointsLimit(120);
@@ -86,22 +79,18 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(50);
 			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
-			hero->setLevel(1);
-			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
 			hero->SetManaBar();
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->setExp(0);
-			hero->setExpLimit(100);
+			
 			//...
 			break;
 		case HeroTypeMunra:
 			hero->setHeroType(heroType);
 			filename1 = Hero_munra;
-			hero->setGold(0);
 			hero->setInitHealthPointsLimit(400);
 			hero->setHealthPoints(400);
 			hero->setInitManaPointsLimit(160);
@@ -111,16 +100,13 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(30);
 			hero->setAtkDistance(150);
 			hero->setAtkSpeeds(1);
-			hero->setLevel(1);
-			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
 			hero->SetManaBar();
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->setExp(0);
-			hero->setExpLimit(100);
+			
 			//...
 			break;
 		default:
@@ -147,7 +133,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -164,7 +150,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(60);
 			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
-			hero->setLevel(1);
 			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
@@ -172,13 +157,12 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			
 			//...
 			break;
 		case HeroTypeElite:
 			hero->setHeroType(heroType);
 			filename1 = Hero_elite;
-			hero->setGold(0);
 			hero->setInitHealthPointsLimit(450);
 			hero->setHealthPoints(450);
 			hero->setInitManaPointsLimit(120);
@@ -188,7 +172,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(50);
 			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
-			hero->setLevel(1);
 			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
@@ -196,13 +179,12 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			
 			//...
 			break;
 		case HeroTypeMunra:
 			hero->setHeroType(heroType);
 			filename1 = Hero_munra;
-			hero->setGold(0);
 			hero->setInitHealthPointsLimit(400);
 			hero->setHealthPoints(400);
 			hero->setInitManaPointsLimit(160);
@@ -212,7 +194,6 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(30);
 			hero->setAtkDistance(150);
 			hero->setAtkSpeeds(1);
-			hero->setLevel(1);
 			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
@@ -220,13 +201,20 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			
 			//...
 			break;
 		default:
 			break;
 		}
-
+		hero->setLevel(1);
+		hero->setGold(200);
+		hero->setExp(0);
+		hero->setExpLimit(100);
+		if (UserDefault::getInstance()->getBoolForKey("offline"))
+		{
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+		}
 	}
 
 	const std::string& filename = filename1;
@@ -472,10 +460,10 @@ void Hero::AttackAndMove(float)
 			Base1->hurt(atk);
 			return;
 		}
-		if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+		if (this->newAttackRect()->containsPoint(LeftHero->getPosition()) && LeftHero->getHealthPoints() > 0) {
 			//¹¥»÷¶¯»­
 			this->atkF();
-			Myhero->hurt(atk);
+			LeftHero->hurt(atk);
 			return;
 		}
 		else {

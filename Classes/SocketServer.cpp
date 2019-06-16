@@ -20,7 +20,6 @@ SocketServer::SocketServer() :
 
 SocketServer::~SocketServer()
 {
-	_clientSockets.clear();
 	if (_socketServer)
 	{
 		this->closeConnect(_socketServer);
@@ -78,7 +77,7 @@ bool SocketServer::initServer()
 		gethostname(hostName, sizeof(hostName));
 		struct hostent* hostInfo = gethostbyname(hostName);
 		char* ip = inet_ntoa(*(struct in_addr *)*hostInfo->h_addr_list);
-		this->acceptClient();
+		this->acceptFunc();
 		if (onStart != nullptr)
 		{
 			log("start server!");
@@ -92,29 +91,19 @@ bool SocketServer::initServer()
 }
 
  
-
-void SocketServer::acceptClient()
-{
-	std::thread th(&SocketServer::acceptFunc, this);
-	th.detach();
-}
-
  
 
 void SocketServer::acceptFunc()
 {
 	int len = sizeof(sockaddr);
 	struct sockaddr_in sockAddr;
-	while (true)
-	{	
-		HSocket clientSock = accept(_socketServer, (sockaddr*)&sockAddr, &len);
-		if (error(clientSock))
-		{
-			log("accept error!");
-			break;
-		}
-		this->newClientConnected(clientSock);
+	HSocket clientSock = accept(_socketServer, (sockaddr*)&sockAddr, &len);
+	if (error(clientSock))
+	{
+		log("accept error!");
+		return;
 	}
+	this->newClientConnected(clientSock);
 }
 
  
@@ -122,9 +111,8 @@ void SocketServer::acceptFunc()
 void SocketServer::newClientConnected(HSocket socket)
 {
 	log("new connect!");
-	_clientSockets.push_back(socket);
-	std::thread th(&SocketServer::recvMessage, this, socket);
-	th.detach();
+	_clientSockets = socket;
+	send(_clientSockets, "Connect", sizeof("Connect"), 0);
 	if (onNewConnection != nullptr)
 	{
 		onNewConnection(socket);
@@ -133,66 +121,43 @@ void SocketServer::newClientConnected(HSocket socket)
 
  
 
-void SocketServer::recvMessage(HSocket socket)
+void SocketServer::recvMessage()
 {
 	char buff[1024];
 	int ret = 0;
-	while (true)
+	ret = recv(_clientSockets, buff, sizeof(buff), 0);
+	if (ret < 0)
 	{
-		ret = recv(socket, buff, sizeof(buff), 0);
-		if (ret < 0)
+		log("recv(%d) error!", _clientSockets);
+		_mutex.lock();
+		this->closeConnect(_clientSockets);
+		if (onDisconnect != nullptr)
 		{
-			log("recv(%d) error!", socket);
-			_mutex.lock();
-			this->closeConnect(socket);
-			_clientSockets.remove(socket);
-			if (onDisconnect != nullptr)
-			{
-				onDisconnect(socket);
-			}
-			_mutex.unlock();
-			break;
+			onDisconnect(_clientSockets);
 		}
-		else
+		_mutex.unlock();
+		return;
+	}
+	else
+	{
+		buff[ret] = 0;
+		log("recv msg : %s", buff); 
+		if (ret > 0 && onRecv != nullptr)
 		{
-			buff[ret] = 0;
-			log("recv msg : %s", buff); 
-			if (ret > 0 && onRecv != nullptr)
-			{
-				onRecv(buff, ret);
-			}
+			onRecv(buff, ret);
 		}
 	}
 }
 
  
 
-void SocketServer::sendMessage(HSocket socket, const char* data, int count)
+void SocketServer::sendMessage( const char* data, int count)
 {
-	for (auto& sock : _clientSockets)
-	{
-		if (sock == socket)
-		{
-			int ret = send(socket, data, count, 0);
-			if (ret < 0)
-			{
-				log("send error!");
-			}
-			break;
-		}
-	}
-}
-
- 
-
-void SocketServer::sendMessage(const char* data, int count)
-{
-	for (auto& socket : _clientSockets)
-	{
-		int ret = send(socket, data, count, 0);
+		int ret = send(_clientSockets, data, count, 0);
 		if (ret < 0)
 		{
 			log("send error!");
 		}
-	}
 }
+
+ 

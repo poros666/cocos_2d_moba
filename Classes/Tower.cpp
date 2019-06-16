@@ -9,8 +9,8 @@ ver2
 #include"Creeps.h"
 #include"Game.h"
 using namespace cocos2d;
-extern Hero* Myhero;
-extern Hero* OtherHero;
+extern Hero* LeftHero;
+extern Hero* RightHero;
 extern Tower* Tower1;
 extern Tower* Tower2;
 extern Tower* Base1;
@@ -240,6 +240,8 @@ void Tower::update(float dt)
 {
 	if (this->getHealthPoints() <= 0) {
 		die();
+		this->unscheduleUpdate();
+		this->unscheduleAllSelectors();
 	}
 }
 void Tower::UpdateHpBar(float delta)
@@ -260,7 +262,7 @@ Rect* Tower::newAttackRect()
 
 bool Tower::checkHeroInRect()
 {
-	if (this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+	if (this->newAttackRect()->containsPoint(RightHero->getPosition())) {
 
 		return true;
 	}
@@ -307,11 +309,11 @@ void Tower::Attack1(float)
 			}
 		}
 	}
-	if (this->newAttackRect()->containsPoint(OtherHero->getPosition()) && OtherHero->getHealthPoints() > 0) {
-		bombsp1->setPosition(OtherHero->getPosition());
+	if (this->newAttackRect()->containsPoint(RightHero->getPosition()) && RightHero->getHealthPoints() > 0) {
+		bombsp1->setPosition(RightHero->getPosition());
 		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-		OtherHero->hurt(atk);
+		RightHero->hurt(atk);
 		return;
 	}
 }
@@ -334,13 +336,13 @@ void Tower::Attack2(float)
 			}
 		}
 	}
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition()) && Myhero->getHealthPoints() > 0) {
+	if (this->newAttackRect()->containsPoint(LeftHero->getPosition()) && LeftHero->getHealthPoints() > 0) {
 		//¹¥»÷¶¯»­
 		this->setFlipX(true);
-		bombsp1->setPosition(Myhero->getPosition());
+		bombsp1->setPosition(LeftHero->getPosition());
 		bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("fireBall_explosion")));
 		this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("Mecha_shoot")));
-		Myhero->hurt(atk);
+		LeftHero->hurt(atk);
 		return;
 	}
 }

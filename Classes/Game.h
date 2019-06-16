@@ -11,14 +11,16 @@
 #include"Skill.h"
 #include"ScoreBoard.h"
 #include "EquipmentShowLayer.h"
+#include"SocketClient.h"
+#include"SocketServer.h"
 #include<list>
 
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene();
-	virtual bool init();
+	static cocos2d::Scene* createScene(SocketServer* server, SocketClient* client,char buf[1024]);
+	virtual bool init(SocketServer* server, SocketClient* client,char buf[1024]);
 	void MapLayerPrint();
 	void ShopLayerPrint();
 	void menuShopCallback(cocos2d::Ref* pSender);
@@ -41,9 +43,11 @@ public:
 	void initKeyListener(Hero* hero);
 	void initMouseListener(Hero* hero);
 	bool clickToAttack(Hero* owner);
-//	void creepMoveAndAttack();
-	CREATE_FUNC(Game);
 	
+	
+
+	SocketServer* Socketserver;
+	SocketClient* Socketclient;
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -60,5 +64,4 @@ private:
 	Skill* skillW;
 	Skill* skillE;
 	Skill* skillR;
-	Vec2 offset();
 };
