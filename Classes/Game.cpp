@@ -80,22 +80,22 @@ bool Game::init(SocketServer* server, SocketClient* client,char buf[1024])
 		}
 		else
 		{
-			if (defualts->getBoolForKey("Execu")) {RightHero = Hero::creatWithHeroTypes(HeroTypeExecu, true); }
-			if (defualts->getBoolForKey("Elite")) { RightHero = Hero::creatWithHeroTypes(HeroTypeElite, true); }
-			if (defualts->getBoolForKey("Munara")) { RightHero = Hero::creatWithHeroTypes(HeroTypeMunra, true); }
+			if (defualts->getBoolForKey("Execu")) {RightHero = Hero::creatWithHeroTypes(HeroTypeExecu, false); }
+			if (defualts->getBoolForKey("Elite")) { RightHero = Hero::creatWithHeroTypes(HeroTypeElite, false); }
+			if (defualts->getBoolForKey("Munara")) { RightHero = Hero::creatWithHeroTypes(HeroTypeMunra, false); }
 			switch (buf[1])
 			{
 			case '0':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeTest, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeTest, true);
 				break;
 			case 'x':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, true);
 				break;
 			case 'l':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, true);
 				break;
 			case 'u':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, true);
 				break;
 			}
 		}
@@ -131,10 +131,18 @@ void Game::onEnter()
 	Scene::onEnter();
 	this->schedule(schedule_selector(Game::CreepsPrint), 30, -1, 0);
 	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
-	if (UserDefault::getInstance()->getBoolForKey("Client"))
+	if (!defualts->getBoolForKey(OFF_LINE))
 	{
-		Game::initMouseListener(RightHero);
-		Game::initKeyListener(RightHero);
+		if (UserDefault::getInstance()->getBoolForKey("Client"))
+		{
+			Game::initMouseListener(RightHero);
+			Game::initKeyListener(RightHero);
+		}
+		else
+		{
+			Game::initMouseListener(LeftHero);
+			Game::initKeyListener(LeftHero);
+		}
 	}
 	else
 	{
@@ -287,36 +295,104 @@ void Game::menuBackCallback(cocos2d::Ref* pSender)
 void Game::HeroPrint()
 {
 	//生成英雄的函数
-	if (defualts->getBoolForKey("1v1")) {
-		int _atkDistance = LeftHero->getAtkDistance();
+	if (defualts->getBoolForKey(OFF_LINE))
+	{
+		if (defualts->getBoolForKey("1v1")) {
+			int _atkDistance = LeftHero->getAtkDistance();
 
-		LeftHero->setPosition(LeftHero->getReBornPoint());
+			LeftHero->setPosition(LeftHero->getReBornPoint());
 
-		LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
-		this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
-		SetHpBar();
-		SetManaBar();
-		SetExpBar();
-		RightHero->setPosition(RightHero->getReBornPoint());
+			LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+			this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
+			SetHpBar();
+			SetManaBar();
+			SetExpBar();
+			RightHero->setPosition(RightHero->getReBornPoint());
+			this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
+		}
+		else {
+			int _atkDistance = LeftHero->getAtkDistance();
+			//add new rebornpoint
+			LeftHero->setPosition(LeftHero->getReBornPoint());
+
+			LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+			this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
+			SetHpBar();
+			SetManaBar();
+			SetExpBar();
+			//add new rebornpoint
+			RightHero->setPosition(RightHero->getReBornPoint());
 
 
-		this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
+			this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
+		}
 	}
-	else {
-		int _atkDistance = LeftHero->getAtkDistance();
-		//add new rebornpoint
-		LeftHero->setPosition(LeftHero->getReBornPoint());
+	else
+	{
+		if (defualts->getBoolForKey("Server"))
+		{
+			if (defualts->getBoolForKey("1v1")) {
+				int _atkDistance = LeftHero->getAtkDistance();
 
-		LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
-		this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
-		SetHpBar();
-		SetManaBar();
-		SetExpBar();
-		//add new rebornpoint
-		RightHero->setPosition(RightHero->getReBornPoint());
+				LeftHero->setPosition(LeftHero->getReBornPoint());
+
+				LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+				this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
+				SetHpBar();
+				SetManaBar();
+				SetExpBar();
+				RightHero->setPosition(RightHero->getReBornPoint());
+				this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
+			}
+			else {
+				int _atkDistance = LeftHero->getAtkDistance();
+				//add new rebornpoint
+				LeftHero->setPosition(LeftHero->getReBornPoint());
+
+				LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+				this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
+				SetHpBar();
+				SetManaBar();
+				SetExpBar();
+				//add new rebornpoint
+				RightHero->setPosition(RightHero->getReBornPoint());
 
 
-		this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
+				this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
+			}
+		}
+		else
+		{
+			if (defualts->getBoolForKey("1v1")) {
+				int _atkDistance = RightHero->getAtkDistance();
+
+				RightHero->setPosition(RightHero->getReBornPoint());
+
+				RightHero->attack_rect = new Rect(RightHero->getPositionX() - _atkDistance, RightHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+				this->getChildByName("MapLayer")->addChild(RightHero, 4, "LeftHero");
+				SetHpBar();
+				SetManaBar();
+				SetExpBar();
+				LeftHero->setPosition(LeftHero->getReBornPoint());
+				this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
+			}
+			else {
+				int _atkDistance = RightHero->getAtkDistance();
+				//add new rebornpoint
+				RightHero->setPosition(RightHero->getReBornPoint());
+
+				RightHero->attack_rect = new Rect(RightHero->getPositionX() - _atkDistance, RightHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+				this->getChildByName("MapLayer")->addChild(RightHero, 4, "LeftHero");
+				SetHpBar();
+				SetManaBar();
+				SetExpBar();
+				//add new rebornpoint
+				LeftHero->setPosition(LeftHero->getReBornPoint());
+
+
+				this->getChildByName("MapLayer")->addChild(LeftHero, 4, "RightHero");
+			}
+		}
 	}
 }
 
