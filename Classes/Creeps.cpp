@@ -26,6 +26,82 @@ Creep::Creep(CreepTypes creepType) {
 	this->velocity = Vec2::ZERO;
 }
 */
+Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
+	Creep* creep = new (std::nothrow)Creep();
+	std::string filename1 = "scorpion_0001.png";
+	//通过switch根据type来初始化数值
+		switch (creepType)
+		{
+		case CreepTypeJ1:
+			creep->setCreepType(creepType);
+			filename1 = "scorpion_0001.png";
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 100;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
+			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
+			break;
+		case CreepTypeJ2:
+			creep->setCreepType(creepType);
+			filename1 = Creep_j2;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 100;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
+			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
+			break;
+		case CreepTypeJ3:
+			creep->setCreepType(creepType);
+			filename1 = Creep_j3;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 100;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
+			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
+			break;
+		case CreepTypeJ4:
+			creep->setCreepType(creepType);
+			filename1 = Creep_j4;
+			creep->initHealthPointsLimit = 700;
+			creep->healthPoints = 700;
+			creep->atk = 30;
+			creep->atkDistance = 100;
+			creep->atkSpeeds = 1;
+			creep->SetHpBar();
+			creep->setRewardMoney(200);
+			creep->setRewardExp(100);
+			creep->UpdateFAttack();
+			creep->schedule(schedule_selector(Creep::UpdateDeath));
+			break;
+		default:
+			break;
+		}
+	
+	const std::string& filename = filename1;
+
+	if (creep && creep->initWithFile(filename)) {//判断creep对象是否生成成功
+
+		creep->autorelease();//加入内存释放池中，不会立即释放creep对象
+		return creep;
+	}
+	CC_SAFE_DELETE(creep);
+	return nullptr;
+}
 Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 	Creep* creep = new (std::nothrow)Creep();
 
@@ -98,58 +174,6 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType,bool pending) {
 			creep->schedule(schedule_selector(Creep::UpdateDeath));
 			//...
 			break;
-		case CreepTypeJ1:
-			creep->setCreepType(creepType);
-			filename1 = Creep_j1;
-			creep->initHealthPointsLimit = 700;
-			creep->healthPoints = 700;
-			creep->atk = 30;
-			creep->atkDistance = 100;
-			creep->atkSpeeds = 1;
-			creep->SetHpBar();
-			creep->setRewardMoney(200);
-			creep->setRewardExp(100);
-			creep->UpdateFAttack();
-			creep->schedule(schedule_selector(Creep::UpdateDeath));
-		case CreepTypeJ2:
-			creep->setCreepType(creepType);
-			filename1 = Creep_j2;
-			creep->initHealthPointsLimit = 700;
-			creep->healthPoints = 700;
-			creep->atk = 30;
-			creep->atkDistance = 100;
-			creep->atkSpeeds = 1;
-			creep->SetHpBar();
-			creep->setRewardMoney(200);
-			creep->setRewardExp(100);
-			creep->UpdateFAttack();
-			creep->schedule(schedule_selector(Creep::UpdateDeath));
-		case CreepTypeJ3:
-			creep->setCreepType(creepType);
-			filename1 = Creep_j3;
-			creep->initHealthPointsLimit = 700;
-			creep->healthPoints = 700;
-			creep->atk = 30;
-			creep->atkDistance = 100;
-			creep->atkSpeeds = 1;
-			creep->SetHpBar();
-			creep->setRewardMoney(200);
-			creep->setRewardExp(100);
-			creep->UpdateFAttack();
-			creep->schedule(schedule_selector(Creep::UpdateDeath));
-		case CreepTypeJ4:
-			creep->setCreepType(creepType);
-			filename1 = Creep_j4;
-			creep->initHealthPointsLimit = 700;
-			creep->healthPoints = 700;
-			creep->atk = 30;
-			creep->atkDistance = 100;
-			creep->atkSpeeds = 1;
-			creep->SetHpBar();
-			creep->setRewardMoney(200);
-			creep->setRewardExp(100);
-			creep->UpdateFAttack();
-			creep->schedule(schedule_selector(Creep::UpdateDeath));
 		default:
 			break;
 		}
@@ -428,21 +452,6 @@ void Creep::atkF() {
 	case CreepTypeCannon:
 		actname = "Quetzal_attack";
 		break;
-	case CreepTypeJ1:
-		actname = "Scorpion_attack";
-		break;
-	case CreepTypeJ2:
-		actname = "Immortal_attack";
-		break;
-	case CreepTypeJ3:
-		actname = "Raider_attack";
-		break;
-	case CreepTypeJ4:
-		actname = "Thug_attack";
-		break;
-	case CreepTypeJ5:
-		actname = "Fallen_attack";
-		break;
 	}
 
 
@@ -466,6 +475,20 @@ void Creep::atkB() {
 	case CreepTypeCannon:
 		actname = "Quetzal_attack";
 		break;
+	}
+
+	this->setFlipX(true);
+	this->stopAllActions();
+	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+
+}
+
+void Creep::atkJ() {
+
+	const auto typ = this->getCreepType();
+	std::string actname = "Myrmidon_death";
+	switch (typ)
+	{
 	case CreepTypeJ1:
 		actname = "Scorpion_attack";
 		break;
@@ -483,12 +506,10 @@ void Creep::atkB() {
 		break;
 	}
 
-	this->setFlipX(true);
 	this->stopAllActions();
 	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
 
 }
-
 
 
 
@@ -642,12 +663,16 @@ void Creep::AttackAndMove2(float delta)
 void Creep::FieldAttackAndMove(float delta)
 {
 	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
+		this->atkJ();
 		Myhero->hurt(atk);
 		//攻击动画
+		
 	}
 	else if(this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
 		//攻击动画
+		this->atkJ();
 		OtherHero->hurt(atk);
+
 	}
 }
 

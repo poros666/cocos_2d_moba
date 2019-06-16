@@ -44,6 +44,13 @@ bool Game::init()
 	ani->init_mechsTower();
 	ani->init_elite();
 	ani->init_munra();
+	ani->init_scorpion();
+	ani->init_immortal();
+	ani->init_raider();
+	ani->init_thug();
+	ani->init_fallen();
+	ani->init_skill();
+
 
 	UserDefault* defualts = UserDefault::getInstance();
 	if(defualts->getBoolForKey("Execu")){ Myhero = Hero::creatWithHeroTypes(HeroTypeExecu,true); }
@@ -292,19 +299,19 @@ void Game::CreepsPrint(float delta)
 }
 void Game::FieldPrint(float delta)
 {
-	auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1, true);
-	creep1->setPosition(1800, 150);
+	auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1);
+	creep1->setPosition(1800, 400);
 	this->getChildByName("MapLayer")->addChild(creep1, 2);
 	FieldCreep.push_back(creep1);
-	auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2, true);
+	auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2);
 	creep2->setPosition(3000, 150);
 	this->getChildByName("MapLayer")->addChild(creep2, 2);
 	FieldCreep.push_back(creep2);
-	auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3, true);
+	auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3);
 	creep3->setPosition(1800, 800);
 	this->getChildByName("MapLayer")->addChild(creep3, 2);
 	FieldCreep.push_back(creep3);
-	auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4, true);
+	auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4);
 	creep4->setPosition(3000, 800);
 	this->getChildByName("MapLayer")->addChild(creep4, 2);
 	FieldCreep.push_back(creep4);

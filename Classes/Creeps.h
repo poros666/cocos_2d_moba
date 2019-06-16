@@ -73,6 +73,7 @@ public:
 	//void spawnCreep();//生成小兵函数
 	//virtual void update(float dt);//游戏循环调用的默认函数//意义不明
 	static Creep* creatWithCreepTypes(CreepTypes creepType,bool pending);//静态创造小兵函数
+	static Creep* creatWithCreepTypes(CreepTypes creepType);
 	bool isAttacking = false;
 	Rect* attack_rect;
 	bool hurt(float atk);//受伤.
@@ -81,6 +82,7 @@ public:
 	void runB();
 	void atkF();
 	void atkB();
+	void atkJ();
 	//void hpRecover(int healthRecoverPoint);//回血
 	Rect* newAttackRect();
 	bool chechMyheroInRect();
