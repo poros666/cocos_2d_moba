@@ -48,6 +48,9 @@ bool Game::init(SocketServer* server, SocketClient* client,char buf[1024])
 	ani->init_scorpion();
 	ani->init_immortal();
 	ani->init_raider();
+	ani->init_thug();
+	ani->init_fallen();
+	ani->init_skill();
 	Socketclient = client;
 	Socketserver = server;
 	UserDefault* defualts = UserDefault::getInstance();

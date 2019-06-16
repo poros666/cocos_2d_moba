@@ -24,15 +24,15 @@ bool SettingsScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	//Éú³É·µ»Ø°´Å¥
 	auto backItem = MenuItemImage::create(
-		"Bottom/BackNormal.jpg",
-		"Bottom/BackSelected.jpg",
+		"Bottom/EXIT.png",
+		"Bottom/EXIT.png",
 		CC_CALLBACK_1(SettingsScene::menuBackCallback, this));
 
 	if (backItem == nullptr ||
 		backItem->getContentSize().width <= 0 ||
 		backItem->getContentSize().height <= 0)
 	{
-		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
+		problemLoading("'EXIT.png' and 'EXIT.png'");
 	}
 	else
 	{
@@ -66,22 +66,22 @@ bool SettingsScene::init()
 		float y = origin.y + visibleSize.height / 2 ;
 		bottonItem->setPosition(Vec2(x, y));
 	}
-	auto BGMonItem = MenuItemImage::create("Bottom/on.png","Bottom/on.png");
-	auto BGMoffItem = MenuItemImage::create("Bottom/off.png","Bottom/off.png");
+	auto BGMonItem = MenuItemImage::create("Bottom/MUSICON.png","Bottom/MUSICON.png");
+	auto BGMoffItem = MenuItemImage::create("Bottom/MUSICOFF.png","Bottom/MUSICOFF.png");
 	auto BGMToggleMenuItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(SettingsScene::BGMsetBottomCallback,this),BGMonItem,BGMoffItem,NULL);
 	BGMToggleMenuItem->setPosition(Vec2(bgmItem->getPositionX()+180,bgmItem->getPositionY()));
-	auto SoundonItem = MenuItemImage::create("Bottom/on.png", "Bottom/on.png");
-	auto SoundoffItem = MenuItemImage::create("Bottom/off.png", "Bottom/off.png");
+	auto SoundonItem = MenuItemImage::create("Bottom/MUSICON.png", "Bottom/MUSICON.png");
+	auto SoundoffItem = MenuItemImage::create("Bottom/MUSICOFF.png", "Bottom/MUSICOFF.png");
 	auto SoundToggleMenuItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(SettingsScene::SoundsetBottomCallback, this), SoundonItem, SoundoffItem, NULL);
 	SoundToggleMenuItem->setPosition(Vec2(bottonItem->getPositionX()+180, bottonItem->getPositionY()));
 	auto menu = Menu::create(SoundToggleMenuItem,BGMToggleMenuItem,bgmItem, bottonItem, backItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 	//ÉèÖÃ±³¾°Í¼Æ¬
-	auto sprite = Sprite::create("SettingBackGround.png");
+	auto sprite = Sprite::create("transitionDoor.png");
 	if (sprite == nullptr)
 	{
-		problemLoading("'SettingBackGround.png'");
+		problemLoading("'transitionDoor.png'");
 	}
 	else
 	{

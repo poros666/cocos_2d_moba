@@ -73,6 +73,7 @@ public:
 	//void spawnCreep();//Éú³ÉÐ¡±øº¯Êý
 	//virtual void update(float dt);//ÓÎÏ·Ñ­»·µ÷ÓÃµÄÄ¬ÈÏº¯Êý//ÒâÒå²»Ã÷
 	static Creep* creatWithCreepTypes(CreepTypes creepType,bool pending);//¾²Ì¬´´ÔìÐ¡±øº¯Êý
+	static Creep* creatWithCreepTypes(CreepTypes creepType);
 	bool isAttacking = false;
 	Rect* attack_rect;
 	bool hurt(float atk);//ÊÜÉË.

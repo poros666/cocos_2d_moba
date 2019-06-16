@@ -120,15 +120,15 @@ bool ChooseHeroScene::init(SocketServer* server, SocketClient* client)
 
 	//Éú³É·µ»Ø¼ü
 	auto backItem = MenuItemImage::create(
-		"Bottom/BackNormal.jpg",
-		"Bottom/BackSelected.jpg",
+		"Bottom/BACKOFF.png",
+		"Bottom/BACKON.png",
 		CC_CALLBACK_1(ChooseHeroScene::menuBackCallback, this));
 
 	if (backItem == nullptr ||
 		backItem->getContentSize().width <= 0 ||
 		backItem->getContentSize().height <= 0)
 	{
-		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
+		problemLoading("'BACKOFF.png' and 'BACKON.png'");
 	}
 	else
 	{
@@ -141,10 +141,10 @@ bool ChooseHeroScene::init(SocketServer* server, SocketClient* client)
 	auto menu = Menu::create(backItem,EliteItem,ExecuItem, MunaraItem,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
-	auto sprite = Sprite::create("SettingBackGround.png");
+	auto sprite = Sprite::create("transitionDoor.png");
 	if (sprite == nullptr)
 	{
-		problemLoading("'SettingBackGround.png'");
+		problemLoading("'transitionDoor.png'");
 	}
 	else
 	{
