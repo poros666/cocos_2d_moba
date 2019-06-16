@@ -47,6 +47,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setExpLimit(100);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -76,6 +77,7 @@ extern std::list<Creep*> FieldCreep;
 
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+
 			//...
 			break;
 		case HeroTypeElite:
@@ -103,6 +105,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setExpLimit(100);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+
 			//...
 			break;
 		case HeroTypeMunra:
@@ -128,9 +131,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setReBornPoint(Vec2(300, 500));
 			hero->setExp(0);
 			hero->setExpLimit(100);
-
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+
 			//...
 			break;
 		default:
@@ -160,6 +163,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -185,8 +189,10 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+
 			//...
 			break;
 		case HeroTypeElite:
@@ -211,9 +217,10 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
-			//...
+	//...
 			break;
 		case HeroTypeMunra:
 			hero->setHeroType(heroType);
@@ -239,6 +246,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+
 			//...
 			break;
 		default:
@@ -342,6 +350,7 @@ void Hero::die()
 {
 	//不知道涉及什么先不写
 	//rdc:播放死亡动画,挪回初始位置？
+
 	const auto typ = this->getHeroType();
 	std::string actname = "Executioner_death";
 	switch (typ)
@@ -551,6 +560,7 @@ void Hero::unSkill3(float)
 	this->setAtk(this->getAtk()/2);
 }
 
+
 void Hero::updateMoeny(float)
 {
 	this->setGold(this->getGold() + 1);
@@ -583,6 +593,7 @@ void Hero::update(float dt)
 
 void Hero::atkF() {
 	this->attackInterval = false;
+
 	const auto typ = this->getHeroType();
 	std::string actname = "Executioner_death";
 	switch (typ)

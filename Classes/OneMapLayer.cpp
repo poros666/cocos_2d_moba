@@ -7,7 +7,10 @@
 #include "Tower.h"
 #include "StatusLayer.h"
 USING_NS_CC;
+<<<<<<< HEAD
 extern UserDefault* defualts;
+=======
+>>>>>>> character
 Layer* OneMapLayer::CreateLayer()
 {
 	return OneMapLayer::create();
@@ -37,6 +40,7 @@ bool OneMapLayer::init()
 	else {
 		_tileMap = TMXTiledMap::create("mapresource/5v5map.tmx");
 	}
+
 	MapSizeWidth = _tileMap->getMapSize().width;
 	MapSizeHeight = _tileMap->getMapSize().height;
 	_tileMap->setAnchorPoint(Vec2(0,0));

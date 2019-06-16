@@ -7,7 +7,10 @@ ver2
 #pragma once
 #include<cocos2d.h>
 #include"Creeps.h"
+<<<<<<< HEAD
 #include"WinLayer.h"
+=======
+>>>>>>> character
 using namespace cocos2d;
 
 /*

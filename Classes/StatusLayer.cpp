@@ -43,7 +43,9 @@ bool StatusLayer::init()
 		float y =visibleSize.height-size.height/4;
 		timeItem->setPosition(Vec2(x, y));
 	};
-	//this->addChild(timeItem, 1);
+
+//this->addChild(timeItem, 1);
+
 	auto skillLable= Sprite::create("skillLable.dds");
 	if (skillLable == nullptr ||
 		skillLable->getContentSize().width <= 0 ||

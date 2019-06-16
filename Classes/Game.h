@@ -13,6 +13,8 @@
 #include "EquipmentShowLayer.h"
 #include<list>
 #include"WinLayer.h"
+
+
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -42,6 +44,7 @@ public:
 	void initMouseListener(Hero* hero);
 	bool clickToAttack(Hero* owner);
 	void win(float);
+
 //	void creepMoveAndAttack();
 	CREATE_FUNC(Game);
 	
