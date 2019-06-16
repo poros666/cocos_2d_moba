@@ -64,17 +64,17 @@ bool Game::init(SocketServer* server, SocketClient* client,char buf[1024])
 			switch (buf[1])
 			{
 			case '0':
-				RightHero = Hero::creatWithHeroTypes(HeroTypeTest, false);
+				RightHero = Hero::creatWithHeroTypes(HeroTypeTest, true);
 				RightHero->setFlipX(true);
 				break;
 			case 'x':
-				RightHero = Hero::creatWithHeroTypes(HeroTypeExecu, false);
+				RightHero = Hero::creatWithHeroTypes(HeroTypeExecu, true);
 				break;
 			case 'l':
-				RightHero = Hero::creatWithHeroTypes(HeroTypeElite, false);
+				RightHero = Hero::creatWithHeroTypes(HeroTypeElite, true);
 				break;
 			case 'u':
-				RightHero = Hero::creatWithHeroTypes(HeroTypeMunra, false);
+				RightHero = Hero::creatWithHeroTypes(HeroTypeMunra, true);
 				break;
 			}
 		}
@@ -86,16 +86,16 @@ bool Game::init(SocketServer* server, SocketClient* client,char buf[1024])
 			switch (buf[1])
 			{
 			case '0':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeTest, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeTest, true);
 				break;
 			case 'x':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, true);
 				break;
 			case 'l':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, true);
 				break;
 			case 'u':
-				LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, false);
+				LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, true);
 				break;
 			}
 		}
@@ -304,7 +304,8 @@ void Game::HeroPrint()
 			SetHpBar();
 			SetManaBar();
 			SetExpBar();
-			RightHero->setPosition(RightHero->getReBornPoint());
+			RightHero->setReBornPoint(Vec2(4500, 500));
+			RightHero->setPosition(Vec2(4500, 500));
 
 
 			this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
@@ -320,8 +321,8 @@ void Game::HeroPrint()
 			SetManaBar();
 			SetExpBar();
 			//add new rebornpoint
-			RightHero->setPosition(RightHero->getReBornPoint());
-
+			RightHero->setReBornPoint(Vec2(4500, 500));
+			RightHero->setPosition(Vec2(4500, 500));
 
 			this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
 		}

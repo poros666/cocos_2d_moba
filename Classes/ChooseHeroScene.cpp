@@ -173,7 +173,7 @@ void ChooseHeroScene::menuEliteChoosedCallBack(cocos2d::Ref* pSender)
 		else
 		{
 			recv(Socketclient->_socektClient, buf, sizeof(buf), 0);
-			send(Socketclient->_socektClient, "Hero Elite", sizeof("Hero Elite"), 0);
+			send(Socketclient->_socektClient, "Elite", sizeof("Hero Elite"), 0);
 		}
 	}
 	auto scene = Game::createScene(Socketserver, Socketclient,buf);
