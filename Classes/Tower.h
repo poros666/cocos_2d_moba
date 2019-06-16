@@ -1,23 +1,24 @@
 //////////////////
 /*
-Ğì±ş²ı
+å¾ç‚³æ˜Œ
 5.27
 ver2
 */
 #pragma once
 #include<cocos2d.h>
 #include"Creeps.h"
+#include"WinLayer.h"
 using namespace cocos2d;
 
 /*
-  ¶¨ÒåËşÃû³ÆÒ²ÊÇËşÍ¼Æ¬ÎÄ¼şµÄÃû³Æ
+  å®šä¹‰å¡”åç§°ä¹Ÿæ˜¯å¡”å›¾ç‰‡æ–‡ä»¶çš„åç§°
 */
 #define Tower_test "tower_test.png"
 #define Tower_1 "Character Model  res/Mecha_0001.png"
 #define Base_1 "Character Model  res/ArchMageTower.png"
 
 /*
-¶¨ÒåtowerÀàĞÍ
+å®šä¹‰towerç±»å‹
 */
 typedef enum {
 	TowerTypeTest = 0,
@@ -30,51 +31,53 @@ typedef enum {
 
 class Tower :public cocos2d::Sprite {
 
-	CC_SYNTHESIZE(TowerTypes, towerType, TowerType);//towerÀàĞÍ
+	CC_SYNTHESIZE(TowerTypes, towerType, TowerType);//towerç±»å‹
 
-	CC_SYNTHESIZE(int, initHealthPointsLimit, InitHealthPointsLimit);//³õÊ¼ÑªÁ¿ÉÏÏŞ
-	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//µ±Ç°ÑªÁ¿
-	//CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//ÉúÃü»Ö¸´ËÙ¶È
+	CC_SYNTHESIZE(int, initHealthPointsLimit, InitHealthPointsLimit);//åˆå§‹è¡€é‡ä¸Šé™
+	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//å½“å‰è¡€é‡
+	//CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//ç”Ÿå‘½æ¢å¤é€Ÿåº¦
 
-	//CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//»¤¼×
-	//CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//Ä§¿¹
+	//CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//æŠ¤ç”²
+	//CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//é­”æŠ—
 
-	CC_SYNTHESIZE(float, atk, Atk);//¹¥»÷Á¦
-	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//¹¥»÷¾àÀë
-	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//¹¥»÷ËÙ¶È
+	CC_SYNTHESIZE(float, atk, Atk);//æ”»å‡»åŠ›
+	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//æ”»å‡»è·ç¦»
+	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//æ”»å‡»é€Ÿåº¦
 
-	CC_SYNTHESIZE(int, level, Level);//µÈ¼¶//ÓĞÒ»¸öÏë·¨//°ÑtowerµÈ¼¶ÉèÎª¸ºÊı£¬È»ºó¿ÉÒÔ°ÑÉ±ÈËµÃµ½µÄÇ®ºÍÄÇ¸öµ¥Î»µÄµÈ¼¶°ó¶¨£¬¼ì²âµ½µÈ¼¶Îª¸º¼¸£¬¾Í¶ÔÓ¦¸ÃÄ³ÖÖĞ¡±øÉ±ËÀËùµÃÇ®Êı
+	CC_SYNTHESIZE(int, level, Level);//ç­‰çº§//æœ‰ä¸€ä¸ªæƒ³æ³•//æŠŠtowerç­‰çº§è®¾ä¸ºè´Ÿæ•°ï¼Œç„¶åå¯ä»¥æŠŠæ€äººå¾—åˆ°çš„é’±å’Œé‚£ä¸ªå•ä½çš„ç­‰çº§ç»‘å®šï¼Œæ£€æµ‹åˆ°ç­‰çº§ä¸ºè´Ÿå‡ ï¼Œå°±å¯¹åº”è¯¥æŸç§å°å…µæ€æ­»æ‰€å¾—é’±æ•°
 	CC_SYNTHESIZE(int, rewardmoney, RewardMoney);
 	CC_SYNTHESIZE(int, rewardexp, RewardExp);
-	//CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//ÒÆËÙ
+	//CC_SYNTHESIZE(cocos2d::Vec2, velocity, Velocity);//ç§»é€Ÿ
 	/*
-	¹ØÓÚCC_SYNTHESIZE
+	å…³äºCC_SYNTHESIZE
 	define CC_SYNTHESIZE(varType, varName, funName)\
 	protected: varType varName;
 	public: virtual varType get##funName(void) const { return varName; }
 	public: virtual void set##funName(varType var){ varName = var; }
-	ÓÃÓÚget£¿Ôİ²»Ã÷È·£¬µ«ÊÇÊéÉÏÑùÀıÓĞ£¬ÏÈÓÃ
+	ç”¨äºgetï¼Ÿæš‚ä¸æ˜ç¡®ï¼Œä½†æ˜¯ä¹¦ä¸Šæ ·ä¾‹æœ‰ï¼Œå…ˆç”¨
 	*/
 public:
-	//Tower(TowerTypes towerType);//¹¹Ôìº¯Êı
-	//void spawnTower();//Éú³Étowerº¯Êı
-	//virtual void update(float dt);//ÓÎÏ·Ñ­»·µ÷ÓÃµÄÄ¬ÈÏº¯Êı//ÉèÖÃÄ¬ÈÏ¶ÔÏóµÄ×Ô¶¯ÔË¶¯µÄÎ»ÖÃºÍ½Ç¶Èx
-	static Tower* creatWithTowerTypes(TowerTypes towerType,bool pending);//¾²Ì¬´´Ôìtowerº¯Êı
+	//Tower(TowerTypes towerType);//æ„é€ å‡½æ•°
+	//void spawnTower();//ç”Ÿæˆtowerå‡½æ•°
+	//virtual void update(float dt);//æ¸¸æˆå¾ªç¯è°ƒç”¨çš„é»˜è®¤å‡½æ•°//è®¾ç½®é»˜è®¤å¯¹è±¡çš„è‡ªåŠ¨è¿åŠ¨çš„ä½ç½®å’Œè§’åº¦x
+	static Tower* creatWithTowerTypes(TowerTypes towerType,bool pending);//é™æ€åˆ›é€ towerå‡½æ•°
 	bool isAttacking;
-	bool hurt(float atk);//ÊÜÉË
-	void die();//ËÀÍö
-	void win();//ÅĞ¶ÏÊ¤Àû
-	//void hpRecover(int healthRecoverPoint);//»ØÑª
+	bool hurt(float atk);//å—ä¼¤
+	void die();//æ­»äº¡
+	void win();//åˆ¤æ–­èƒœåˆ©
+	//void hpRecover(int healthRecoverPoint);//å›è¡€
 	void SetHpBar();
 	virtual void update(float dt);
 	void UpdateHpBar(float delta);
 	Rect* newAttackRect();
 	bool checkHeroInRect();
-	bool checkCreepInRect(std::list<Creep*>::iterator iter);//Ö®ºóÓÖ¾ßÌåµÄĞ¡±øÀàÖ®ºóĞ´³ÉÁ½²¦Ğ¡±ø
+	bool checkCreepInRect(std::list<Creep*>::iterator iter);//ä¹‹ååˆå…·ä½“çš„å°å…µç±»ä¹‹åå†™æˆä¸¤æ‹¨å°å…µ
 	void UpdateAttack1();
 	void UpdateAttack2();
 	void Attack1(float);
 	void Attack2(float);
+	void WinPending(float);
+
 	Rect* newRect();
 	float x_position = 0;
 	float y_position = 0;

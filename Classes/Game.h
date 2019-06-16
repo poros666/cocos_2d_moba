@@ -14,7 +14,7 @@
 #include"SocketClient.h"
 #include"SocketServer.h"
 #include<list>
-
+#include"WinLayer.h"
 USING_NS_CC;
 class Game :public cocos2d::Scene
 {
@@ -43,11 +43,9 @@ public:
 	void initKeyListener(Hero* hero);
 	void initMouseListener(Hero* hero);
 	bool clickToAttack(Hero* owner);
+	void win(float);
+//	void creepMoveAndAttack();
 	
-	
-
-	SocketServer* Socketserver;
-	SocketClient* Socketclient;
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();

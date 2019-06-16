@@ -5,7 +5,6 @@
 #include "ChooseHeroScene.h"
 #include"SocketClient.h"
 #include"SocketServer.h"
-#include"messagepool.h"
 #define OFF_LINE "offline"
 #define SINGLE "1v1"
 class ChooseModeScene : public cocos2d::Scene

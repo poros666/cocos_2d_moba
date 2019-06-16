@@ -466,6 +466,20 @@ void Creep::atkB() {
 	case CreepTypeCannon:
 		actname = "Quetzal_attack";
 		break;
+	}
+
+	this->setFlipX(true);
+	this->stopAllActions();
+	this->runAction(Animate::create(AnimationCache::getInstance()->getAnimation(actname)));
+
+}
+
+void Creep::atkJ() {
+
+	const auto typ = this->getCreepType();
+	std::string actname = "Myrmidon_death";
+	switch (typ)
+	{
 	case CreepTypeJ1:
 		actname = "Scorpion_attack";
 		break;

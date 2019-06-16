@@ -1,6 +1,6 @@
 //////////////////
 /*
-徐炳昌
+脨矛卤镁虏媒
 5.27
 ver3
 */
@@ -9,9 +9,9 @@ ver3
 #include<cocos2d.h>
 using namespace cocos2d;
 
-/*定义小兵名称也是小兵图片文件的名称
-  暂时还不知道多方向和动态怎么搞
-  先用一张图片替代
+/*露篓脪氓脨隆卤酶脙没鲁脝脪虏脢脟脨隆卤酶脥录脝卢脦脛录镁碌脛脙没鲁脝
+  脭脻脢卤禄鹿虏禄脰陋碌脌露脿路陆脧貌潞脥露炉脤卢脭玫脙麓赂茫
+  脧脠脫脙脪禄脮脜脥录脝卢脤忙麓煤
 */
 #define Creep_test "creep_test.png"
 #define Creep_melee "Character Model  res/SaurianMyrmidon_0001.png"
@@ -26,7 +26,7 @@ using namespace cocos2d;
 
 /*
 
-定义小兵与野怪类型
+露篓脪氓脨隆卤酶脫毛脪掳鹿脰脌脿脨脥
 */
 typedef enum {
 	CreepTypeTest=0,
@@ -42,46 +42,47 @@ typedef enum {
 
 class Creep :public cocos2d::Sprite {
 
-	CC_SYNTHESIZE(CreepTypes, creepType, CreepType);//小兵类型
+	CC_SYNTHESIZE(CreepTypes, creepType, CreepType);//脨隆卤酶脌脿脨脥
 
-	CC_SYNTHESIZE(int, initHealthPointsLimit, InitHealthPointsLimit);//初始血量上限
-	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//当前血量
-	//CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//生命恢复速度
+	CC_SYNTHESIZE(int, initHealthPointsLimit, InitHealthPointsLimit);//鲁玫脢录脩陋脕驴脡脧脧脼
+	CC_SYNTHESIZE(int, healthPoints, HealthPoints);//碌卤脟掳脩陋脕驴
+	//CC_SYNTHESIZE(int, healthRecoverPoints, HealthRecoverPoints);//脡煤脙眉禄脰赂麓脣脵露脠
 
-	//CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//护甲
-	//CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//魔抗
+	//CC_SYNTHESIZE(int, armorPoints, ArmorPoints);//禄陇录脳
+	//CC_SYNTHESIZE(int, magicArmorPoints, MagicArmorPoints);//脛搂驴鹿
 
-	CC_SYNTHESIZE(float, atk,Atk);//攻击力
-	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//攻击距离
-	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//攻击速度
+	CC_SYNTHESIZE(float, atk,Atk);//鹿楼禄梅脕娄
+	CC_SYNTHESIZE(float, atkDistance, AtkDistance);//鹿楼禄梅戮脿脌毛
+	CC_SYNTHESIZE(float, atkSpeeds, AtkSpeeds);//鹿楼禄梅脣脵露脠
 
-	CC_SYNTHESIZE(int, level, Level);//等级//有一个想法//把小兵等级设为负数，然后可以把杀人得到的钱和那个单位的等级绑定，检测到等级为负几，就对应该某种小兵杀死所得钱数
+	CC_SYNTHESIZE(int, level, Level);//碌脠录露//脫脨脪禄赂枚脧毛路篓//掳脩脨隆卤酶碌脠录露脡猫脦陋赂潞脢媒拢卢脠禄潞贸驴脡脪脭掳脩脡卤脠脣碌脙碌陆碌脛脟庐潞脥脛脟赂枚碌楼脦禄碌脛碌脠录露掳贸露篓拢卢录矛虏芒碌陆碌脠录露脦陋赂潞录赂拢卢戮脥露脭脫娄赂脙脛鲁脰脰脨隆卤酶脡卤脣脌脣霉碌脙脟庐脢媒
 
-	CC_SYNTHESIZE(cocos2d::Vec2, velocity,Velocity);//移速
+	CC_SYNTHESIZE(cocos2d::Vec2, velocity,Velocity);//脪脝脣脵
 	CC_SYNTHESIZE(int, rewardmoney, RewardMoney);
 	CC_SYNTHESIZE(int, rewardexp, RewardExp);
 	/*
-	关于CC_SYNTHESIZE
+	鹿脴脫脷CC_SYNTHESIZE
 	define CC_SYNTHESIZE(varType, varName, funName)\
 	protected: varType varName;
 	public: virtual varType get##funName(void) const { return varName; }
 	public: virtual void set##funName(varType var){ varName = var; }
-	用于get？暂不明确，但是书上样例有，先用
+	脫脙脫脷get拢驴脭脻虏禄脙梅脠路拢卢碌芦脢脟脢茅脡脧脩霉脌媒脫脨拢卢脧脠脫脙
 	*/
 public:
-	//Creep(CreepTypes creepType);//构造函数
-	//void spawnCreep();//生成小兵函数
-	//virtual void update(float dt);//游戏循环调用的默认函数//意义不明
-	static Creep* creatWithCreepTypes(CreepTypes creepType,bool pending);//静态创造小兵函数
+	//Creep(CreepTypes creepType);//鹿鹿脭矛潞炉脢媒
+	//void spawnCreep();//脡煤鲁脡脨隆卤酶潞炉脢媒
+	//virtual void update(float dt);//脫脦脧路脩颅禄路碌梅脫脙碌脛脛卢脠脧潞炉脢媒//脪芒脪氓虏禄脙梅
+	static Creep* creatWithCreepTypes(CreepTypes creepType,bool pending);//戮虏脤卢麓麓脭矛脨隆卤酶潞炉脢媒
 	bool isAttacking = false;
 	Rect* attack_rect;
-	bool hurt(float atk);//受伤.
-	void die();//死亡.
+	bool hurt(float atk);//脢脺脡脣.
+	void die();//脣脌脥枚.
 	void runF();
 	void runB();
 	void atkF();
 	void atkB();
-	//void hpRecover(int healthRecoverPoint);//回血
+	void atkJ();
+	//void hpRecover(int healthRecoverPoint);//禄脴脩陋
 	Rect* newAttackRect();
 	bool chechLeftHeroInRect();
 	bool checkRightHeroInRect();

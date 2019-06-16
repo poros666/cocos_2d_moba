@@ -29,6 +29,7 @@ extern std::list<Creep*> FieldCreep;
 		case HeroTypeTest:
 			hero->setHeroType(heroType);
 			filename1 = Hero_test;
+			hero->setGold(1000);
 			hero->setInitHealthPointsLimit(10000);
 			hero->setHealthPoints(10000);
 			hero->setHealthRecoverPoints(1);
@@ -42,8 +43,39 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//attack_rect = new Rect();
+			//...
+			break;
+		case HeroTypeExecu:
+			hero->setHeroType(heroType);
+			filename1 = Hero_execu;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(500);
+			hero->setHealthPoints(500);
+			hero->setInitManaPointsLimit(100);
+			hero->setManaPoints(100);
+			hero->setMoveSpeed(200);
+			hero->setArmorPoints(0);
+			hero->setAtk(60);
+			hero->setAtkDistance(60);
+			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
+			hero->setSkillPoints(0);
+			hero->SetHpBar();
+			hero->SetManaBar();
+			hero->setRewardMoney(200);
+			hero->setRewardExp(300);
+			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
+
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeExecu:
@@ -55,42 +87,27 @@ extern std::list<Creep*> FieldCreep;
 			hero->setManaPoints(100);
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
-			hero->setAtk(60);
-			hero->setAtkDistance(60);
-			hero->setAtkSpeeds(1);
-			hero->setSkillPoints(0);
-			hero->SetHpBar();
-			hero->SetManaBar();
-			hero->setRewardMoney(200);
-			hero->setRewardExp(300);
-			hero->setReBornPoint(Vec2(300, 500));
-			
-			//...
-			break;
-		case HeroTypeElite:
-			hero->setHeroType(heroType);
-			filename1 = Hero_elite;
-			hero->setInitHealthPointsLimit(450);
-			hero->setHealthPoints(450);
-			hero->setInitManaPointsLimit(120);
-			hero->setManaPoints(120);
-			hero->setMoveSpeed(200);
-			hero->setArmorPoints(0);
 			hero->setAtk(50);
 			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
 			hero->SetManaBar();
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			
+			hero->setExp(0);
+			hero->setExpLimit(100);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeMunra:
 			hero->setHeroType(heroType);
 			filename1 = Hero_munra;
+			hero->setGold(0);
 			hero->setInitHealthPointsLimit(400);
 			hero->setHealthPoints(400);
 			hero->setInitManaPointsLimit(160);
@@ -100,13 +117,19 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(30);
 			hero->setAtkDistance(150);
 			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
+			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
 			hero->SetManaBar();
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			
+			hero->setExp(0);
+			hero->setExpLimit(100);
+
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//...
 			break;
 		default:
@@ -133,7 +156,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -150,6 +175,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(60);
 			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
 			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
@@ -157,12 +183,15 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeElite:
 			hero->setHeroType(heroType);
 			filename1 = Hero_elite;
+			hero->setGold(0);
 			hero->setInitHealthPointsLimit(450);
 			hero->setHealthPoints(450);
 			hero->setInitManaPointsLimit(120);
@@ -172,6 +201,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(50);
 			hero->setAtkDistance(60);
 			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
 			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
@@ -179,12 +209,15 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//...
 			break;
 		case HeroTypeMunra:
 			hero->setHeroType(heroType);
 			filename1 = Hero_munra;
+			hero->setGold(0);
 			hero->setInitHealthPointsLimit(400);
 			hero->setHealthPoints(400);
 			hero->setInitManaPointsLimit(160);
@@ -194,6 +227,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setAtk(30);
 			hero->setAtkDistance(150);
 			hero->setAtkSpeeds(1);
+			hero->setLevel(1);
 			hero->setExp(0);
 			hero->setSkillPoints(0);
 			hero->SetHpBar();
@@ -201,21 +235,21 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(4500, 500));
-			
+			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
+			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//...
 			break;
 		default:
 			break;
 		}
-		hero->setLevel(1);
-		hero->setGold(200);
-		hero->setExp(0);
-		hero->setExpLimit(100);
+
 		if (UserDefault::getInstance()->getBoolForKey("offline"))
 		{
 			hero->schedule(schedule_selector(Hero::AttackAndMove), 1, -1, 30);
 		}
 	}
+
 
 	const std::string& filename = filename1;
 	hero->scheduleUpdate();
@@ -341,6 +375,12 @@ void Hero::die()
 
 }
 
+
+void Hero::setAttackInterval(float)
+{
+	this->attackInterval = true;
+}
+
 void Hero::recreateHero(float delta)
 {
 	this->setVisible(true);
@@ -352,6 +392,7 @@ void Hero::recreateHero(float delta)
 }
 Rect* Hero::setNewAtkRect()
 {
+
 	this->attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
 	return attack_rect;
 }
@@ -514,6 +555,11 @@ void Hero::unSkill3(float)
 	this->setAtk(this->getAtk()/2);
 }
 
+void Hero::updateMoeny(float)
+{
+	this->setGold(this->getGold() + 1);
+}
+
 
 
 std::string Hero::getName() {
@@ -540,6 +586,7 @@ void Hero::update(float dt)
 }
 
 void Hero::atkF() {
+	this->attackInterval = false;
 	const auto typ = this->getHeroType();
 	std::string actname = "Executioner_death";
 	switch (typ)
