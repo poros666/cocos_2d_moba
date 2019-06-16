@@ -19,14 +19,14 @@ bool ChooseModeScene::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	//ģʽѡ��˵�
+	//Ä£Ê½Ñ¡Ôñ²Ëµ¥
 	auto modeItem = MenuItemImage::create("Bottom/Mode.jpg","Bottom/Mode.jpg");
 	modeItem->setPosition(modeItem->getScaleX()+160,visibleSize.height/2+60);
 	auto ModeonlineItem = MenuItemImage::create("Bottom/Online.jpg","Bottom/Online.jpg");
 	auto ModeofflineItem = MenuItemImage::create("Bottom/Offline.jpg", "Bottom/Offline.jpg");
 	auto modeToggleMenuItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(ChooseModeScene::modeSetCallback,this), ModeofflineItem,ModeonlineItem,NULL );
 	modeToggleMenuItem->setPosition(modeItem->getScaleX() + 160, visibleSize.height / 2 - 60);
-	//��ͼѡ��˵�
+	//µØÍ¼Ñ¡Ôñ²Ëµ¥
 	auto mapItem = MenuItemImage::create("Bottom/Map.jpg", "Bottom/Map.jpg");
 	mapItem->setPosition(visibleSize.width-160, visibleSize.height / 2 + 60);
 	auto MapSingleItem = MenuItemImage::create("Bottom/1V1.jpg", "Bottom/1V1.jpg");
@@ -36,7 +36,7 @@ bool ChooseModeScene::init()
 
 
 
-	//���ɷ��ؼ�
+	//Éú³É·µ»Ø¼ü
 	auto backItem = MenuItemImage::create(
 		"Bottom/BACKOFF.png",
 		"Bottom/BACKON.png",
@@ -54,7 +54,7 @@ bool ChooseModeScene::init()
 		float y = origin.y + visibleSize.height - 45;
 		backItem->setPosition(Vec2(x, y));
 	}
-	//���ɿ�ʼ��
+	//Éú³É¿ªÊ¼¼ü
 	auto joinItem = MenuItemImage::create(
 		"Bottom/StartNormal.jpg",
 		"Bottom/StartSelected.jpg",
@@ -87,7 +87,7 @@ bool ChooseModeScene::init()
 		// add the sprite as a child to this layer
 		this->addChild(sprite, 0);
 	}
-	//��ȡ�û�����
+	//»ñÈ¡ÓÃ»§ÉèÖÃ
 	UserDefault* defualts = UserDefault::getInstance();
 	if (defualts->getBoolForKey(OFF_LINE, true))
 	{
@@ -108,7 +108,7 @@ bool ChooseModeScene::init()
 	return true;
 }
 
-void ChooseModeScene::menuBackCallback(Ref* pSender)//�����ؼ��������˵�
+void ChooseModeScene::menuBackCallback(Ref* pSender)//°´·µ»Ø¼ü·µ»ØÖ÷²Ëµ¥
 {
 	auto scene = StartScene::createScene();
 	auto reScene = TransitionFadeDown::create(0.8f, scene);

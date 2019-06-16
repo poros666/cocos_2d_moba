@@ -355,7 +355,24 @@ void Game::TowerPrint()
 		this->getChildByName("MapLayer")->addChild(bombsp1, 3, "bombsp1");
 	}
 	else {
+		Tower1->setPosition(Vec2(1856, 1440));
 
+		this->getChildByName("MapLayer")->addChild(Tower1, 3, "Tower1");
+
+		Tower2->setFlipX(true);
+		Tower2->setPosition(Vec2(2880, 1440));
+		this->getChildByName("MapLayer")->addChild(Tower2, 3, "Tower2");
+
+		Base1->setPosition(Vec2(768, 1440));
+		this->getChildByName("MapLayer")->addChild(Base1, 3, "Base1");
+
+		Base2->setFlipX(true);
+		Base2->setPosition(Vec2(3712, 1440));
+		this->getChildByName("MapLayer")->addChild(Base2, 3, "Base2");
+
+
+		bombsp1->setPosition(Vec2(1, 1));
+		this->getChildByName("MapLayer")->addChild(bombsp1, 3, "bombsp1");
 	}
 }
 
@@ -364,53 +381,77 @@ void Game::CreepsPrint(float delta)
 {
 	//生成兵的函数	
 	if (defualts->getBoolForKey("1v1")) {
-	auto melee1 = Creep::creatWithCreepTypes(CreepTypeMelee,true);
-	melee1->setPosition(640,500);
-	this->getChildByName("MapLayer")->addChild(melee1, 2);
-	targetCreep.push_back(melee1); 
-	auto range1 = Creep::creatWithCreepTypes(CreepTypeRange, true);
-	range1->setPosition(600, 530);
-	this->getChildByName("MapLayer")->addChild(range1, 2);
-	targetCreep.push_back(range1);
-	auto cannon1 = Creep::creatWithCreepTypes(CreepTypeCannon, true);
-	cannon1->setPosition(600, 470);
-	this->getChildByName("MapLayer")->addChild(cannon1, 2);
-	targetCreep.push_back(cannon1);
+		auto melee1 = Creep::creatWithCreepTypes(CreepTypeMelee, true);
+		melee1->setPosition(640, 500);
+		this->getChildByName("MapLayer")->addChild(melee1, 2);
+		targetCreep.push_back(melee1);
+		auto range1 = Creep::creatWithCreepTypes(CreepTypeRange, true);
+		range1->setPosition(600, 530);
+		this->getChildByName("MapLayer")->addChild(range1, 2);
+		targetCreep.push_back(range1);
+		auto cannon1 = Creep::creatWithCreepTypes(CreepTypeCannon, true);
+		cannon1->setPosition(600, 470);
+		this->getChildByName("MapLayer")->addChild(cannon1, 2);
+		targetCreep.push_back(cannon1);
 
-	auto melee2 = Creep::creatWithCreepTypes(CreepTypeMelee,false);
-	melee2->setPosition(4160, 500);
-	this->getChildByName("MapLayer")->addChild(melee2, 2);
-	OtherCreep.push_back(melee2);
-	auto range2 = Creep::creatWithCreepTypes(CreepTypeRange, false);
-	range2->setPosition(4200, 530);
-	this->getChildByName("MapLayer")->addChild(range2, 2);
-	OtherCreep.push_back(range2);
-	auto cannon2 = Creep::creatWithCreepTypes(CreepTypeCannon, false);
-	cannon2->setPosition(4200, 470);
-	this->getChildByName("MapLayer")->addChild(cannon2, 2);
-	OtherCreep.push_back(cannon2);
+		auto melee2 = Creep::creatWithCreepTypes(CreepTypeMelee, false);
+		melee2->setPosition(4160, 500);
+		this->getChildByName("MapLayer")->addChild(melee2, 2);
+		OtherCreep.push_back(melee2);
+		auto range2 = Creep::creatWithCreepTypes(CreepTypeRange, false);
+		range2->setPosition(4200, 530);
+		this->getChildByName("MapLayer")->addChild(range2, 2);
+		OtherCreep.push_back(range2);
+		auto cannon2 = Creep::creatWithCreepTypes(CreepTypeCannon, false);
+		cannon2->setPosition(4200, 470);
+		this->getChildByName("MapLayer")->addChild(cannon2, 2);
+		OtherCreep.push_back(cannon2);
 	}
+	else {
+		auto melee1 = Creep::creatWithCreepTypes(CreepTypeMelee, true);
+		melee1->setPosition(640, 1440);
+		this->getChildByName("MapLayer")->addChild(melee1, 2);
+		targetCreep.push_back(melee1);
+		auto range1 = Creep::creatWithCreepTypes(CreepTypeRange, true);
+		range1->setPosition(600, 1470);
+		this->getChildByName("MapLayer")->addChild(range1, 2);
+		targetCreep.push_back(range1);
+		auto cannon1 = Creep::creatWithCreepTypes(CreepTypeCannon, true);
+		cannon1->setPosition(600, 1410);
+		this->getChildByName("MapLayer")->addChild(cannon1, 2);
+		targetCreep.push_back(cannon1);
 
-
-
+		auto melee2 = Creep::creatWithCreepTypes(CreepTypeMelee, false);
+		melee2->setPosition(4160, 1440);
+		this->getChildByName("MapLayer")->addChild(melee2, 2);
+		OtherCreep.push_back(melee2);
+		auto range2 = Creep::creatWithCreepTypes(CreepTypeRange, false);
+		range2->setPosition(4200, 1470);
+		this->getChildByName("MapLayer")->addChild(range2, 2);
+		OtherCreep.push_back(range2);
+		auto cannon2 = Creep::creatWithCreepTypes(CreepTypeCannon, false);
+		cannon2->setPosition(4200, 1410);
+		this->getChildByName("MapLayer")->addChild(cannon2, 2);
+		OtherCreep.push_back(cannon2);
+	}
 }
 void Game::FieldPrint(float delta)
 {
 	if (defualts->getBoolForKey("1v1")) {
 		auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1);
-		creep1->setPosition(1150, 300);
+		creep1->setPosition(1600, 1050);
 		this->getChildByName("MapLayer")->addChild(creep1, 2);
 		FieldCreep.push_back(creep1);
 		auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2);
-		creep2->setPosition(3800, 250);
+		creep2->setPosition(1664, 1664);
 		this->getChildByName("MapLayer")->addChild(creep2, 2);
 		FieldCreep.push_back(creep2);
 		auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3);
-		creep3->setPosition(1650, 800);
+		creep3->setPosition(3520, 1120);
 		this->getChildByName("MapLayer")->addChild(creep3, 2);
 		FieldCreep.push_back(creep3);
 		auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4);
-		creep4->setPosition(3800, 800);
+		creep4->setPosition(3456, 1728);
 		this->getChildByName("MapLayer")->addChild(creep4, 2);
 		FieldCreep.push_back(creep4);
 	}
@@ -820,7 +861,13 @@ void Game::initMouseListener(Hero* hero)
 
 	Mouselistener->onTouchBegan = [this, hero](Touch* touch, Event* e) {
 		auto visiblesize = Director::getInstance()->getVisibleSize();
-		auto _tileMap = TMXTiledMap::create("temmap/filemap.tmx");
+		cocos2d::TMXTiledMap* _tileMap;
+		if (defualts->getBoolForKey("1v1")) {
+			_tileMap = TMXTiledMap::create("temmap/filemap.tmx");
+		}
+		else {
+			_tileMap = TMXTiledMap::create("mapresource/new5v5.tmx");
+		}
 		auto MapSizeWidth = _tileMap->getMapSize().width * 32;
 		auto MapSizeHeight = _tileMap->getMapSize().height * 32;
 		Vec2 startPos = hero->getPosition();
@@ -846,11 +893,22 @@ void Game::initMouseListener(Hero* hero)
 		}
 
 
-
-		if (endPos.x<=256 || (endPos.y>=704 && endPos.x<=1440) ||(endPos.y<=288 && endPos.x<=736)||
-			(endPos.x>=1824&&endPos.y<=320&& endPos.x<=3328) || (endPos.x>=1824 && endPos.y>=704 && endPos.x<=3488) ||
-			(endPos.x>=4128&& endPos.y>=736) || (endPos.x>=4352)||(endPos.x>=4032 && endPos.y<=160)) {
-			return false;
+		if (defualts->getBoolForKey("1v1")) {
+			if (endPos.x <= 256 || (endPos.y >= 704 && endPos.x <= 1440) || (endPos.y <= 288 && endPos.x <= 736) ||
+				(endPos.x >= 1824 && endPos.y <= 320 && endPos.x <= 3328) || (endPos.x >= 1824 && endPos.y >= 704 && endPos.x <= 3488) ||
+				(endPos.x >= 4128 && endPos.y >= 736) || (endPos.x >= 4352) || (endPos.x >= 4032 && endPos.y <= 160)) {
+				return false;
+			}
+		}
+		else {
+			if (endPos.x<=224 || ( endPos.x<=704&&endPos.y>=1664 )||(endPos.x<=512 && endPos.y<=1184)||
+				(endPos.x<=1056&& endPos.y>=2176) ||(endPos.x<=736&&endPos.y<=608) || (endPos.x<=1088&&endPos.y<=352)||
+				(endPos.x>=1216&& endPos.y<=288)||(endPos.x>=1280&&endPos.x<=3648&&endPos.y<=896&& endPos.y>=672)||(endPos.x>=1920&&endPos.x<=3296&&endPos.y<=1216&& endPos.y>=672)||
+				(endPos.x>=1344&& endPos.x<=2800 && endPos.y<=2208&& endPos.y>=1888)||(endPos.x>=1856&& endPos.x<=3232&&endPos.y>=1632&&endPos.y<=2176)||
+				endPos.y>=2592||(endPos.x>=3520&&endPos.y>=2208)||(endPos.x>=4064)
+				) {
+				return false;
+			}
 		}
 
 		

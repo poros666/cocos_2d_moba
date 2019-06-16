@@ -99,8 +99,11 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
+			hero->setExp(0);
+			hero->setExpLimit(100);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
+			//...
 			break;
 		case HeroTypeMunra:
 			hero->setHeroType(heroType);

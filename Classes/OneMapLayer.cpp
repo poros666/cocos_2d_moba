@@ -31,12 +31,12 @@ bool OneMapLayer::init()
 	//Éú³É°´Å¥ ·µ»ØÖ÷½çÃæ
 
 	//´´½¨ÍßÆ¬µØÍ¼
-	//if (defualts->getBoolForKey("1v1")) {
+	if (defualts->getBoolForKey("1v1")) {
 		_tileMap = TMXTiledMap::create("mapresource/1v1map.tmx");
-	//}
-	//else {
-	//	_tileMap = TMXTiledMap::create("mapresource/5v5map.tmx");
-	//}
+	}
+	else {
+		_tileMap = TMXTiledMap::create("mapresource/new5v5.tmx");
+	}
 	MapSizeWidth = _tileMap->getMapSize().width;
 	MapSizeHeight = _tileMap->getMapSize().height;
 	_tileMap->setAnchorPoint(Vec2(0,0));
