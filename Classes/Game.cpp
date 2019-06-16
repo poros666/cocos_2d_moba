@@ -313,6 +313,7 @@ void Game::HeroPrint()
 		else {
 			int _atkDistance = LeftHero->getAtkDistance();
 			//add new rebornpoint
+			LeftHero->setReBornPoint(Vec2(288, 1440));
 			LeftHero->setPosition(LeftHero->getReBornPoint());
 
 			LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
@@ -321,7 +322,7 @@ void Game::HeroPrint()
 			SetManaBar();
 			SetExpBar();
 			//add new rebornpoint
-			RightHero->setReBornPoint(Vec2(4500, 500));
+			RightHero->setReBornPoint(Vec2(4060, 1440));
 			RightHero->setPosition(Vec2(4500, 500));
 
 			this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
@@ -438,6 +439,24 @@ void Game::CreepsPrint(float delta)
 void Game::FieldPrint(float delta)
 {
 	if (defualts->getBoolForKey("1v1")) {
+		auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1);
+		creep1->setPosition(1150, 300);
+		this->getChildByName("MapLayer")->addChild(creep1, 2);
+		FieldCreep.push_back(creep1);
+		auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2);
+		creep2->setPosition(3800, 250);
+		this->getChildByName("MapLayer")->addChild(creep2, 2);
+		FieldCreep.push_back(creep2);
+		auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3);
+		creep3->setPosition(1650, 800);
+		this->getChildByName("MapLayer")->addChild(creep3, 2);
+		FieldCreep.push_back(creep3);
+		auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4);
+		creep4->setPosition(3800, 800);
+		this->getChildByName("MapLayer")->addChild(creep4, 2);
+		FieldCreep.push_back(creep4);
+	}
+	else {
 		auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1);
 		creep1->setPosition(1600, 1050);
 		this->getChildByName("MapLayer")->addChild(creep1, 2);
