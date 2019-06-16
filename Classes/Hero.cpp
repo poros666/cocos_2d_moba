@@ -78,13 +78,14 @@ extern std::list<Creep*> FieldCreep;
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
 			//...
 			break;
-		case HeroTypeExecu:
+		case HeroTypeElite:
 			hero->setHeroType(heroType);
-			filename1 = Hero_execu;
-			hero->setInitHealthPointsLimit(500);
-			hero->setHealthPoints(500);
-			hero->setInitManaPointsLimit(100);
-			hero->setManaPoints(100);
+			filename1 = Hero_elite;
+			hero->setGold(0);
+			hero->setInitHealthPointsLimit(450);
+			hero->setHealthPoints(450);
+			hero->setInitManaPointsLimit(120);
+			hero->setManaPoints(120);
 			hero->setMoveSpeed(200);
 			hero->setArmorPoints(0);
 			hero->setAtk(50);
@@ -98,11 +99,8 @@ extern std::list<Creep*> FieldCreep;
 			hero->setRewardMoney(200);
 			hero->setRewardExp(300);
 			hero->setReBornPoint(Vec2(300, 500));
-			hero->setExp(0);
-			hero->setExpLimit(100);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
 			hero->schedule(schedule_selector(Hero::updateMoeny), 1, -1, 0);
-			//...
 			break;
 		case HeroTypeMunra:
 			hero->setHeroType(heroType);

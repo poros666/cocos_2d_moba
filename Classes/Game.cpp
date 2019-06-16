@@ -11,7 +11,7 @@ Sprite* bombsp1;
 std::list<Creep*> targetCreep;
 std::list<Creep*> OtherCreep;
 std::list<Creep*> FieldCreep;
-
+UserDefault* defualts = UserDefault::getInstance();
 Scene* Game::createScene(SocketServer* server, SocketClient* client,char buf[1024])
 {
 	auto scene = new Game;
@@ -102,9 +102,12 @@ bool Game::init(SocketServer* server, SocketClient* client,char buf[1024])
 	}
 	else
 	{
-		if (defualts->getBoolForKey("Execu")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, true); }
-		if (defualts->getBoolForKey("Elite")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, true); }
-		if (defualts->getBoolForKey("Munara")) { LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, true); }
+		if (defualts->getBoolForKey("Execu")) 
+		{ LeftHero = Hero::creatWithHeroTypes(HeroTypeExecu, true); }
+		if (defualts->getBoolForKey("Elite")) 
+		{ LeftHero = Hero::creatWithHeroTypes(HeroTypeElite, true); }
+		if (defualts->getBoolForKey("Munara"))
+		{ LeftHero = Hero::creatWithHeroTypes(HeroTypeMunra, true); }
 		RightHero = Hero::creatWithHeroTypes(HeroTypeTest, false);
 		RightHero->setFlipX(true);
 	}
@@ -195,28 +198,28 @@ void Game::menuShowCallback(cocos2d::Ref* pSender)
 
 void Game::StatusLayerPrint()
 {
-	skillQ = Skill::createWithNameCdPicOwner("ski_right",5, "Character Model  res/skill_blink.png",Myhero);
+	skillQ = Skill::createWithNameCdPicOwner("ski_right",5, "Character Model  res/skill_blink.png",LeftHero);
 	skillQ->setPosition(Vec2(visibleSize.width /2-200,visibleSize.height/2-320));
 	auto Statuslayer = StatusLayer::createLayer();
 	this->addChild(Statuslayer,3,"StatusLayer");
 	Statuslayer->addChild(skillQ,1);
 
 
-	UserDefault* defualts = UserDefault::getInstance();
+	
 	if (defualts->getBoolForKey("Execu")) {
-		skillW = Skill::createWithNameCdPicOwner("ExecuSkill", 5, "Character Model  res/skill_strong.png", Myhero);
+		skillW = Skill::createWithNameCdPicOwner("ExecuSkill", 5, "Character Model  res/skill_strong.png", LeftHero);
 		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 320));
 
 		Statuslayer->addChild(skillW, 1);
 	}
 	if (defualts->getBoolForKey("Elite")) {
-		skillW = Skill::createWithNameCdPicOwner("EliteSkill", 5, "Character Model  res/skill_gold.png", Myhero);
+		skillW = Skill::createWithNameCdPicOwner("EliteSkill", 5, "Character Model  res/skill_gold.png", LeftHero);
 		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 320));
 
 		Statuslayer->addChild(skillW, 1);
 	}
 	if (defualts->getBoolForKey("Munara")) {
-		skillW = Skill::createWithNameCdPicOwner("MunaraSkill", 5, "Character Model  res/skill_book.png", Myhero);
+		skillW = Skill::createWithNameCdPicOwner("MunaraSkill", 5, "Character Model  res/skill_book.png", LeftHero);
 		skillW->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 320));
 
 		Statuslayer->addChild(skillW, 1);
@@ -224,14 +227,14 @@ void Game::StatusLayerPrint()
 
 
 
-	skillE = Skill::createWithNameCdPicOwner("ski_right", 5, "Character Model  res/skill_double.png", Myhero);
+	skillE = Skill::createWithNameCdPicOwner("ski_right", 5, "Character Model  res/skill_double.png", LeftHero);
 	skillE->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 320));
 
 	Statuslayer->addChild(skillE, 1);
 
 
 
-	skillR = Skill::createWithNameCdPicOwner("ski_right", 5, "Character Model  res/skill_recover.png", Myhero);
+	skillR = Skill::createWithNameCdPicOwner("ski_right", 5, "Character Model  res/skill_recover.png", LeftHero);
 	skillR->setPosition(Vec2(visibleSize.width / 2 + 100, visibleSize.height / 2 - 320));
 
 	Statuslayer->addChild(skillR, 1);
@@ -285,35 +288,35 @@ void Game::HeroPrint()
 {
 	//生成英雄的函数
 	if (defualts->getBoolForKey("1v1")) {
-		int _atkDistance = Myhero->getAtkDistance();
+		int _atkDistance = LeftHero->getAtkDistance();
 
-		Myhero->setPosition(Myhero->getReBornPoint());
+		LeftHero->setPosition(LeftHero->getReBornPoint());
 
-		Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance, Myhero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
-		this->getChildByName("MapLayer")->addChild(Myhero, 4, "Myhero");
+		LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+		this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
 		SetHpBar();
 		SetManaBar();
 		SetExpBar();
-		OtherHero->setPosition(OtherHero->getReBornPoint());
+		RightHero->setPosition(RightHero->getReBornPoint());
 
 
-		this->getChildByName("MapLayer")->addChild(OtherHero, 4, "OtherHero");
+		this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
 	}
 	else {
-		int _atkDistance = Myhero->getAtkDistance();
+		int _atkDistance = LeftHero->getAtkDistance();
 		//add new rebornpoint
-		Myhero->setPosition(Myhero->getReBornPoint());
+		LeftHero->setPosition(LeftHero->getReBornPoint());
 
-		Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance, Myhero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
-		this->getChildByName("MapLayer")->addChild(Myhero, 4, "Myhero");
+		LeftHero->attack_rect = new Rect(LeftHero->getPositionX() - _atkDistance, LeftHero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
+		this->getChildByName("MapLayer")->addChild(LeftHero, 4, "LeftHero");
 		SetHpBar();
 		SetManaBar();
 		SetExpBar();
 		//add new rebornpoint
-		OtherHero->setPosition(OtherHero->getReBornPoint());
+		RightHero->setPosition(RightHero->getReBornPoint());
 
 
-		this->getChildByName("MapLayer")->addChild(OtherHero, 4, "OtherHero");
+		this->getChildByName("MapLayer")->addChild(RightHero, 4, "RightHero");
 	}
 }
 
@@ -570,18 +573,18 @@ void Game::initKeyListener(Hero* hero)
 		}
 		case EventKeyboard::KeyCode::KEY_A:
 		{
-			if (hero == Myhero) {
+			if (hero == LeftHero) {
 				if (
-					hero->setNewAtkRect()->containsPoint(OtherHero->getPosition()) &&
-					OtherHero->getHealthPoints() > 0 &&
+					hero->setNewAtkRect()->containsPoint(RightHero->getPosition()) &&
+					RightHero->getHealthPoints() > 0 &&
 					hero->attackInterval==true) {
 
 					//这里留给攻击动画
 					hero->atkF();
-					OtherHero->hurt(hero->getAtk());
-					if (OtherHero->getHealthPoints() <= 0) {
-						hero->setGold(hero->getGold() + OtherHero->getRewardMoney());
-						hero->setExp(hero->getExp() + OtherHero->getRewardExp());
+					RightHero->hurt(hero->getAtk());
+					if (RightHero->getHealthPoints() <= 0) {
+						hero->setGold(hero->getGold() + RightHero->getRewardMoney());
+						hero->setExp(hero->getExp() + RightHero->getRewardExp());
 					}
 			
 				}
@@ -674,13 +677,13 @@ void Game::initKeyListener(Hero* hero)
 			}
 			else {
 				if (
-					hero->setNewAtkRect()->containsPoint(Myhero->getPosition()) &&
-					Myhero->getHealthPoints() > 0 &&
+					hero->setNewAtkRect()->containsPoint(LeftHero->getPosition()) &&
+					LeftHero->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
 					//这里留给攻击动画
 					hero->atkF();
-					Myhero->hurt(hero->getAtk());
+					LeftHero->hurt(hero->getAtk());
 					return true;
 				}
 
@@ -864,14 +867,14 @@ void Game::initMouseListener(Hero* hero)
 				//达到操作不同英雄的目的
 
 
-				if (OtherHero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
-					hero->attack_rect->containsPoint(OtherHero->getPosition()) &&
-					OtherHero->getHealthPoints() > 0 &&
+				if (RightHero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
+					hero->attack_rect->containsPoint(RightHero->getPosition()) &&
+					RightHero->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
 					//这里留给攻击动画
 					hero->atkF();
-					OtherHero->hurt(hero->getAtk());
+					RightHero->hurt(hero->getAtk());
 					return true;
 				}
 
@@ -982,14 +985,14 @@ void Game::initMouseListener(Hero* hero)
 
 		
 			else {
-				if (Myhero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
-					hero->attack_rect->containsPoint(Myhero->getPosition()) &&
-					Myhero->getHealthPoints() > 0 &&
+				if (LeftHero->newRect()->containsPoint(Vec2(endPos.x, endPos.y)) &&
+					hero->attack_rect->containsPoint(LeftHero->getPosition()) &&
+					LeftHero->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
 					//这里留给攻击动画
 					hero->atkF();
-					Myhero->hurt(hero->getAtk());
+					LeftHero->hurt(hero->getAtk());
 					return true;
 				}
 

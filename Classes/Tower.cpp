@@ -278,7 +278,7 @@ Rect* Tower::newAttackRect()
 
 bool Tower::checkHeroInRect()
 {
-	if (this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+	if (this->newAttackRect()->containsPoint(RightHero->getPosition())) {
 
 		return true;
 	}

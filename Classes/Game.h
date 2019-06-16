@@ -45,7 +45,8 @@ public:
 	bool clickToAttack(Hero* owner);
 	void win(float);
 //	void creepMoveAndAttack();
-	
+	SocketClient* Socketclient;
+	SocketServer* Socketserver;
 private:
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();

@@ -664,16 +664,16 @@ void Creep::AttackAndMove2(float delta)
 
 void Creep::FieldAttackAndMove(float delta)
 {
-	if (this->newAttackRect()->containsPoint(Myhero->getPosition())) {
+	if (this->newAttackRect()->containsPoint(LeftHero->getPosition())) {
 		this->atkJ();
-		Myhero->hurt(atk);
+		LeftHero->hurt(atk);
 		//¹¥»÷¶¯»­
 		
 	}
-	else if(this->newAttackRect()->containsPoint(OtherHero->getPosition())) {
+	else if(this->newAttackRect()->containsPoint(RightHero->getPosition())) {
 		//¹¥»÷¶¯»­
 		this->atkJ();
-		OtherHero->hurt(atk);
+		RightHero->hurt(atk);
 
 	}
 }
