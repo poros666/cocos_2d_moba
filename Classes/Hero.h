@@ -107,8 +107,10 @@ public:
 	void move(Vec2 endPos, Hero* Hero, std::string dir);
 	void unSkill3(float);
 
+
 	bool attackInterval = true;
 	void setAttackInterval(float);
+
 	void recreateHero(float delta);
 
 	virtual void update(float dt);

@@ -46,6 +46,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setExp(0);
 			hero->setExpLimit(100);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+
 			//attack_rect = new Rect();
 			//...
 			break;
@@ -72,7 +73,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setReBornPoint(Vec2(300, 500));
 			hero->setExp(0);
 			hero->setExpLimit(100);
+
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+
 			//...
 			break;
 		case HeroTypeElite:
@@ -99,6 +102,7 @@ extern std::list<Creep*> FieldCreep;
 			hero->setExp(0);
 			hero->setExpLimit(100);
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+
 			//...
 			break;
 		case HeroTypeMunra:
@@ -124,7 +128,9 @@ extern std::list<Creep*> FieldCreep;
 			hero->setReBornPoint(Vec2(300, 500));
 			hero->setExp(0);
 			hero->setExpLimit(100);
+
 			hero->schedule(schedule_selector(Hero::setAttackInterval), 1, -1, 0);
+
 			//...
 			break;
 		default:
@@ -235,7 +241,9 @@ extern std::list<Creep*> FieldCreep;
 			break;
 		}
 
+
 	}
+
 
 	const std::string& filename = filename1;
 	hero->scheduleUpdate();
@@ -359,6 +367,7 @@ void Hero::die()
 
 }
 
+
 void Hero::setAttackInterval(float)
 {
 	this->attackInterval = true;
@@ -375,6 +384,7 @@ void Hero::recreateHero(float delta)
 }
 Rect* Hero::setNewAtkRect()
 {
+
 	this->attack_rect = new Rect(this->getPositionX()-atkDistance,this->getPositionY()-atkDistance ,2*atkDistance ,2*atkDistance );
 	return attack_rect;
 }

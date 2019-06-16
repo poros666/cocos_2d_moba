@@ -77,6 +77,7 @@ public:
 	void Attack1(float);
 	void Attack2(float);
 	void WinPending(float);
+
 	Rect* newRect();
 	float x_position = 0;
 	float y_position = 0;

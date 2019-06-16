@@ -228,7 +228,7 @@ bool Tower::hurt(float atk) {
 }
 
 void Tower::die() {
-	
+
 	bombsp1->setPosition(this->getPosition());
 	bombsp1->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("bomb")));
 	this->setAtk(0);
@@ -364,10 +364,8 @@ void Tower::Attack2(float)
 }
 
 
-
 Rect* Tower::newRect()
 {
 	return new Rect(this->getPositionX() - 100, this->getPositionY() - 100, 200, 200);
 }
-
 
