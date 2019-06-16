@@ -536,7 +536,7 @@ void Game::initKeyListener(Hero* hero)
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								auto mysprite = Sprite::create("redbuff.png");
-								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								mysprite->setPosition(Vec2(origin.x+25, origin.y +25));
 								this->addChild(mysprite, 9);
 
 								FieldCreep.erase(iter);
@@ -637,7 +637,7 @@ void Game::initKeyListener(Hero* hero)
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								hero->setAtk(hero->getAtk() + 50);
 								auto mysprite = Sprite::create("redbuff.png");
-								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								mysprite->setPosition(Vec2(origin.x + 25, origin.y + 25));
 								this->addChild(mysprite, 9);
 
 								FieldCreep.erase(iter);
@@ -821,7 +821,7 @@ void Game::initMouseListener(Hero* hero)
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								hero->setAtk(hero->getAtk() + 50);
 								auto mysprite = Sprite::create("redbuff.png");
-								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								mysprite->setPosition(Vec2(origin.x + 25, origin.y + 25));
 								this->addChild(mysprite, 9);
 
 								FieldCreep.erase(iter);
@@ -942,7 +942,7 @@ void Game::initMouseListener(Hero* hero)
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 
 								auto mysprite = Sprite::create("redbuff.png");
-								this->setPosition(Vec2(origin.x + 25, origin.y + 25));
+								mysprite->setPosition(Vec2(origin.x + 25, origin.y + 25));
 								this->addChild(mysprite, 9);
 
 								FieldCreep.erase(iter);
