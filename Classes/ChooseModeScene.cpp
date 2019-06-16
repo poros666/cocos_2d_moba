@@ -228,7 +228,7 @@ void ChooseModeScene::joinCallback(Ref* pSender)
 	UserDefault::getInstance()->setBoolForKey("Server", false);
 	UserDefault::getInstance()->setBoolForKey("Client", true);
 	client = new SocketClient;
-	client->connectServer("192.168.0.8", short(8000));
+	client->connectServer("127.0.0.1", short(8000));
 	char buf[1024];
 	memset(buf, 0, sizeof(buf));
 	recv(client->_socektClient, buf, sizeof(buf), 0);

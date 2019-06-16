@@ -119,16 +119,9 @@ cocos2d::Vec2 OneMapLayer::setViewPointCenter(cocos2d::Vec2 position)
 }
 void OneMapLayer::UpdateViewPointCenter(float delat)
 {
-	if (!UserDefault::getInstance()->getBoolForKey(OFF_LINE))
+	if (UserDefault::getInstance()->getBoolForKey("Client"))
 	{
-		if (UserDefault::getInstance()->getBoolForKey("Client"))
-		{
-			setViewPointCenter(this->getChildByName("RightHero")->getPosition());
-		}
-		else
-		{
-			setViewPointCenter(this->getChildByName("LeftHero")->getPosition());
-		}
+		setViewPointCenter(this->getChildByName("RightHero")->getPosition());
 	}
 	else
 	{
