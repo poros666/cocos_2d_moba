@@ -76,8 +76,7 @@ bool StartScene::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-
-    auto label = Label::createWithTTF("ATLAS HEROS", "fonts/Marker Felt.ttf", 140);
+    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -93,11 +92,10 @@ bool StartScene::init()
     }
 
     // add "StartScene" splash screen"
-
-    auto sprite = Sprite::create("mainmenu_bg.png");
+    auto sprite = Sprite::create("BackGround.jpg");
     if (sprite == nullptr)
     {
-        problemLoading("'mainmenu_bg.png'");
+        problemLoading("'BackGround.png'");
     }
     else
     {

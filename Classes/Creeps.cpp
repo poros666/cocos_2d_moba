@@ -34,13 +34,11 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 		{
 		case CreepTypeJ1:
 			creep->setCreepType(creepType);
-
 			filename1 = Creep_j1;
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
 			creep->atkDistance = 50;
-
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(200);
@@ -68,9 +66,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-
 			creep->atkDistance = 50;
-
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(200);
@@ -84,9 +80,7 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 			creep->initHealthPointsLimit = 700;
 			creep->healthPoints = 700;
 			creep->atk = 30;
-
 			creep->atkDistance = 50;
-
 			creep->atkSpeeds = 1;
 			creep->SetHpBar();
 			creep->setRewardMoney(200);
@@ -100,6 +94,8 @@ Creep* Creep::creatWithCreepTypes(CreepTypes creepType) {
 	
 	const std::string& filename = filename1;
 
+
+	auto a=creep->initWithFile(filename);
 	if (creep && creep->initWithFile(filename)) {//判断creep对象是否生成成功
 
 		creep->autorelease();//加入内存释放池中，不会立即释放creep对象

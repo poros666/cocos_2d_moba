@@ -13,7 +13,6 @@ std::list<Creep*> targetCreep;
 std::list<Creep*> OtherCreep;
 std::list<Creep*> FieldCreep;
 UserDefault* defualts = UserDefault::getInstance();
-
 Scene* Game::createScene()
 {
 	return Game::create();
@@ -58,7 +57,6 @@ bool Game::init()
 	if (defualts->getBoolForKey("Elite")) { Myhero = Hero::creatWithHeroTypes(HeroTypeElite,true); }
 	if (defualts->getBoolForKey("Munara")) { Myhero = Hero::creatWithHeroTypes(HeroTypeMunra,true); }
 	OtherHero = Hero::creatWithHeroTypes(HeroTypeExecu,false);
-
 	OtherHero->setFlipX(true);
 	Tower1 = Tower::creatWithTowerTypes(TowerTypeT1,true);
 	Tower2 = Tower::creatWithTowerTypes(TowerTypeT1,false);
@@ -83,7 +81,6 @@ void Game::onEnter()
 	this->schedule(schedule_selector(Game::CreepsPrint), 30, -1, 0);
 	this->scheduleOnce(schedule_selector(Game::FieldPrint),10);
 	this->schedule(schedule_selector(Game::win));
-
 //	this->schedule(schedule_selector(), 1, -1, 1);
 }
 void Game::MapLayerPrint()
@@ -145,6 +142,7 @@ void Game::StatusLayerPrint()
 	auto Statuslayer = StatusLayer::createLayer();
 	this->addChild(Statuslayer,3,"StatusLayer");
 	Statuslayer->addChild(skillQ,1);
+
 
 	UserDefault* defualts = UserDefault::getInstance();
 	if (defualts->getBoolForKey("Execu")) {
@@ -246,6 +244,7 @@ void Game::HeroPrint()
 	else {
 		int _atkDistance = Myhero->getAtkDistance();
 		//add new rebornpoint
+		Myhero->setReBornPoint(Vec2(288,1440));
 		Myhero->setPosition(Myhero->getReBornPoint());
 
 		Myhero->attack_rect = new Rect(Myhero->getPositionX() - _atkDistance, Myhero->getPositionY() - _atkDistance, 2 * _atkDistance, 2 * _atkDistance);
@@ -254,12 +253,12 @@ void Game::HeroPrint()
 		SetManaBar();
 		SetExpBar();
 		//add new rebornpoint
+		OtherHero->setReBornPoint(Vec2(4060, 1440));
 		OtherHero->setPosition(OtherHero->getReBornPoint());
 
 
 		this->getChildByName("MapLayer")->addChild(OtherHero, 4, "OtherHero");
 	}
-
 }
 
 
@@ -288,16 +287,31 @@ void Game::TowerPrint()
 		this->getChildByName("MapLayer")->addChild(bombsp1, 3, "bombsp1");
 	}
 	else {
+		Tower1->setPosition(Vec2(1856, 1440));
 
+		this->getChildByName("MapLayer")->addChild(Tower1, 3, "Tower1");
+
+		Tower2->setFlipX(true);
+		Tower2->setPosition(Vec2(2880, 1440));
+		this->getChildByName("MapLayer")->addChild(Tower2, 3, "Tower2");
+
+		Base1->setPosition(Vec2(768, 1440));
+		this->getChildByName("MapLayer")->addChild(Base1, 3, "Base1");
+
+		Base2->setFlipX(true);
+		Base2->setPosition(Vec2(3712, 1440));
+		this->getChildByName("MapLayer")->addChild(Base2, 3, "Base2");
+
+
+		bombsp1->setPosition(Vec2(1, 1));
+		this->getChildByName("MapLayer")->addChild(bombsp1, 3, "bombsp1");
 	}
-
 }
 
 
 void Game::CreepsPrint(float delta)
 {
 	//Éú³É±øµÄº¯Êý	
-
 	if (defualts->getBoolForKey("1v1")) {
 		auto melee1 = Creep::creatWithCreepTypes(CreepTypeMelee, true);
 		melee1->setPosition(640, 500);
@@ -325,28 +339,54 @@ void Game::CreepsPrint(float delta)
 		this->getChildByName("MapLayer")->addChild(cannon2, 2);
 		OtherCreep.push_back(cannon2);
 	}
+	else {
+		auto melee1 = Creep::creatWithCreepTypes(CreepTypeMelee, true);
+		melee1->setPosition(640, 1440);
+		this->getChildByName("MapLayer")->addChild(melee1, 2);
+		targetCreep.push_back(melee1);
+		auto range1 = Creep::creatWithCreepTypes(CreepTypeRange, true);
+		range1->setPosition(600, 1470);
+		this->getChildByName("MapLayer")->addChild(range1, 2);
+		targetCreep.push_back(range1);
+		auto cannon1 = Creep::creatWithCreepTypes(CreepTypeCannon, true);
+		cannon1->setPosition(600, 1410);
+		this->getChildByName("MapLayer")->addChild(cannon1, 2);
+		targetCreep.push_back(cannon1);
+
+		auto melee2 = Creep::creatWithCreepTypes(CreepTypeMelee, false);
+		melee2->setPosition(4160, 1440);
+		this->getChildByName("MapLayer")->addChild(melee2, 2);
+		OtherCreep.push_back(melee2);
+		auto range2 = Creep::creatWithCreepTypes(CreepTypeRange, false);
+		range2->setPosition(4200, 1470);
+		this->getChildByName("MapLayer")->addChild(range2, 2);
+		OtherCreep.push_back(range2);
+		auto cannon2 = Creep::creatWithCreepTypes(CreepTypeCannon, false);
+		cannon2->setPosition(4200, 1410);
+		this->getChildByName("MapLayer")->addChild(cannon2, 2);
+		OtherCreep.push_back(cannon2);
+	}
 }
 void Game::FieldPrint(float delta)
 {
 	if (defualts->getBoolForKey("1v1")) {
 		auto creep1 = Creep::creatWithCreepTypes(CreepTypeJ1);
-		creep1->setPosition(1150, 300);
+		creep1->setPosition(1600, 1050);
 		this->getChildByName("MapLayer")->addChild(creep1, 2);
 		FieldCreep.push_back(creep1);
 		auto creep2 = Creep::creatWithCreepTypes(CreepTypeJ2);
-		creep2->setPosition(3800, 250);
+		creep2->setPosition(1664, 1664);
 		this->getChildByName("MapLayer")->addChild(creep2, 2);
 		FieldCreep.push_back(creep2);
 		auto creep3 = Creep::creatWithCreepTypes(CreepTypeJ3);
-		creep3->setPosition(1650, 800);
+		creep3->setPosition(3520, 1120);
 		this->getChildByName("MapLayer")->addChild(creep3, 2);
 		FieldCreep.push_back(creep3);
 		auto creep4 = Creep::creatWithCreepTypes(CreepTypeJ4);
-		creep4->setPosition(3800, 800);
+		creep4->setPosition(3456, 1728);
 		this->getChildByName("MapLayer")->addChild(creep4, 2);
 		FieldCreep.push_back(creep4);
 	}
-
 }
 void Game::SetHpBar()
 {
@@ -484,7 +524,6 @@ void Game::initKeyListener(Hero* hero)
 					OtherHero->getHealthPoints() > 0 &&
 					hero->attackInterval==true) {
 
-
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
 					OtherHero->hurt(hero->getAtk());
@@ -505,7 +544,6 @@ void Game::initKeyListener(Hero* hero)
 					Tower2->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
-
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Tower2->hurt(hero->getAtk());
@@ -517,10 +555,11 @@ void Game::initKeyListener(Hero* hero)
 				}
 				if (
 					hero->setNewAtkRect()->containsPoint(Base2->getPosition()) &&
+
 					Base2->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
-				//¹¥»÷¶¯»­
+					//¹¥»÷¶¯»­
 					hero->atkF();
 					Base2->hurt(hero->getAtk());
 					if (Base2->getHealthPoints() <= 0) {
@@ -537,7 +576,6 @@ void Game::initKeyListener(Hero* hero)
 							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
-
 
 							//¹¥»÷¶¯»­
 							hero->atkF();
@@ -557,7 +595,6 @@ void Game::initKeyListener(Hero* hero)
 						auto _creep = *iter;
 						if (
 							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
-
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
 
@@ -568,11 +605,9 @@ void Game::initKeyListener(Hero* hero)
 								
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
-
 								auto mysprite = Sprite::create("redbuff.png");
 								mysprite->setPosition(Vec2(origin.x+25, origin.y +25));
 								this->addChild(mysprite, 9);
-
 
 								FieldCreep.erase(iter);
 							}
@@ -588,7 +623,6 @@ void Game::initKeyListener(Hero* hero)
 			else {
 				if (
 					hero->setNewAtkRect()->containsPoint(Myhero->getPosition()) &&
-
 					Myhero->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
@@ -608,7 +642,6 @@ void Game::initKeyListener(Hero* hero)
 					Tower1->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
-
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Tower1->hurt(hero->getAtk());
@@ -623,7 +656,6 @@ void Game::initKeyListener(Hero* hero)
 
 				if (
 					hero->setNewAtkRect()->containsPoint(Base1->getPosition()) &&
-
 					Base1->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
@@ -643,7 +675,6 @@ void Game::initKeyListener(Hero* hero)
 						auto _creep = *iter;
 						if (
 							hero->setNewAtkRect()->containsPoint(_creep->getPosition()) &&
-
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
 
@@ -667,7 +698,6 @@ void Game::initKeyListener(Hero* hero)
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
 
-
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -676,11 +706,9 @@ void Game::initKeyListener(Hero* hero)
 								hero->setGold(hero->getGold() + _creep->getRewardMoney());
 								hero->setExp(hero->getExp() + _creep->getRewardExp());
 								hero->setAtk(hero->getAtk() + 50);
-
 								auto mysprite = Sprite::create("redbuff.png");
 								mysprite->setPosition(Vec2(origin.x + 25, origin.y + 25));
 								this->addChild(mysprite, 9);
-
 
 								FieldCreep.erase(iter);
 							}
@@ -728,7 +756,13 @@ void Game::initMouseListener(Hero* hero)
 
 	Mouselistener->onTouchBegan = [this, hero](Touch* touch, Event* e) {
 		auto visiblesize = Director::getInstance()->getVisibleSize();
-		auto _tileMap = TMXTiledMap::create("temmap/filemap.tmx");
+		cocos2d::TMXTiledMap* _tileMap;
+		if (defualts->getBoolForKey("1v1")) {
+			_tileMap = TMXTiledMap::create("temmap/filemap.tmx");
+		}
+		else {
+			_tileMap = TMXTiledMap::create("mapresource/new5v5.tmx");
+		}
 		auto MapSizeWidth = _tileMap->getMapSize().width * 32;
 		auto MapSizeHeight = _tileMap->getMapSize().height * 32;
 		Vec2 startPos = hero->getPosition();
@@ -754,12 +788,22 @@ void Game::initMouseListener(Hero* hero)
 		}
 
 
-
-		if (endPos.x<=256 || (endPos.y>=704 && endPos.x<=1440) ||(endPos.y<=288 && endPos.x<=736)||
-			(endPos.x>=1824&&endPos.y<=320&& endPos.x<=3328) || (endPos.x>=1824 && endPos.y>=704 && endPos.x<=3488) ||
-			(endPos.x>=4128&& endPos.y>=736) || (endPos.x>=4352)||(endPos.x>=4032 && endPos.y<=160)) {
-
-			return false;
+		if (defualts->getBoolForKey("1v1")) {
+			if (endPos.x <= 256 || (endPos.y >= 704 && endPos.x <= 1440) || (endPos.y <= 288 && endPos.x <= 736) ||
+				(endPos.x >= 1824 && endPos.y <= 320 && endPos.x <= 3328) || (endPos.x >= 1824 && endPos.y >= 704 && endPos.x <= 3488) ||
+				(endPos.x >= 4128 && endPos.y >= 736) || (endPos.x >= 4352) || (endPos.x >= 4032 && endPos.y <= 160)) {
+				return false;
+			}
+		}
+		else {
+			if (endPos.x<=224 || ( endPos.x<=704&&endPos.y>=1664 )||(endPos.x<=512 && endPos.y<=1184)||
+				(endPos.x<=1056&& endPos.y>=2176) ||(endPos.x<=736&&endPos.y<=608) || (endPos.x<=1088&&endPos.y<=352)||
+				(endPos.x>=1216&& endPos.y<=288)||(endPos.x>=1280&&endPos.x<=3648&&endPos.y<=896&& endPos.y>=672)||(endPos.x>=1920&&endPos.x<=3296&&endPos.y<=1216&& endPos.y>=672)||
+				(endPos.x>=1344&& endPos.x<=2800 && endPos.y<=2208&& endPos.y>=1888)||(endPos.x>=1856&& endPos.x<=3232&&endPos.y>=1632&&endPos.y<=2176)||
+				endPos.y>=2592||(endPos.x>=3520&&endPos.y>=2208)||(endPos.x>=4064)
+				) {
+				return false;
+			}
 		}
 
 		
@@ -789,7 +833,6 @@ void Game::initMouseListener(Hero* hero)
 					hero->attack_rect->containsPoint(OtherHero->getPosition()) &&
 					OtherHero->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
-
 
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
@@ -821,7 +864,6 @@ void Game::initMouseListener(Hero* hero)
 					Base2->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
-
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Base2->hurt(hero->getAtk());
@@ -839,7 +881,6 @@ void Game::initMouseListener(Hero* hero)
 							hero->attack_rect->containsPoint(_creep->getPosition()) &&
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
-
 
 							//¹¥»÷¶¯»­
 							hero->atkF();
@@ -862,7 +903,6 @@ void Game::initMouseListener(Hero* hero)
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
 
-
 							//¹¥»÷¶¯»­
 							hero->atkF();
 							_creep->hurt(hero->getAtk());
@@ -874,7 +914,6 @@ void Game::initMouseListener(Hero* hero)
 								auto mysprite = Sprite::create("redbuff.png");
 								mysprite->setPosition(Vec2(origin.x + 25, origin.y + 25));
 								this->addChild(mysprite, 9);
-
 
 								FieldCreep.erase(iter);
 							}
@@ -913,7 +952,6 @@ void Game::initMouseListener(Hero* hero)
 					Myhero->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
-
 					//ÕâÀïÁô¸ø¹¥»÷¶¯»­
 					hero->atkF();
 					Myhero->hurt(hero->getAtk());
@@ -930,7 +968,6 @@ void Game::initMouseListener(Hero* hero)
 					Tower1->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
 
-
 					//¹¥»÷¶¯»­
 					hero->atkF();
 					Tower1->hurt(hero->getAtk());
@@ -946,7 +983,6 @@ void Game::initMouseListener(Hero* hero)
 					hero->attack_rect->containsPoint(Base1->getPosition()) &&
 					Base1->getHealthPoints() > 0 &&
 					hero->attackInterval == true) {
-
 
 					//¹¥»÷¶¯»­
 					hero->atkF();
@@ -965,7 +1001,6 @@ void Game::initMouseListener(Hero* hero)
 							hero->attack_rect->containsPoint(_creep->getPosition()) &&
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
-
 
 							//¹¥»÷¶¯»­
 							hero->atkF();
@@ -988,7 +1023,6 @@ void Game::initMouseListener(Hero* hero)
 							hero->attack_rect->containsPoint(_creep->getPosition()) &&
 							_creep->getHealthPoints() > 0 &&
 							hero->attackInterval == true) {
-
 
 							//¹¥»÷¶¯»­
 							hero->atkF();
@@ -1055,7 +1089,6 @@ bool Game::clickToAttack(Hero* owner)
 
 }
 
-
 void Game::win(float)
 {
 	if (Base1->getHealthPoints() <= 0 || Base2->getHealthPoints() <= 0) {
@@ -1063,6 +1096,7 @@ void Game::win(float)
 		this->addChild(winning, 10);
 	}
 }
+
 
 
 

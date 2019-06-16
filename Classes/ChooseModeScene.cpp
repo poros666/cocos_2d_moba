@@ -38,19 +38,15 @@ bool ChooseModeScene::init()
 
 	//Éú³É·µ»Ø¼ü
 	auto backItem = MenuItemImage::create(
-
-		"Bottom/BACKOFF.png",
-		"Bottom/BACKON.png",
-
+		"Bottom/BackNormal.jpg",
+		"Bottom/BackSelected.jpg",
 		CC_CALLBACK_1(ChooseModeScene::menuBackCallback, this));
 
 	if (backItem == nullptr ||
 		backItem->getContentSize().width <= 0 ||
 		backItem->getContentSize().height <= 0)
 	{
-
-		problemLoading("'BACKOFF.png' and 'BACKON.png'");
-
+		problemLoading("'BackNormal.jpg' and 'BackSelected.jpg'");
 	}
 	else
 	{
@@ -78,12 +74,10 @@ bool ChooseModeScene::init()
 	auto menu = Menu::create(mapItem,mapToggleMenuItem,modeItem,modeToggleMenuItem,joinItem,backItem,NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
-
-	auto sprite = Sprite::create("transitionDoor.png");
+	auto sprite = Sprite::create("ChooseModeBackGround.jpg");
 	if (sprite == nullptr)
 	{
-		problemLoading("'transitionDoor.png'");
-
+		problemLoading("'ChooseModeBackGround.jpg'");
 	}
 	else
 	{

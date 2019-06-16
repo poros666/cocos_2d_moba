@@ -41,9 +41,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(1000);
 			tower->setAtk(10);
 			tower->UpdateAttack1();
-
 			tower->schedule(schedule_selector(Tower::update));
-
 			//...
 			break;
 
@@ -59,7 +57,6 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
-
 			tower->schedule(schedule_selector(Tower::update));
 
 			//...
@@ -76,7 +73,6 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
-
 			tower->schedule(schedule_selector(Tower::update));
 
 			//...
@@ -93,9 +89,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
-
 			tower->schedule(schedule_selector(Tower::update));
-
 
 			//...
 			break;
@@ -111,9 +105,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardExp(300);
 			tower->setRewardMoney(200);
 			tower->UpdateAttack1();
-
 			tower->schedule(schedule_selector(Tower::update));
-
 
 			//...
 			break;
@@ -136,9 +128,7 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setAtkDistance(1000);
 			tower->setAtk(10);
 			tower->UpdateAttack2();
-
 			tower->schedule(schedule_selector(Tower::update));
-
 
 			//...
 			break;
@@ -156,7 +146,6 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			tower->schedule(schedule_selector(Tower::update));
-
 
 			//...
 			break;
@@ -205,7 +194,6 @@ Tower* Tower::creatWithTowerTypes(TowerTypes towerType,bool pending) {
 			tower->setRewardMoney(200);
 			tower->UpdateAttack2();
 			tower->schedule(schedule_selector(Tower::update));
-
 
 			//...
 			break;
@@ -249,10 +237,6 @@ void Tower::die() {
 }
 
 
-
-void Tower::win() {
-	//
-}
 
 void Tower::SetHpBar()
 {
@@ -384,3 +368,4 @@ Rect* Tower::newRect()
 {
 	return new Rect(this->getPositionX() - 100, this->getPositionY() - 100, 200, 200);
 }
+
