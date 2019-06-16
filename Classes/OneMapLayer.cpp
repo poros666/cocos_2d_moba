@@ -30,7 +30,7 @@ bool OneMapLayer::init()
 	//Éú³É°´Å¥ ·µ»ØÖ÷½çÃæ
 
 	//´´½¨ÍßÆ¬µØÍ¼
-	_tileMap=TMXTiledMap::create("temmap/filemap.tmx");
+	_tileMap=TMXTiledMap::create("mapresource/1v1map.tmx");
 	MapSizeWidth = _tileMap->getMapSize().width;
 	MapSizeHeight = _tileMap->getMapSize().height;
 	_tileMap->setAnchorPoint(Vec2(0,0));
